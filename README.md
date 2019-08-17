@@ -20,6 +20,7 @@ Change the gameplay to be more like Age of Empires or Warcraft. In a nutshell, H
 1. 3 Different Tech Levels (e.g. dragon can only be recruited at tech level 3)
 1. Building foundations so that it takes multiple "build" command to finish building a building (either 1 villager with multiple turns or multiple villagers on a single turn)
 1. Population cap (Atm villages just act like walls. I think i'm gonna use them to determine how many units the player can recruit)
+1. Unit upkeep
 1. Better sprites (Terrible ms paint art for new buildings atm)
 1. Fix description strings
 1. AI
