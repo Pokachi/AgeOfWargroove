@@ -24,5 +24,5 @@ Change the gameplay to be more like Age of Empires or Warcraft. In a nutshell, H
 1. Fix description strings
 1. AI
 
-##NexusMod URL
+## NexusMod URL
 https://www.nexusmods.com/wargroove/mods/20
