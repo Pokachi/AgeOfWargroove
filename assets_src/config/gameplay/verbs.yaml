@@ -1,0 +1,21 @@
+---
+
+verbs:
+  - id: build
+    icon: ui/icons/unit_action_icon_build.png
+    name: ui_unit_verbs_build
+    targetColour: target
+    targetOutlineColour: target_outline
+    preExecute: true
+    scriptName: verbs/build
+    aiUses: true
+  - id: mine
+    icon: ui/icons/unit_action_icon_mine.png
+    name: ui_unit_verbs_mine
+    targetColour: target
+    targetOutlineColour: target_outline
+    scriptName: verbs/mine
+    targetted: true
+    directTarget: true
+    aiUses: true
+...

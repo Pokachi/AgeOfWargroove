@@ -1,0 +1,13 @@
+---
+
+modifyingUnitClasses:
+  - id: tower
+    replace:
+        income: 0
+        regeneration: 0
+        canBeCaptured: false
+        canReinforce: false
+        cost: 500
+        isNeutraliseable: false
+
+...

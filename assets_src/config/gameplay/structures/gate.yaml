@@ -1,0 +1,8 @@
+---
+
+modifyingUnitClasses:
+  - id: gate
+    replace:
+        cost: 75
+
+...

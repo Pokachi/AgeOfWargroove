@@ -1,0 +1,18 @@
+---
+
+modifyingUnitClasses:
+  - id: villager
+    replace:
+        isRecruitable: true
+        tags:
+            - villager
+            - type.ground.villager
+        cost: 75
+        aiPriority: 2
+    add:
+        verbs:
+            - build
+            - mine
+    #    - repair
+
+...

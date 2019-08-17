@@ -1,0 +1,12 @@
+---
+
+modifyingUnitClasses:
+  - id: city
+    replace:
+        income: 0
+        regeneration: 0
+        canBeCaptured: false
+        canReinforce: false
+        cost: 100
+        isNeutraliseable: false
+...

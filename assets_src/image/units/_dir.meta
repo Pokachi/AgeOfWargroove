@@ -1,0 +1,19 @@
+---
+- match:
+    - small_
+    - map_
+  data:
+    palette: image/palettes/wargroove_palette.png
+    material: Wargroove/PaletteSwap
+    atlas: units/map_units_AgeOfWarGrooveMod
+- match:
+    - portrait
+  data:
+    palette: image/palettes/wargroove_palette.png
+    material: Wargroove/PaletteSwap
+    atlas: portraits_AgeOfWarGrooveMod
+    trim: false
+- data:
+    palette: image/palettes/wargroove_palette.png
+    material: Wargroove/PaletteSwap
+...

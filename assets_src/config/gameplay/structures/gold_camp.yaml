@@ -1,0 +1,48 @@
+---
+
+unitClasses:
+  - id: gold_camp
+    name: structure_name_gold_camp
+    aiPriority: 4.0
+    moveRange: 0
+    isStructure: true
+    canReinforce: false
+    canBeReinforced: false
+    canBeCaptured: false
+    isNeutraliseable: false
+    damageMultiplier: 1
+    battleUnitCount: 1
+    hostileNeutral: false
+    garrisonUnit: ""
+    movement: land_building
+    income: 0
+    loadCapacity: 6
+    cost: 150
+    tags:
+      - structure
+    verbs:
+      - unload
+      - wait
+      
+units:
+  - class: gold_camp
+    faction: neutral
+    name: structure_name_gold_camp
+    mapAnimation: [units/structures/gold_camp]
+    smallPortrait: portraits/small/portrait_structure_small.png
+    mediumPortrait: units/structures/gold_camp_medium.png
+    grabPos: [12, 5]
+    sounds:
+      hit: hitWood
+      hitMap: hitStone
+      death: gateDie
+    structureImage:
+      spriteSheet: backgrounds/city/city_background_full
+      farBackground: city_background_full_background_2
+      nearBackground: city_background_full_background_1
+      foreground: city_background_full_foreground
+      keeperPosition: [78, 95]
+      leftBannerOffset: [-6, 2]
+      rightBannerOffset: [0, 2]
+
+...

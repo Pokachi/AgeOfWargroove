@@ -1,0 +1,16 @@
+---
+
+modifyingUnitClasses:
+  - id: hq
+    replace:
+        income: 0
+        regeneration: 0
+        canBeCaptured: false
+        canReinforce: false
+        cost: 1500
+    add:
+        verbs:
+          - recruit
+        recruitTags: [type.ground.villager]
+
+...

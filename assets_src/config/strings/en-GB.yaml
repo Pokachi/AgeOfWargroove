@@ -1,0 +1,11 @@
+---
+
+en-GB:
+    ui_unit_verbs_build: Build
+    ui_unit_verbs_mine: Mine
+    ui_unit_verbs_dismiss: Dismiss
+    structure_name_gold: Gold
+    structure_name_gold_camp: Gold Camp
+    unit_description_gold: Vaulable resources. Can be mined by constructing a mining camp on top of it and staff it with villagers
+    unit_description_gold_camp: Mining camp for gold. Garrison with villagers to start mining 50 gold per villager per turn
+...

@@ -1,0 +1,6 @@
+---
+- data:
+    tileWidth: 150
+    tileHeight: 175
+    atlas: background_gold
+...
