@@ -15,7 +15,6 @@ function Actions.populate(dst)
     dst["remove_generate_gold_per_turn_from_pos"] = Actions.removeGenerateGoldPerTurnFromPos
 end
 
-local inspect = require "inspect"
 function Actions.removeGenerateGoldPerTurnFromPos(context)
 
     for i, unit in ipairs(context.deadUnits) do

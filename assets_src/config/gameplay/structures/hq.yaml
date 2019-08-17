@@ -7,7 +7,7 @@ modifyingUnitClasses:
         regeneration: 0
         canBeCaptured: false
         canReinforce: false
-        cost: 1500
+        cost: 1000
     add:
         verbs:
           - recruit

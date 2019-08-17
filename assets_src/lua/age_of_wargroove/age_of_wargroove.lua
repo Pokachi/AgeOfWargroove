@@ -2,7 +2,7 @@ local Events = require "wargroove/events"
 local Wargroove = require "wargroove/wargroove"
 
 local AgeOfWargroove = {}
-local state = { goldPos = {}, events = {}}
+local state = { goldPos = {}, populationCap = {}}
 
 function AgeOfWargroove.setGoldCount(targetPos, goldRemaining)
     
