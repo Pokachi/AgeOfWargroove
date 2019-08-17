@@ -5,6 +5,7 @@ Change the gameplay to be more like Age of Empires or Warcraft. In a nutshell, H
 
 ## Changes:
 1. Can no longer reinforce from buildings
+1. Mage heals cost no gold
 1. Buildings no longer regenerate
 1. Buildings will be destroyed when HP reaches 0
 1. Buildings no longer generate gold
