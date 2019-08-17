@@ -6,7 +6,7 @@ modifyingUnitClasses:
         income: 0
         regeneration: 0
         canBeCaptured: false
-        canReinforce: false
+        canReinforce: true
         cost: 100
         isNeutraliseable: false
 ...

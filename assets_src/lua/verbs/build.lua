@@ -20,7 +20,6 @@ function Build:getTargetType()
     return "all"
 end
 
-local inspect = require("inspect")
 function Build:getRecruitableTargets(unit)
     return {"hq","port","barracks","tower","city","water_city","gate", "gold_camp"}
 end

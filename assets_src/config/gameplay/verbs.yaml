@@ -18,4 +18,14 @@ verbs:
     targetted: true
     directTarget: true
     aiUses: true
+  - id: spell_heal
+    icon: ui/icons/grooves/unit_action_icon_heal2.png
+    name: ui_unit_verbs_spell_heal
+    targetColour: target
+    targetOutlineColour: target_outline
+    splashOutlineColour: heal_outline
+    scriptName: verbs/spell_heal
+    targetted: true
+    splashRadius: 1
+    hasResourceCost: false
 ...
