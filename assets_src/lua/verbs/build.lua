@@ -1,11 +1,11 @@
 local Wargroove = require "wargroove/wargroove"
 local Verb = require "wargroove/verb"
 local AOW = require "age_of_wargroove/age_of_wargroove"
+local Constants = require "constants"
 
 local Build = Verb:new()
 
 local costMultiplier = 1
-local goldPerMinePerHp = 50
 
 function getCost(cost)
     return math.floor(cost * costMultiplier + 0.5)
@@ -126,7 +126,7 @@ function Build:execute(unit, targetPos, strParam, path)
     if (uc.id == "gold_camp") then
         local remainingGold = AOW.getGoldCount(targetPos)
         if remainingGold == 0 then
-            AOW.setGoldCount(targetPos, goldPerMinePerHp * gold.health)
+            AOW.setGoldCount(targetPos, Constants.goldPerTurnPerMine * gold.health)
         end
         
         gold.transportedBy = newUnit.id

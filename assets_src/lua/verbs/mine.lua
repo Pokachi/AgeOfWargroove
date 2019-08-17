@@ -1,10 +1,9 @@
 local Wargroove = require "wargroove/wargroove"
 local Verb = require "wargroove/verb"
 local AOW = require "age_of_wargroove/age_of_wargroove"
+local Constants = require "constants"
 
 local Mine = Verb:new()
-
-local goldPerTurn = 50
 
 function Mine:getMaximumRange(unit, endPos)
     return 1
@@ -51,7 +50,7 @@ function Mine:execute(unit, targetPos, strParam, path)
     if firstUnit.unitClassId == "gold" then
         local numberOfMiners = #transport.loadedUnits - 1
     
-        AOW.generateGoldPerTurnFromPos(targetPos, unit.playerId, numberOfMiners * goldPerTurn)
+        AOW.generateGoldPerTurnFromPos(targetPos, unit.playerId, numberOfMiners * Constants.goldPerTurnPerMine)
     end
 end
 

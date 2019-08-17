@@ -32,6 +32,7 @@ units:
     smallPortrait: portraits/small/portrait_structure_small.png
     mediumPortrait: units/structures/gold_camp_medium.png
     grabPos: [12, 5]
+    hasBattleScreen: false
     sounds:
       hit: hitWood
       hitMap: hitStone

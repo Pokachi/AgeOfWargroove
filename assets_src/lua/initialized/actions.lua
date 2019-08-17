@@ -1,6 +1,7 @@
 local AOW = require "age_of_wargroove/age_of_wargroove"
 local Events = require "initialized/events"
 local Wargroove = require "wargroove/wargroove"
+local Constants = require "constants"
 
 local Actions = {}
 
@@ -27,7 +28,7 @@ function Actions.removeGenerateGoldPerTurnFromPos(context)
                 
                 local goldUnit = Wargroove.getUnitAt(pos)
                 
-                local goldHp = AOW.getGoldCount(pos) / 50
+                local goldHp = AOW.getGoldCount(pos) / Constants.goldPerTurnPerMine
                 goldUnit:setHealth(goldHp, -1)
                 Wargroove.updateUnit(goldUnit)
             end
@@ -45,7 +46,7 @@ function Actions.modifyGoldAtPos(context)
     local remainingGold = operation(AOW.getGoldCount(pos), gold)
     AOW.setGoldCount(pos, remainingGold)
     
-    local goldHp = remainingGold / 50
+    local goldHp = remainingGold / Constants.goldPerTurnPerMine
     
     local goldCamp = Wargroove.getUnitAt(pos)
     local goldUnit = Wargroove.getUnitById(goldCamp.loadedUnits[1])
