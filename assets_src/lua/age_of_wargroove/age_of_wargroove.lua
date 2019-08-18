@@ -79,6 +79,12 @@ function AgeOfWargroove.setInitialPopulationCap()
     return trigger
 end
 
+function AgeOfWargroove.modifyDefeatHQTrigger(trigger)
+    trigger.conditions = {}
+    table.insert(trigger.conditions, { id = "unit_presence", parameters = { "current", "0", "0", "hq", "-1" } })
+    return trigger
+end
+
 function AgeOfWargroove.getReportDeadMineCampTrigger()
     local trigger = {}
     trigger.id =  "reportDeadMineCamp"

@@ -121,6 +121,7 @@ function Build:execute(unit, targetPos, strParam, path)
     
     local newUnit = Wargroove.getUnitAt(targetPos)
     newUnit.playerId = unit.playerId
+    newUnit.hadTurn = true
     
     if (uc.id == "gold_camp") then
         local remainingGold = AOW.getGoldCount(targetPos)

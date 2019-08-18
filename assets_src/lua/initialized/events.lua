@@ -154,9 +154,23 @@ function Events.removeTriggerFromList(triggerId)
     end
 end
 
+function Events.getTrigger(triggerId)
+    for i, trigger in ipairs(triggerList) do
+        if trigger.id ~= nil and trigger.id == triggerId then
+            return trigger
+        end
+    end
+    return nil
+end
+
 function Events.populateTriggerList()
     triggerList = Wargroove.getMapTriggers()
+    
+    --AOW specific triggers
     Events.addTriggerToList(AOW.getReportDeadMineCampTrigger())
+    local modifiedTrigger = AOW.modifyDefeatHQTrigger(Events.getTrigger("$trigger_default_defeat_hq"))
+    Events.addTriggerToList(modifiedTrigger)
+    
     
     local Actions = require("triggers/actions")
     local Conditions = require("triggers/conditions")
