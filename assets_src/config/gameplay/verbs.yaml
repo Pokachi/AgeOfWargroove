@@ -28,4 +28,15 @@ verbs:
     targetted: true
     splashRadius: 1
     hasResourceCost: false
+  - id: repair
+    preExecute: true
+    icon: ui/icons/unit_action_icon_build.png
+    name: ui_unit_verbs_repair
+    scriptName: verbs/repair
+    hasResourceCost: false
+    targetted: true
+    directTarget: true
+    targetColour: target
+    targetOutlineColour: target_outline
+
 ...

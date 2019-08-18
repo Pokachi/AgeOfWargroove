@@ -2,20 +2,82 @@ local Events = require "wargroove/events"
 local Wargroove = require "wargroove/wargroove"
 
 local AgeOfWargroove = {}
+
+-- goldPos
+--{
+--    {
+--        x,
+--        y,
+--        value
+--    },
+--    {
+--        x,
+--        y,
+--        value
+--    },
+--    ...
+--}
+
+-- populationCap
+--{
+--    {
+--        playerId,
+--        cap,
+--        current
+--    },
+--    {
+--        playerId,
+--        cap,
+--        current
+--    },
+--    ...
+--}
+
 local state = { goldPos = {}, populationCap = {}}
 
-function AgeOfWargroove.setGoldCount(targetPos, goldRemaining)
-    
-    for i, pos in ipairs(state.goldPos) do
-        if (pos.x == targetPos.x and pos.y == targetPos.y) then
-            pos.value = goldRemaining
+function AgeOfWargroove.getPopulationCap(playerId)
+    for i, playerCap in ipairs(state.popupationCap) do
+        if playerCap.playerId == playerId then
+            return playerCap.cap
+        end
+    end
+    return 0
+end
+
+function AgeOfWargroove.setPopulationCap(playerId, newCap)    
+    for i, playerCap in ipairs(state.popupationCap) do
+        if playerCap.playerId == playerId then
+            playerCap.cap = newCap
             return
         end
     end
-    pos = { x = targetPos.x, y = targetPos.y, value = goldRemaining}
-    table.insert(state.goldPos, pos)
+    local playerCap = { playerId = playerId, cap = newCap }
+    table.insert(state.populationCap, playerCap)
 end
 
+function AgeOfWargroove.setInitialPopulationCap()
+    local trigger = {}
+    trigger.id =  "setInitialPopulationCap"
+    trigger.recurring = "once"
+    trigger.players = {}
+    for i = 1, 8, 1 do
+        if i == 0 then
+            table.insert(trigger.players, 1)
+        else
+            table.insert(trigger.players, 0)
+        end
+    end
+    trigger.conditions = {}
+    
+    table.insert(trigger.conditions, { id = "unit_killed", parameters = { "*unit", "current", "gold_camp", "any", "-1" } })
+    table.insert(trigger.conditions, { id = "player_turn", parameters = { "current" } })
+    
+    trigger.actions = {}
+    
+    table.insert(trigger.actions, { id = "remove_generate_gold_per_turn_from_pos", parameters = {} })
+    
+    return trigger
+end
 
 function AgeOfWargroove.getReportDeadMineCampTrigger()
     local trigger = {}
@@ -37,6 +99,17 @@ function AgeOfWargroove.getReportDeadMineCampTrigger()
     return trigger
 end
 
+function AgeOfWargroove.setGoldCount(targetPos, goldRemaining)
+    
+    for i, pos in ipairs(state.goldPos) do
+        if (pos.x == targetPos.x and pos.y == targetPos.y) then
+            pos.value = goldRemaining
+            return
+        end
+    end
+    local pos = { x = targetPos.x, y = targetPos.y, value = goldRemaining}
+    table.insert(state.goldPos, pos)
+end
 
 function AgeOfWargroove.getGoldCount(targetPos)
     

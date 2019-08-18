@@ -4,5 +4,6 @@ modifyingUnitClasses:
   - id: gate
     replace:
         cost: 75
+        damageMultiplier: 0.5
 
 ...

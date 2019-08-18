@@ -13,6 +13,6 @@ modifyingUnitClasses:
         verbs:
             - build
             - mine
-    #    - repair
+            - repair
 
 ...
