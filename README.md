@@ -7,6 +7,7 @@ Change the gameplay to be more like Age of Empires or Warcraft. In a nutshell, H
 1. Can no longer reinforce from buildings
 1. Mage heals cost no gold
 1. Buildings no longer regenerate
+1. Villagers can repair buildings
 1. Buildings will be destroyed when HP reaches 0
 1. Buildings no longer generate gold
 1. HQ can recruit villagers
@@ -17,7 +18,6 @@ Change the gameplay to be more like Age of Empires or Warcraft. In a nutshell, H
 1. Each gold will have a value of 5000, and for every 50 gold mined from the gold pile, gold pile's hp will decrease by 1 (so a gold pile with 10 hp can be mined for 500 gold. Which is 5 villagers in the gold camp for 2 turns or 1 villager in the gold camp for 10 turns)
 
 ## TODO:
-1. Villagers can repair buildings
 1. 3 Different Tech Levels (e.g. dragon can only be recruited at tech level 3)
 1. Building foundations so that it takes multiple "build" command to finish building a building (either 1 villager with multiple turns or multiple villagers on a single turn)
 1. Population cap (Atm villages just act like walls. I think i'm gonna use them to determine how many units the player can recruit)
