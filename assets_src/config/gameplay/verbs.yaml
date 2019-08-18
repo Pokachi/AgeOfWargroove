@@ -29,7 +29,7 @@ verbs:
     splashRadius: 1
     hasResourceCost: false
   - id: repair
-    preExecute: true
+    preExecute: false
     icon: ui/icons/unit_action_icon_build.png
     name: ui_unit_verbs_repair
     scriptName: verbs/repair
