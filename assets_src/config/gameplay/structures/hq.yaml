@@ -9,7 +9,7 @@ modifyingUnitClasses:
         canReinforce: false
         cost: 1000
         verbs:
-          - recruit
+          - recruit_two
           - tech_up
         recruitTags: [type.ground.villager]
 
