@@ -33,10 +33,87 @@ local AgeOfWargroove = {}
 --    ...
 --}
 
-local state = { goldPos = {}, populationCap = {}}
+-- techLevel
+--{
+--    {
+--        playerId,
+--        currentLevel
+--    },
+--    {
+--        playerId,
+--        currentLevel
+--    }
+--}
+
+local state = { goldPos = {}, populationCap = {}, techLevel = {}, maxPopulation = 100, maxTechLevel = 3 }
+
+function AgeOfWargroove.getTechLevel(playerId)
+    for i, techLevel in ipairs(state.techLevel) do
+        if techLevel.playerId == playerId then
+            return techLevel.currentLevel
+        end
+    end
+    return 1
+end
+
+function AgeOfWargroove.setTechLevel(playerId, newLevel)   
+    if newLevel > state.maxTechLevel then
+        newLevel = 3
+    end
+    
+    for i, techLevel in ipairs(state.techLevel) do
+        if techLevel.playerId == playerId then
+            techLevel.currentLevel = newLevel
+            return
+        end
+    end
+    local techLevel = { playerId = playerId, currentLevel = newLevel }
+    table.insert(state.techLevel, techLevel)
+end
+
+function AgeOfWargroove.setInitialTechLevel(referenceTrigger)
+    local trigger = {}
+    trigger.id =  "setInitialTechLevel"
+    trigger.recurring = "oncePerPlayer"
+    trigger.players = referenceTrigger.players
+    trigger.conditions = {}
+    trigger.actions = {}
+    
+    table.insert(trigger.actions, { id = "set_tech_level", parameters = { "current", 1}  })
+    
+    return trigger
+end
+
+local LevelOneRecruits = {"soldier", "dog", "spearman", "travelboat", "villager", "merman", "barracks", "city", "port", "water_city", "gold_camp"}
+local LevelTwoRecruits = {"soldier", "dog", "spearman", "wagon", "archer", "mage", "knight", "turtle", "harpoonship", "balloon", "harpy", "travelboat", "villager", "merman", "barracks", "city", "port", "water_city", "gate", "hq", "tower", "gold_camp"}
+local LevelThreeRecruits = {"soldier", "dog", "spearman", "wagon", "archer", "mage", "knight", "trebuchet", "ballista", "giant", "turtle", "harpoonship", "warship", "balloon", "harpy", "witch", "dragon", "travelboat", "villager", "merman", "barracks", "city", "port", "water_city", "gate", "hq", "tower", "gold_camp"}
+local TechLevelCost = { 500, 1000, -1 }
+local TechEffect = { "techLevel2", "techLevel3" }
+
+function AgeOfWargroove.getTechLevelEffectName(techLevel)
+    return TechEffect[techLevel - 1]
+end
+
+function AgeOfWargroove.getRecruitsAtTechLevel(techlevel)
+    if tonumber(techlevel) == 1 then
+        return LevelOneRecruits
+    elseif tonumber(techlevel) == 2 then
+        return LevelTwoRecruits
+    else
+        return LevelThreeRecruits
+    end
+end
+
+function AgeOfWargroove.getTechUpCost(techlevel)
+    return TechLevelCost[tonumber(techlevel)]
+end
+
+function AgeOfWargroove.getMaxTechLevel()
+    return state.maxTechLevel
+end
 
 function AgeOfWargroove.getPopulationCap(playerId)
-    for i, playerCap in ipairs(state.popupationCap) do
+    for i, playerCap in ipairs(state.populationCap) do
         if playerCap.playerId == playerId then
             return playerCap.cap
         end
@@ -45,7 +122,7 @@ function AgeOfWargroove.getPopulationCap(playerId)
 end
 
 function AgeOfWargroove.setPopulationCap(playerId, newCap)    
-    for i, playerCap in ipairs(state.popupationCap) do
+    for i, playerCap in ipairs(state.populationCap) do
         if playerCap.playerId == playerId then
             playerCap.cap = newCap
             return

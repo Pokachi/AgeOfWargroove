@@ -8,9 +8,9 @@ modifyingUnitClasses:
         canBeCaptured: false
         canReinforce: false
         cost: 1000
-    add:
         verbs:
           - recruit
+          - tech_up
         recruitTags: [type.ground.villager]
 
 ...

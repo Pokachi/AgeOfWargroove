@@ -3,7 +3,7 @@ local Verb = require "wargroove/verb"
 local AOW = require "age_of_wargroove/age_of_wargroove"
 local Constants = require "constants"
 
-local Build = Verb:new()
+local RecruitTwo = Verb:new()
 
 local costMultiplier = 1
 
@@ -11,17 +11,18 @@ function getCost(cost)
     return math.floor(cost * costMultiplier + 0.5)
 end
 
-function Build:getMaximumRange(unit, endPos)
+function RecruitTwo:getMaximumRange(unit, endPos)
     return 1
 end
 
 
-function Build:getTargetType()
+function RecruitTwo:getTargetType()
     return "all"
 end
 
-function Build:getRecruitableTargets(unit)
-    local allAvailableRecruits = {"hq","port","barracks","tower","city","water_city","gate", "gold_camp"}
+function RecruitTwo:getRecruitableTargets(unit)
+
+    local allAvailableRecruits = unit.recruits
     local availableRecruits = {}
     
     local availableRecruitsAtTechLevel = AOW.getRecruitsAtTechLevel(AOW.getTechLevel(unit.playerId))
@@ -32,14 +33,15 @@ function Build:getRecruitableTargets(unit)
             end
         end
     end
+    
     return availableRecruits
 end
 
-Build.classToRecruit = nil
+RecruitTwo.classToRecruit = nil
 
-function Build:canExecuteWithTarget(unit, endPos, targetPos, strParam)
-    -- if we haven't choose what to build yet, then we can always execute
-    if Build.classToRecruit == nil then
+function RecruitTwo:canExecuteWithTarget(unit, endPos, targetPos, strParam)
+    -- if we haven't choose what to RecruitTwo yet, then we can always execute
+    if RecruitTwo.classToRecruit == nil then
         return true
     end
 
@@ -47,7 +49,7 @@ function Build:canExecuteWithTarget(unit, endPos, targetPos, strParam)
         return false
     end
 
-    local classToRecruit = Build.classToRecruit
+    local classToRecruit = RecruitTwo.classToRecruit
     if classToRecruit == nil then
         classToRecruit = strParam
     end
@@ -67,17 +69,17 @@ function Build:canExecuteWithTarget(unit, endPos, targetPos, strParam)
 end
 
 
-function Build:preExecute(unit, targetPos, strParam, endPos)
-    local recruitableUnits = Build.getRecruitableTargets(self, unit);
+function RecruitTwo:preExecute(unit, targetPos, strParam, endPos)
+    local recruitableUnits = RecruitTwo.getRecruitableTargets(self, unit);
     Wargroove.openRecruitMenu(unit.playerId, unit.id, unit.pos, unit.unitClassId, recruitableUnits, costMultiplier);
 
     while Wargroove.recruitMenuIsOpen() do
         coroutine.yield()
     end
 
-    Build.classToRecruit = Wargroove.popRecruitedUnitClass();
+    RecruitTwo.classToRecruit = Wargroove.popRecruitedUnitClass();
 
-    if Build.classToRecruit == nil then
+    if RecruitTwo.classToRecruit == nil then
         return false, ""
     end
 
@@ -90,18 +92,18 @@ function Build:preExecute(unit, targetPos, strParam, endPos)
     local target = Wargroove.getSelectedTarget()
 
     if (target == nil) then
-        Build.classToRecruit = nil
+        RecruitTwo.classToRecruit = nil
         return false, ""
     end
 
-    return true, Build.classToRecruit
+    return true, RecruitTwo.classToRecruit
 end
 
-function Build:execute(unit, targetPos, strParam, path)
-    Build.classToRecruit = nil
+function RecruitTwo:execute(unit, targetPos, strParam, path)
+    RecruitTwo.classToRecruit = nil
     
     if strParam == "" then
-        print("Build was not given a class to recruit.")
+        print("RecruitTwo was not given a class to recruit.")
         return
     end
 
@@ -136,7 +138,7 @@ function Build:execute(unit, targetPos, strParam, path)
     newUnit.hadTurn = true
     
     local techLevel = tonumber(AOW.getTechLevel(unit.playerId))
-    if techLevel > 1 and (uc.id == "hq") then
+    if techLevel > 1 and (uc.id == "hq" or uc.id == "port" or uc.id == "tower" or uc.id == "barracks") then
         local EffectName = AOW.getTechLevelEffectName(techLevel)
         local techLevelEffectId = Wargroove.spawnUnitEffect(newUnit.id, "units/structures/tech_level", EffectName, "", true)
     end
@@ -160,4 +162,4 @@ function Build:execute(unit, targetPos, strParam, path)
     strParam = ""
 end
 
-return Build
+return RecruitTwo

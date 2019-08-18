@@ -9,5 +9,7 @@ modifyingUnitClasses:
         canReinforce: false
         cost: 400
         isNeutraliseable: false
+        verbs:
+            - recruit_two
 
 ...

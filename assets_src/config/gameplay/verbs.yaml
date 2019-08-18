@@ -9,6 +9,14 @@ verbs:
     preExecute: true
     scriptName: verbs/build
     aiUses: true
+  - id: recruit_two
+    icon: ui/icons/unit_action_icon_recruit.png
+    name: ui_unit_verbs_recruit
+    targetColour: target
+    targetOutlineColour: target_outline
+    preExecute: true
+    scriptName: verbs/recruit_two
+    aiUses: true
   - id: mine
     icon: ui/icons/unit_action_icon_mine.png
     name: ui_unit_verbs_mine
@@ -28,6 +36,13 @@ verbs:
     targetted: true
     splashRadius: 1
     hasResourceCost: false
+  - id: recruit
+    icon: ui/icons/unit_action_icon_recruit.png
+    name: ui_unit_verbs_recruit
+    targetColour: target
+    targetOutlineColour: target_outline
+    targetted: true
+    scriptName: verbs/recruit
   - id: repair
     preExecute: false
     icon: ui/icons/unit_action_icon_build.png
@@ -38,5 +53,11 @@ verbs:
     directTarget: true
     targetColour: target
     targetOutlineColour: target_outline
+  - id: tech_up
+    icon: ui/icons/unit_action_icon_tech_up.png
+    name: ui_unit_verbs_tech_up
+    scriptName: verbs/tech_up
+    targetted: false
+    hasResourceCost: true
 
 ...

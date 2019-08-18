@@ -5,6 +5,7 @@ en-GB:
     ui_unit_verbs_mine: Mine
     ui_unit_verbs_dismiss: Dismiss
     ui_unit_verbs_repair: Repair
+    ui_unit_verbs_tech_up: Advance Tech
     structure_name_gold: Gold
     structure_name_gold_camp: Mining Camp
     unit_description_gold: Vaulable resources. Can be mined by constructing a mining camp on top of it and staff it with villagers

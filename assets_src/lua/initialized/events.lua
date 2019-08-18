@@ -170,7 +170,7 @@ function Events.populateTriggerList()
     Events.addTriggerToList(AOW.getReportDeadMineCampTrigger())
     local modifiedTrigger = AOW.modifyDefeatHQTrigger(Events.getTrigger("$trigger_default_defeat_hq"))
     Events.addTriggerToList(modifiedTrigger)
-    
+    Events.addTriggerToList(AOW.setInitialTechLevel(Events.getTrigger("$trigger_default_defeat_hq")))
     
     local Actions = require("triggers/actions")
     local Conditions = require("triggers/conditions")

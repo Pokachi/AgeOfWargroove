@@ -13,6 +13,14 @@ end
 function Actions.populate(dst)
     dst["modify_gold_at_pos"] = Actions.modifyGoldAtPos
     dst["remove_generate_gold_per_turn_from_pos"] = Actions.removeGenerateGoldPerTurnFromPos
+    dst["set_tech_level"] = Actions.setTechLevel
+end
+
+function Actions.setTechLevel(context)
+    local playerId = context:getPlayerId(0)
+    local techlevel = context:getInteger(1)
+    
+    AOW.setTechLevel(playerId, techlevel)
 end
 
 function Actions.removeGenerateGoldPerTurnFromPos(context)
