@@ -39,6 +39,7 @@ function Events.init()
   OriginalEvents.reportUnitDeath = Events.reportUnitDeath
   OriginalEvents.addTriggerToList = Events.addTriggerToList
   OriginalEvents.removeTriggerFromList = Events.removeTriggerFromList
+  OriginalEvents.getTriggerKey = Events.getTriggerKey
 end
 
 function Events.startSession(matchState)
