@@ -135,16 +135,10 @@ function Build:execute(unit, targetPos, strParam, path)
     newUnit.playerId = unit.playerId
     newUnit.hadTurn = true
     
-    local techLevel = tonumber(AOW.getTechLevel(unit.playerId))
-    if techLevel > 1 and (uc.id == "hq") then
-        local EffectName = AOW.getTechLevelEffectName(techLevel)
-        local techLevelEffectId = Wargroove.spawnUnitEffect(newUnit.id, "units/structures/tech_level", EffectName, "", true)
-    end
-    
     if (uc.id == "gold_camp") then
         local remainingGold = AOW.getGoldCount(targetPos)
         if remainingGold == 0 then
-            AOW.setGoldCount(targetPos, Constants.goldPerTurnPerMine * gold.health)
+            AOW.setGoldCount(targetPos, Constants.goldPerTurnPerMine * gold.health / 2)
         end
         
         gold.transportedBy = newUnit.id

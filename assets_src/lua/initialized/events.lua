@@ -167,10 +167,14 @@ function Events.populateTriggerList()
     triggerList = Wargroove.getMapTriggers()
     
     --AOW specific triggers
+    local referenceTrigger = Events.getTrigger("$trigger_default_defeat_hq")
+    Events.addTriggerToList(AOW.spawnGlobalStateSoldier())
+    Events.addTriggerToList(AOW.drawTechLevelEffect(referenceTrigger))
+    Events.addTriggerToList(AOW.generateGoldPerTurnFromPosTrigger(referenceTrigger))
     Events.addTriggerToList(AOW.getReportDeadMineCampTrigger())
-    local modifiedTrigger = AOW.modifyDefeatHQTrigger(Events.getTrigger("$trigger_default_defeat_hq"))
+    local modifiedTrigger = AOW.modifyDefeatHQTrigger(referenceTrigger)
     Events.addTriggerToList(modifiedTrigger)
-    Events.addTriggerToList(AOW.setInitialTechLevel(Events.getTrigger("$trigger_default_defeat_hq")))
+    Events.addTriggerToList(AOW.setInitialTechLevel(referenceTrigger))
     
     local Actions = require("triggers/actions")
     local Conditions = require("triggers/conditions")

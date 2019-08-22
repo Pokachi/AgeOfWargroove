@@ -1,5 +1,6 @@
 local Events = require "wargroove/events"
 local Wargroove = require "wargroove/wargroove"
+local Constants = require "constants"
 
 local AgeOfWargroove = {}
 
@@ -22,13 +23,11 @@ local AgeOfWargroove = {}
 --{
 --    {
 --        playerId,
---        cap,
---        current
+--        cap
 --    },
 --    {
 --        playerId,
---        cap,
---        current
+--        cap
 --    },
 --    ...
 --}
@@ -47,10 +46,62 @@ local AgeOfWargroove = {}
 
 local state = { goldPos = {}, populationCap = {}, techLevel = {}, maxPopulation = 100, maxTechLevel = 3 }
 
+local inspect = require "inspect"
+
+function AgeOfWargroove.spawnGlobalStateSoldier()
+    local trigger = {}
+    trigger.id =  "spawnInitialUnitTrigger"
+    trigger.recurring = "start_of_match"
+    trigger.players = { 1, 0, 0, 0, 0, 0, 0, 0 }
+    trigger.conditions = {}
+    trigger.actions = {}
+    
+    table.insert(trigger.actions, { id = "spawn_global_state_unit", parameters = { }  })
+    
+    return trigger
+
+end
+
+function AgeOfWargroove.generateGoldPerTurnFromPosTrigger(referenceTrigger)
+    local trigger = {}
+    trigger.id =  "generateGoldPerTurnFromPosMasterTrigger"
+    trigger.recurring = "repeat"
+    trigger.players = referenceTrigger.players
+    trigger.conditions = {}
+    trigger.actions = {}
+    
+    table.insert(trigger.conditions, { id = "end_of_turn", parameters = { } })
+    table.insert(trigger.actions, { id = "generate_gold_per_turn_from_pos", parameters = { "current" }  })
+    
+    return trigger
+
+end
+
+function AgeOfWargroove.drawTechLevelEffect(referenceTrigger)
+    local trigger = {}
+    trigger.id =  "drawTechLevelEffect"
+    trigger.recurring = "repeat"
+    trigger.players = referenceTrigger.players
+    trigger.conditions = {}
+    trigger.actions = {}
+    
+    table.insert(trigger.actions, { id = "draw_tech_level_effect", parameters = { "current" }  })
+    
+    return trigger
+
+end
+
 function AgeOfWargroove.getTechLevel(playerId)
+    state.techLevel={}
+    local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
+    local techLevelString = Wargroove.getUnitState(globalStateUnit, "techLevel")
+    if techLevelString ~= nil then
+        state.techLevel = (loadstring or load)("return "..techLevelString)()
+    end
+    
     for i, techLevel in ipairs(state.techLevel) do
         if techLevel.playerId == playerId then
-            return techLevel.currentLevel
+            return tonumber(techLevel.currentLevel)
         end
     end
     return 1
@@ -61,14 +112,23 @@ function AgeOfWargroove.setTechLevel(playerId, newLevel)
         newLevel = 3
     end
     
+    
+    local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
+    
     for i, techLevel in ipairs(state.techLevel) do
         if techLevel.playerId == playerId then
             techLevel.currentLevel = newLevel
+            Wargroove.setUnitState(globalStateUnit, "techLevel", inspect(state.techLevel))
+            Wargroove.updateUnit(globalStateUnit)
             return
         end
     end
+    
     local techLevel = { playerId = playerId, currentLevel = newLevel }
     table.insert(state.techLevel, techLevel)
+    
+    Wargroove.setUnitState(globalStateUnit, "techLevel", inspect(state.techLevel))
+    Wargroove.updateUnit(globalStateUnit)
 end
 
 function AgeOfWargroove.setInitialTechLevel(referenceTrigger)
@@ -78,7 +138,6 @@ function AgeOfWargroove.setInitialTechLevel(referenceTrigger)
     trigger.players = referenceTrigger.players
     trigger.conditions = {}
     trigger.actions = {}
-    
     table.insert(trigger.actions, { id = "set_tech_level", parameters = { "current", 1}  })
     
     return trigger
@@ -184,17 +243,30 @@ end
 
 function AgeOfWargroove.setGoldCount(targetPos, goldRemaining)
     
+    local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
+    
     for i, pos in ipairs(state.goldPos) do
         if (pos.x == targetPos.x and pos.y == targetPos.y) then
             pos.value = goldRemaining
+            Wargroove.setUnitState(globalStateUnit, "goldPos", inspect(state.goldPos))
+            Wargroove.updateUnit(globalStateUnit)
             return
         end
     end
     local pos = { x = targetPos.x, y = targetPos.y, value = goldRemaining}
     table.insert(state.goldPos, pos)
+    
+    Wargroove.setUnitState(globalStateUnit, "goldPos", inspect(state.goldPos))
+    Wargroove.updateUnit(globalStateUnit)
 end
 
 function AgeOfWargroove.getGoldCount(targetPos)
+    state.goldPos={}
+    local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
+    local goldPosString = Wargroove.getUnitState(globalStateUnit, "goldPos")
+    if goldPosString ~= nil then
+        state.goldPos = (loadstring or load)("return "..goldPosString)()
+    end
     
     for i, pos in ipairs(state.goldPos) do
         if (pos.x == targetPos.x and pos.y == targetPos.y) then

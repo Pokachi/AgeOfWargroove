@@ -102,8 +102,6 @@ function Unload:execute(unit, targetPos, strParam, path)
             local numberOfMiners = #unit.loadedUnits - 1
             if numberOfMiners == 0 then
                 AOW.removeGoldGenerationFromPos(unit.pos)
-            else
-                AOW.generateGoldPerTurnFromPos(unit.pos, unit.playerId, numberOfMiners * Constants.goldPerTurnPerMine)
             end
         end
     end

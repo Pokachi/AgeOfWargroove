@@ -45,13 +45,6 @@ function Mine:execute(unit, targetPos, strParam, path)
     unit.inTransport = true
     unit.transportedBy = transport.id
     Wargroove.updateUnit(transport)
-    
-    local firstUnit = Wargroove.getUnitById(transport.loadedUnits[1])
-    if firstUnit.unitClassId == "gold" then
-        local numberOfMiners = #transport.loadedUnits - 1
-    
-        AOW.generateGoldPerTurnFromPos(targetPos, unit.playerId, numberOfMiners * Constants.goldPerTurnPerMine)
-    end
 end
 
 function Mine:onPostUpdateUnit(unit, targetPos, strParam, path)

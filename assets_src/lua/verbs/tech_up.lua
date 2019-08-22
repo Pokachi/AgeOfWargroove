@@ -37,14 +37,6 @@ function TechUp:execute(unit, targetPos, strParam, path)
     
     Wargroove.changeMoney(unit.playerId, -techUpCost)
     
-    local effectName = AOW.getTechLevelEffectName(newTechLevel)
-    
-    for i, u in ipairs(allUnits) do
-        if u.unitClassId == "hq" then
-            Wargroove.spawnUnitEffect(u.id, "units/structures/tech_level", effectName, "", true)
-        end
-    end
-    
 end
 
 return TechUp

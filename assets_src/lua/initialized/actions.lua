@@ -13,7 +13,49 @@ end
 function Actions.populate(dst)
     dst["modify_gold_at_pos"] = Actions.modifyGoldAtPos
     dst["remove_generate_gold_per_turn_from_pos"] = Actions.removeGenerateGoldPerTurnFromPos
+    dst["generate_gold_per_turn_from_pos"] = Actions.generateGoldPerTurnFromPosAction
     dst["set_tech_level"] = Actions.setTechLevel
+    dst["spawn_global_state_unit"] = Actions.spawnGlobalStateUnit
+    dst["draw_tech_level_effect"] = Actions.drawTechLevelEffect
+end
+
+function Actions.generateGoldPerTurnFromPosAction(context)
+    local playerId = context:getPlayerId(0)
+    
+    local allUnits = Wargroove.getAllUnitsForPlayer(playerId, true)
+    for i, u in ipairs(allUnits) do
+        if u.unitClassId == "gold_camp" then
+            if #u.loadedUnits > 0 then
+                local firstUnit = Wargroove.getUnitById(u.loadedUnits[1])
+                if firstUnit.unitClassId == "gold" then
+                    local numberOfMiners = #u.loadedUnits - 1
+                    if numberOfMiners > 0 then
+                        AOW.generateGoldPerTurnFromPos(u.pos, u.playerId, numberOfMiners * Constants.goldPerTurnPerMine)
+                    end
+                end
+            end
+        end
+    end
+end
+
+function Actions.drawTechLevelEffect(context)
+    local playerId = context:getPlayerId(0)
+    
+    local techlevel = AOW.getTechLevel(playerId)
+    
+    if techlevel > 1 then
+        local effectToDraw = AOW.getTechLevelEffectName(techlevel)
+        local allUnits = Wargroove.getAllUnitsForPlayer(playerId, true)
+        for i, u in ipairs(allUnits) do
+            if u.unitClassId == "hq" then
+                local effectId = Wargroove.spawnUnitEffect(u.id, "units/structures/tech_level", effectToDraw, "", true)
+            end
+        end
+    end
+end
+
+function Actions.spawnGlobalStateUnit(context)
+    Wargroove.spawnUnit( -1, Constants.globalStateUnitPos, "soldier", true, "")
 end
 
 function Actions.setTechLevel(context)
@@ -55,7 +97,7 @@ function Actions.modifyGoldAtPos(context)
     local remainingGold = operation(AOW.getGoldCount(pos), gold)
     AOW.setGoldCount(pos, remainingGold)
     
-    local goldHp = remainingGold / Constants.goldPerTurnPerMine
+    local goldHp = remainingGold / Constants.goldPerTurnPerMine * 2
     
     local goldCamp = Wargroove.getUnitAt(pos)
     local goldUnit = Wargroove.getUnitById(goldCamp.loadedUnits[1])

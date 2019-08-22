@@ -146,7 +146,7 @@ function RecruitTwo:execute(unit, targetPos, strParam, path)
     if (uc.id == "gold_camp") then
         local remainingGold = AOW.getGoldCount(targetPos)
         if remainingGold == 0 then
-            AOW.setGoldCount(targetPos, Constants.goldPerTurnPerMine * gold.health)
+            AOW.setGoldCount(targetPos, Constants.goldPerTurnPerMine * gold.health / 2)
         end
         
         gold.transportedBy = newUnit.id
