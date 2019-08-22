@@ -14,8 +14,8 @@ Change the gameplay to be more like Age of Empires or Warcraft. In a nutshell, H
 1. Villagers can build buildings
 1. New building "Gold"
 1. New building "Mining Camp" that can be build on top of "Gold"
-1. Villagers can garrison Gold Camp to gather gold (50 gold per villagers per turn, up to 5 villagers per camp)
-1. Each gold will have a value of 2500, and for every 50 gold mined from the gold pile, gold pile's hp will decrease by 2 (so a gold pile with 10 hp can be mined for 250 gold. Which is 5 villagers in the gold camp for 1 turns or 1 villager in the gold camp for 5 turns)
+1. Villagers can garrison Mining Camp to gather gold (50 gold per villagers per turn, up to 5 villagers per camp)
+1. Each gold will have a value of 2500, and for every 50 gold mined from the gold pile, gold pile's hp will decrease by 2 (so a gold pile with 10 hp can be mined for 250 gold. Which is 5 villagers in the mining camp for 1 turns or 1 villager in the mining camp for 5 turns)
 1. 3 Different Tech Levels (e.g. dragon can only be recruited at tech level 3)
 1. Population cap (HQ increases population cap by 8, village and water village increase it by 4. You cannot recruit new units when you are population capped. You can check your max population and current population by hovering over HQ or any of the villages. max population is 100)
 
