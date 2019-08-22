@@ -26,6 +26,7 @@ Change the gameplay to be more like Age of Empires or Warcraft. In a nutshell, H
 1. Fix description strings
 1. AI
 1. Bug fixes
+1. Nerf Mage
 
 ## NexusMod URL
 https://www.nexusmods.com/wargroove/mods/20
