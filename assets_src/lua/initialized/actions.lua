@@ -17,6 +17,84 @@ function Actions.populate(dst)
     dst["set_tech_level"] = Actions.setTechLevel
     dst["spawn_global_state_unit"] = Actions.spawnGlobalStateUnit
     dst["draw_tech_level_effect"] = Actions.drawTechLevelEffect
+    dst["set_init_pop_cap"] = Actions.setInitialPopulationCap
+    dst["modify_population_cap"] = Actions.modifyCurrentPopulation
+    dst["report_dead_village"] = Actions.reportDeadVillage
+end
+
+function Actions.reportDeadVillage(context)
+    for i, u in ipairs(context.deadUnits) do
+        if u.unitClassId == "city" or u.unitClassId == "water_city" then
+            AOW.setPopulationCap(u.playerId, AOW.getPopulationCap(u.playerId) - Constants.populationPerVillage)
+        elseif u.unitClassId == "hq" then
+            AOW.setPopulationCap(u.playerId, AOW.getPopulationCap(u.playerId) - Constants.populationPerHQ)
+        end
+    end
+end
+
+function Actions.modifyCurrentPopulation(context)
+    local playerId = context:getPlayerId(0)
+    
+    local allUnits = Wargroove.getAllUnitsForPlayer(playerId, true)
+    
+    local popCap = AOW.getPopulationCap(playerId)
+    local currentPop = AOW.getCurrentPopulation(playerId)
+    
+    for i, u in ipairs(allUnits) do
+        
+        if u.unitClassId == "hq" or u.unitClassId == "city" or u.unitClassId == "water_city" then
+        
+            if #u.loadedUnits > 0 then
+                local popCapUnit = Wargroove.getUnitById(u.loadedUnits[1])
+                local currentPopUnit = Wargroove.getUnitById(u.loadedUnits[2])
+                popCapUnit:setHealth(popCap, -1)
+                currentPopUnit:setHealth(currentPop, -1)
+                Wargroove.updateUnit(popCapUnit)
+                Wargroove.updateUnit(currentPopUnit)
+            else
+                Wargroove.spawnUnit(-1, { x = -91, y = -12 }, "villager", true, "")
+                Wargroove.waitFrame()
+                local popCapUnit = Wargroove.getUnitAt({ x = -91, y = -12 })
+                popCapUnit.pos = { x = -99, y = -99 }
+                popCapUnit:setHealth(popCap, -1)
+                Wargroove.updateUnit(popCapUnit)
+                table.insert(u.loadedUnits, popCapUnit.id)
+                popCapUnit.inTransport = true
+                popCapUnit.transportedBy = u.id
+                
+                Wargroove.spawnUnit(-1, { x = -91, y = -12 }, "villager", true, "")
+                Wargroove.waitFrame()
+                local currentPopUnit = Wargroove.getUnitAt({ x = -91, y = -12 })
+                currentPopUnit.pos = { x = -99, y = -99 }
+                currentPopUnit:setHealth(currentPop, -1)
+                Wargroove.updateUnit(currentPopUnit)
+                table.insert(u.loadedUnits, currentPopUnit.id)
+                currentPopUnit.inTransport = true
+                currentPopUnit.transportedBy = u.id
+                Wargroove.updateUnit(u)
+            end
+                
+        end
+    end
+end
+
+function Actions.setInitialPopulationCap(context)
+    local playerId = context:getPlayerId(0)
+    
+    local allUnits = Wargroove.getAllUnitsForPlayer(playerId, true)
+    
+    local popCap = 0;
+    
+    for i, u in ipairs(allUnits) do
+        if u.unitClassId == "hq" then
+            popCap = popCap + Constants.populationPerHQ
+        elseif u.unitClassId == "city" or u.unitClassId == "water_city" then
+            popCap = popCap + Constants.populationPerVillage
+        end
+    end
+    
+    AOW.setPopulationCap(playerId, popCap)
+    
 end
 
 function Actions.generateGoldPerTurnFromPosAction(context)

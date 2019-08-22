@@ -15,6 +15,9 @@ function RecruitTwo:getMaximumRange(unit, endPos)
     return 1
 end
 
+function RecruitTwo:canExecuteAnywhere(unit)
+    return AOW.getPopulationSizeForUnit(unit.unitClassId) + AOW.getCurrentPopulation(unit.playerId) <= AOW.getPopulationCap(unit.playerId)
+end
 
 function RecruitTwo:getTargetType()
     return "all"
@@ -155,6 +158,7 @@ function RecruitTwo:execute(unit, targetPos, strParam, path)
         
         table.insert(newUnit.loadedUnits, gold.id)
     end
+    
     Wargroove.updateUnit(newUnit)
 
     Wargroove.unsetFacingOverride(unit.id)

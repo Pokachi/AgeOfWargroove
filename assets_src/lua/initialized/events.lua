@@ -175,6 +175,9 @@ function Events.populateTriggerList()
     local modifiedTrigger = AOW.modifyDefeatHQTrigger(referenceTrigger)
     Events.addTriggerToList(modifiedTrigger)
     Events.addTriggerToList(AOW.setInitialTechLevel(referenceTrigger))
+    Events.addTriggerToList(AOW.setInitialPopulationCap(referenceTrigger))
+    Events.addTriggerToList(AOW.reportDeadVillageTrigger(referenceTrigger))
+    Events.addTriggerToList(AOW.modifyUnitCapTrigger(referenceTrigger))
     
     local Actions = require("triggers/actions")
     local Conditions = require("triggers/conditions")
@@ -260,7 +263,7 @@ function Events.canExecuteTrigger(trigger)
 
     -- Check if it already ran
     if trigger.recurring ~= "repeat" then
-        if triggerContext.fired[OriginalEvents.getTriggerKey(trigger)] ~= nil then
+        if triggerContext.fired[Events.getTriggerKey(trigger)] ~= nil then
             return false
         end
     end
@@ -270,8 +273,16 @@ function Events.canExecuteTrigger(trigger)
 end
 
 function Events.executeTrigger(trigger)
-    triggerContext.fired[OriginalEvents.getTriggerKey(trigger)] = true
+    triggerContext.fired[Events.getTriggerKey(trigger)] = true
     OriginalEvents.runActions(trigger.actions)
+end
+
+function Events.getTriggerKey(trigger)
+    local key = trigger.id
+    if trigger.recurring == "oncePerPlayer" then
+        key = key .. ":" .. tostring(triggerContext.triggerInstancePlayerId)
+    end
+    return key
 end
 
 

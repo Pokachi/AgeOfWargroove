@@ -12,5 +12,6 @@ modifyingUnitClasses:
           - recruit_two
           - tech_up
         recruitTags: [type.ground.villager]
+        loadCapacity: 2
 
 ...

@@ -143,6 +143,35 @@ function AgeOfWargroove.setInitialTechLevel(referenceTrigger)
     return trigger
 end
 
+function AgeOfWargroove.modifyUnitCapTrigger(referenceTrigger)
+    local trigger = {}
+    trigger.id =  "modifyPopulationCapAlways"
+    trigger.recurring = "repeat"
+    trigger.players = referenceTrigger.players
+    trigger.conditions = {}
+    trigger.actions = {}
+    table.insert(trigger.actions, { id = "modify_population_cap", parameters = { "current" }  })
+    
+    return trigger
+end
+
+function AgeOfWargroove.reportDeadVillageTrigger(referenceTrigger)
+    local trigger = {}
+    trigger.id =  "reportDeadVillages"
+    trigger.recurring = "repeat"
+    trigger.players = referenceTrigger.players
+    trigger.conditions = {}
+    
+    table.insert(trigger.conditions, { id = "unit_killed", parameters = { "*unit", "current", "*structure", "any", "-1" } })
+    table.insert(trigger.conditions, { id = "player_turn", parameters = { "current" } })
+    
+    trigger.actions = {}
+    
+    table.insert(trigger.actions, { id = "report_dead_village", parameters = {} })
+    
+    return trigger
+end
+
 local LevelOneRecruits = {"soldier", "dog", "spearman", "travelboat", "villager", "merman", "barracks", "city", "port", "water_city", "gold_camp"}
 local LevelTwoRecruits = {"soldier", "dog", "spearman", "wagon", "archer", "mage", "knight", "turtle", "harpoonship", "balloon", "harpy", "travelboat", "villager", "merman", "barracks", "city", "port", "water_city", "gate", "hq", "tower", "gold_camp"}
 local LevelThreeRecruits = {"soldier", "dog", "spearman", "wagon", "archer", "mage", "knight", "trebuchet", "ballista", "giant", "turtle", "harpoonship", "warship", "balloon", "harpy", "witch", "dragon", "travelboat", "villager", "merman", "barracks", "city", "port", "water_city", "gate", "hq", "tower", "gold_camp"}
@@ -171,7 +200,30 @@ function AgeOfWargroove.getMaxTechLevel()
     return state.maxTechLevel
 end
 
+function AgeOfWargroove.getPopulationSizeForUnit(unitClass)
+    return 1
+end
+
+function AgeOfWargroove.getCurrentPopulation(playerId)
+    local currentPop = 0
+    local allUnits = Wargroove.getAllUnitsForPlayer(playerId, true)
+    for i, u in ipairs(allUnits) do
+        if u.unitClass.isStructure == false and u.unitClassId ~= "crystal" and u.unitClassId ~= "drone" and u.unitClassId ~= "vine" then
+            currentPop = currentPop + AgeOfWargroove.getPopulationSizeForUnit(u.unitClassId)
+        end
+    end
+    
+    return currentPop
+end
+
 function AgeOfWargroove.getPopulationCap(playerId)
+    state.populationCap={}
+    local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
+    local popCapString = Wargroove.getUnitState(globalStateUnit, "populationCap")
+    if popCapString ~= nil then
+        state.populationCap = (loadstring or load)("return "..popCapString)()
+    end
+    
     for i, playerCap in ipairs(state.populationCap) do
         if playerCap.playerId == playerId then
             return playerCap.cap
@@ -181,36 +233,36 @@ function AgeOfWargroove.getPopulationCap(playerId)
 end
 
 function AgeOfWargroove.setPopulationCap(playerId, newCap)    
+    if newCap > state.maxPopulation then
+        newCap = state.maxPopulation
+    end
+    
+    local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
+    
     for i, playerCap in ipairs(state.populationCap) do
         if playerCap.playerId == playerId then
             playerCap.cap = newCap
+            Wargroove.setUnitState(globalStateUnit, "populationCap", inspect(state.populationCap))
+            Wargroove.updateUnit(globalStateUnit)
             return
         end
     end
     local playerCap = { playerId = playerId, cap = newCap }
     table.insert(state.populationCap, playerCap)
+    
+    Wargroove.setUnitState(globalStateUnit, "populationCap", inspect(state.populationCap))
+    Wargroove.updateUnit(globalStateUnit)
 end
 
-function AgeOfWargroove.setInitialPopulationCap()
+function AgeOfWargroove.setInitialPopulationCap(referenceTrigger)
     local trigger = {}
     trigger.id =  "setInitialPopulationCap"
-    trigger.recurring = "once"
-    trigger.players = {}
-    for i = 1, 8, 1 do
-        if i == 0 then
-            table.insert(trigger.players, 1)
-        else
-            table.insert(trigger.players, 0)
-        end
-    end
+    trigger.recurring = "oncePerPlayer"
+    trigger.players = referenceTrigger.players
     trigger.conditions = {}
-    
-    table.insert(trigger.conditions, { id = "unit_killed", parameters = { "*unit", "current", "gold_camp", "any", "-1" } })
-    table.insert(trigger.conditions, { id = "player_turn", parameters = { "current" } })
-    
     trigger.actions = {}
     
-    table.insert(trigger.actions, { id = "remove_generate_gold_per_turn_from_pos", parameters = {} })
+    table.insert(trigger.actions, { id = "set_init_pop_cap", parameters = { "current" } })
     
     return trigger
 end

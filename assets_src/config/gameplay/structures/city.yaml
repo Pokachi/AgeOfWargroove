@@ -9,4 +9,28 @@ modifyingUnitClasses:
         canReinforce: false
         cost: 100
         isNeutraliseable: false
+        garrisonUnit: ""
+        loadCapacity: 2
+        
+units:
+  - class: city
+    faction: neutral
+    name: structure_name_city
+    mapAnimation: [structures/cities, structures/cities2, structures/cities3]
+    smallPortrait: portraits/small/portrait_structure_small.png
+    mediumPortrait: portraits/medium/city.png
+    grabPos: [14, 15]
+    hasBattleScreen: false
+    sounds:
+      hit: hitWood
+      hitMap: hitStone
+      death: gateDie
+    structureImage:
+      spriteSheet: backgrounds/city/city_background_full
+      farBackground: city_background_full_background_2
+      nearBackground: city_background_full_background_1
+      foreground: city_background_full_foreground
+      keeperPosition: [78, 95]
+      leftBannerOffset: [-6, 2]
+      rightBannerOffset: [0, 2]
 ...

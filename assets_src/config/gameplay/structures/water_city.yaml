@@ -9,5 +9,28 @@ modifyingUnitClasses:
         canReinforce: false
         cost: 100
         isNeutraliseable: false
+        garrisonUnit: ""
+        loadCapacity: 2
 
+units:
+  - class: water_city
+    faction: neutral
+    name: structure_name_water_city
+    mapAnimation: [structures/watercities,structures/watercities2,structures/watercities3]
+    smallPortrait: portraits/small/portrait_structure_small.png
+    mediumPortrait: portraits/medium/water_city.png
+    grabPos: [14, 13]
+    hasBattleScreen: false
+    sounds:
+      hit: hitWood
+      hitMap: hitWood
+      death: gateDie
+    structureImage:
+      spriteSheet: backgrounds/watercity/watercity_background_full
+      farBackground: watercity_background_full_background_2
+      nearBackground: watercity_background_full_background_1
+      foreground: watercity_background_full_foreground
+      keeperPosition: [78, 95]
+      leftBannerOffset: [-6, 2]
+      rightBannerOffset: [0, 2]
 ...
