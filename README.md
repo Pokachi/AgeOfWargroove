@@ -25,7 +25,7 @@ Change the gameplay to be more like Age of Empires or Warcraft. In a nutshell, H
 1. Better sprites (Terrible ms paint art for new buildings atm)
 1. Fix description strings
 1. AI
-1. Buf fixes
+1. Bug fixes
 
 ## NexusMod URL
 https://www.nexusmods.com/wargroove/mods/20
