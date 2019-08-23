@@ -1,0 +1,11 @@
+---
+
+modifyingUnitClasses:
+  - id: commander_mercia
+    replace:
+        loadCapacity: 6
+    add:
+        verbs:
+            - pick_up
+
+...

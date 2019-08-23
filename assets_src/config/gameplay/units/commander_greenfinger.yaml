@@ -1,0 +1,167 @@
+---
+
+weapons:
+  - id: greenfingerAttack
+    rangeMin: 1
+    rangeMax: 1
+    canMoveAndAttack: true
+    baseDamage:
+      land: 1
+    tagDamage:
+      archer: 1.3
+      soldier: 0.95
+      villager: 0.95
+      spearman: 0.65
+      dog: 1.15
+      wagon: 0.7
+      knight: 0.55
+      trebuchet: 0.55
+      ballista: 0.6
+      dragon: 0.3
+      mage: 0.8
+      giant: 0.4
+      structure: 0.7
+      balloon: 0.55
+      harpy: 0.9
+      witch: 0.7
+      dragon: 0.35
+      commander: 0.4
+      
+      warship: 0.55
+      harpoonship: 0.45
+      turtle: 0.55
+      travelboat: 0.6
+      merman: 0.95
+
+unitClasses:
+  - id: commander_greenfinger
+    name: unit_class_name_commander
+    cost: 500
+    movement: walking
+    moveRange: 4
+    aiPriority: 8.0
+    regeneration: 5
+    weapons:
+      - id: greenfingerAttack
+#      - id: bow
+        ammo: 5
+    verbs:
+      - load
+      - capture
+    tags:
+      - commander
+      - type.ground.light
+    battleUnitCount: 1
+    isCommander: true
+    grooveId: vine_wall
+
+units:
+  - class: commander_greenfinger
+    faction: floran
+    name: character_greenfinger_name
+    mapAnimation: units/commanders/greenfinger/map_greenfinger
+    battleAnimation: units/commanders/greenfinger/battle_greenfinger
+    battleAnimationRiver: fx/river_overlay/battle_greenfinger_river
+    smallPortrait: units/commanders/greenfinger/portrait_greenfinger_small.png
+    mediumPortrait: units/commanders/greenfinger/portrait_greenfinger_medium.png
+    menuIdleSequence: capture_idle
+    mapSpeed: 4.0
+    grabPos: [25, 39]
+    deathMoveMin: 0
+    deathMoveMax: 0
+    stayAfterDeath: true
+    sounds:
+      attackMap: unitAttack
+      attack: greenfinger/greenfingerAttack
+      attackShout: greenfinger/greenfingerPreAttack
+      captureShout: greenfinger/greenfingerShoutThisPlaceWillDo
+      attackCommander: greenfinger/greenfingerCommanderKillAttack
+      attackCommanderShout: greenfinger/greenfingerCommanderKillShout
+      death: greenfinger/greenfingerDie
+      deathMap: greenfinger/greenfingerDieGhost
+      deathMapNoBattle: greenfinger/greenfingerDieNoBattle
+      preIdle: greenfinger/greenfingerGrowth
+      run: infantryLightMapEntry
+      angryRun: greenfinger/greenfingerStagEntry
+      runMap: infantryLightMapEntry
+      firstHit: greenfinger/greenfingerHit
+      hit: hitWood
+      hitMap: hitOrganic
+      groove: greenfinger/greenfingerGrooveIntro
+    attacks:
+      - id: primary
+        # attackAnimationSequence: counter
+        hitSpark: fx/bs_stab_attack
+        hitDelay: 1.125
+        samePanel: true
+      - id: secondary
+        hitSpark: fx/bs_stab_attack
+        hitDelay: 1.125
+    cutscenePreIdle: ""
+    cutsceneIdle: capture_idle
+    cutsceneHit: hit_foot
+    emotes:
+      idle: capture_idle
+      idle_mounted: idle
+      surprise: emote_surprise
+      positive: emote_positive
+      negative: emote_negative
+      laugh: emote_laugh
+      bow: emote_bow
+      surprise_mounted: emote_surprise_mounted
+      negative_mounted: emote_negative_mounted
+      dance: emote_dance
+    shouts:
+      greenfinger_die: greenfinger/greenfingerShoutDie
+      greenfinger_attackvoice1: greenfinger/greenfingerShoutAttack1
+      greenfinger_attackvoice2: greenfinger/greenfingerShoutAttack2
+      greenfinger_attackvoice3: greenfinger/greenfingerShoutAttack3
+      greenfinger_attackvoice4: greenfinger/greenfingerShoutAttack4
+      greenfinger_attackvoice5: greenfinger/greenfingerShoutAttack5
+      greenfinger_capture: greenfinger/greenfingerShoutThisPlaceWillDo
+      greenfinger_goodbye: greenfinger/greenfingerShoutFarewell
+      greenfinger_florancallforaid: greenfinger/greenfingerShoutFloranCallForAid
+      greenfinger_florannotmonsters: greenfinger/greenfingerShoutFloranNotMonsters
+      greenfinger_goodluckfriends: greenfinger/greenfingerShoutGoodLuckFriends
+      greenfinger_groan: greenfinger/greenfingerShoutGroan
+      greenfinger_hmm: greenfinger/greenfingerShoutHmm
+      greenfinger_hello: greenfinger/greenfingerShoutHello
+      greenfinger_hit1: greenfinger/greenfingerShoutHit1
+      greenfinger_hit2: greenfinger/greenfingerShoutHit2
+      greenfinger_hit3: greenfinger/greenfingerShoutHit3
+      greenfinger_hit4: greenfinger/greenfingerShoutHit4
+      greenfinger_hit5: greenfinger/greenfingerShoutHit5
+      greenfinger_howcurious: greenfinger/greenfingerShoutHowCurious
+      greenfinger_introduction: greenfinger/greenfingerShoutIntroduction
+      greenfinger_believeinyou: greenfinger/greenfingerShoutBelieveInYou
+      greenfinger_ithinknot: greenfinger/greenfingerShoutIThinkNot
+      greenfinger_joke: greenfinger/greenfingerShoutMakeLikeATree
+      greenfinger_laugh1: greenfinger/greenfingerShoutLaugh1
+      greenfinger_laugh2: greenfinger/greenfingerShoutLaugh2
+      greenfinger_mythanks: greenfinger/greenfingerShoutMyThanks
+      greenfinger_groove: greenfinger/greenfingerShoutNaturesCry
+      greenfinger_threat: greenfinger/greenfingerShoutNatureWillClaimYou
+      greenfinger_no: greenfinger/greenfingerShoutNo
+      greenfinger_preattack1: greenfinger/greenfingerShoutCharge
+      greenfinger_preattack2: greenfinger/greenfingerShoutForward
+      greenfinger_select: greenfinger/greenfingerShoutOfCourse
+      greenfinger_sedge: greenfinger/greenfingerShoutSedge
+      greenfinger_sigh: greenfinger/greenfingerShoutSigh
+      greenfinger_victory: greenfinger/greenfingerShoutSuchAWaste
+      greenfinger_surprise: greenfinger/greenfingerShoutSurprise
+      greenfinger_thanks: greenfinger/greenfingerShoutThankYou
+      greenfinger_thatsenough: greenfinger/greenfingerShoutThatsEnough
+      greenfinger_welcome: greenfinger/greenfingerShoutWelcome
+      greenfinger_whoops: greenfinger/greenfingerShoutWhoops
+      greenfinger_yes: greenfinger/greenfingerShoutYes1
+      greenfinger_yes2: greenfinger/greenfingerShoutYes2
+      greenfinger_goodheart: greenfinger/greenfingerShoutGoodHeart
+
+    alternativeAttackSounds:
+      no_voice: greenfinger/greenfingerAttackNoVoice
+
+    hidden:
+      shouts:
+        - greenfinger_hit4
+        - greenfinger_hit5
+...

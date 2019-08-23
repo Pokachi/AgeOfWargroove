@@ -1,0 +1,169 @@
+---
+
+weapons:
+  - id: darkmerciaSword
+    rangeMin: 1
+    rangeMax: 1
+    canMoveAndAttack: true
+    baseDamage:
+      land: 1
+    tagDamage:
+      archer: 1.3
+      soldier: 0.95
+      villager: 0.95
+      spearman: 0.65
+      dog: 1.15
+      wagon: 0.7
+      knight: 0.55
+      trebuchet: 0.55
+      ballista: 0.6
+      dragon: 0.3
+      mage: 0.8
+      giant: 0.4
+      structure: 0.7
+      balloon: 0.55
+      harpy: 0.9
+      witch: 0.7
+      dragon: 0.35
+      commander: 0.4
+      
+      warship: 0.55
+      harpoonship: 0.45
+      turtle: 0.55
+      travelboat: 0.6
+      merman: 0.95
+
+unitClasses:
+  - id: commander_darkmercia
+    name: unit_class_name_commander
+    cost: 500
+    movement: walking
+    moveRange: 4
+    aiPriority: 8.0
+    regeneration: 5
+    weapons:
+      - id: darkmerciaSword
+#      - id: bow
+        ammo: 5
+    verbs:
+      - load
+      - capture
+    tags:
+      - commander
+      - type.ground.light
+    battleUnitCount: 1
+    isCommander: true
+    grooveId: drain_aura
+
+
+units:
+  - class: commander_darkmercia
+    faction: guardian
+    name: character_darkmercia_name
+    mapAnimation: units/commanders/darkmercia/map_darkmercia
+    battleAnimation: units/commanders/darkmercia/battle_darkmercia
+    battleAnimationRiver: fx/river_overlay/battle_darkmercia_river
+    smallPortrait: units/commanders/darkmercia/portrait_darkmercia_small.png
+    mediumPortrait: units/commanders/darkmercia/portrait_darkmercia_medium.png
+    mapSpeed: 4.0
+    skinColour: typeII
+    grabPos: [45, 64]
+    attackRunTimeMin: 1
+    attackRunTimeMax: 1.5
+    deathMoveMin: 0
+    deathMoveMax: 0
+    stayAfterDeath: true
+    sounds:
+      attackMap: unitAttack
+      preAttack: darkmercia/darkmerciaPreAttack
+      attack: darkmercia/darkmerciaAttack
+      attackShout: darkmercia/darkmerciaAttackShout
+      captureShout: darkmercia/darkmerciaCapture
+      attackCommander: darkmercia/darkmerciaAttack
+      attackCommanderShout: darkmercia/darkmerciaCommanderKillShout
+      death: darkmercia/darkmerciaDie
+      deathMap: darkmercia/darkmerciaDieGhost
+      deathMapNoBattle: darkmercia/darkmerciaDieNoBattle
+      run: balloonEntry
+      runMap: balloonEntryMap
+      firstHit: darkmercia/darkmerciaHit
+      hit: hitOrganic
+      hitMap: hitOrganic
+      groove: darkmercia/darkmerciaGrooveIntro
+    attacks:
+      - id: primary
+        hitSpark: fx/bs_stab_attack
+        hitDelay: [1.4, 2.5]
+    emotes:
+      idle: idle
+      positive: emote_positive
+      charge: emote_charge
+      crouching: emote_crouching
+      idle_unarmed: idle_unarmed
+      idle_standing: idle_standing
+      idle_standing_2: idle_standing_2
+      idle_standing_3: idle_standing_3
+      equip_weapons: equip_weapons
+      equip_hurt: equip_hurt
+      dying: emote_dying
+      death: emote_death
+      dead: emote_dead
+      dance: emote_dance
+    shouts:
+      darkmercia_abandonallhope: darkmercia/darkmerciaShoutAbandonAllHope
+      darkmercia_absolutepower: darkmercia/darkmerciaShoutAbsolutePower
+      darkmercia_allshallfall: darkmercia/darkmerciaShoutAllShallFall
+      darkmercia_allwillfallbeforeme: darkmercia/darkmerciaShoutAllWillFallBeforeMe
+      darkmercia_attack1: darkmercia/darkmerciaShoutAttack1
+      darkmercia_attack2: darkmercia/darkmerciaShoutAttack2
+      darkmercia_attack3: darkmercia/darkmerciaShoutAttack3
+      darkmercia_attack4: darkmercia/darkmerciaShoutAttack4
+      darkmercia_attack5: darkmercia/darkmerciaShoutAttack5
+      darkmercia_darknessfalls: darkmercia/darkmerciaShoutDarknessFalls
+      darkmercia_dyinggasp: darkmercia/darkmerciaDieGasp
+      darkmercia_embraceyourend: darkmercia/darkmerciaShoutEmbraceYourEnd
+      darkmercia_farewell: darkmercia/darkmerciaShoutFarewell
+      darkmercia_greetings: darkmercia/darkmerciaShoutGreetings
+      darkmercia_hit1: darkmercia/darkmerciaShoutHit1
+      darkmercia_hit2: darkmercia/darkmerciaShoutHit2
+      darkmercia_hit3: darkmercia/darkmerciaShoutHit3
+      darkmercia_hit4: darkmercia/darkmerciaShoutHit4
+      darkmercia_hmph: darkmercia/darkmerciaShoutHmph
+      darkmercia_howcouldthisbe: darkmercia/darkmerciaShoutHowCouldThisBe
+      darkmercia_iamyou: darkmercia/darkmerciaShoutIAmYou
+      darkmercia_ibringruin: darkmercia/darkmerciaShoutIBringRuin
+      darkmercia_itsnotpossible: darkmercia/darkmerciaShoutItsNotPossible
+      darkmercia_joinme: darkmercia/darkmerciaShoutJoinMe
+      darkmercia_kingdomsfall: darkmercia/darkmerciaShoutKingdomsFall
+      darkmercia_laugh1: darkmercia/darkmerciaShoutLaugh1
+      darkmercia_laugh2: darkmercia/darkmerciaShoutLaugh2
+      darkmercia_laugh3: darkmercia/darkmerciaShoutLaugh3
+      darkmercia_no: darkmercia/darkmerciaShoutNo
+      darkmercia_oops: darkmercia/darkmerciaShoutOops
+      darkmercia_paletteswap: darkmercia/darkmerciaShoutPaletteSwap
+      darkmercia_pitiful: darkmercia/darkmerciaShoutPitiful
+      darkmercia_requiemspower: darkmercia/darkmerciaShoutRequiemsPower
+      darkmercia_sheisgone: darkmercia/darkmerciaShoutSheIsGone
+      darkmercia_sigh: darkmercia/darkmerciaShoutSigh
+      darkmercia_strongconquertheweak: darkmercia/darkmerciaShoutStrongConquerTheWeak
+      darkmercia_submittothedarkness: darkmercia/darkmerciaShoutSubmitToTheDarkness
+      darkmercia_thankyou: darkmercia/darkmerciaShoutThankYou
+      darkmercia_theabyssstaresback: darkmercia/darkmerciaShoutTheAbyssStaresBack
+      darkmercia_theendofallthings: darkmercia/darkmerciaShoutTheEndOfAllThings
+      darkmercia_thenproveit: darkmercia/darkmerciaShoutThenProveIt
+      darkmercia_verywell: darkmercia/darkmerciaShoutVeryWell
+      darkmercia_what: darkmercia/darkmerciaShoutWhat
+      darkmercia_whatisbestinlife: darkmercia/darkmerciaShoutWhatIsBestInLife
+      darkmercia_witnesstruestrength: darkmercia/darkmerciaShoutWitnessTrueStrength
+      darkmercia_yes: darkmercia/darkmerciaShoutYes
+      darkmercia_you: darkmercia/darkmerciaShoutYou
+      darkmercia_youareweak: darkmercia/darkmerciaShoutYouAreWeak
+      darkmercia_youchallengeme: darkmercia/darkmerciaShoutYouChallengeMe
+
+    alternativeAttackSounds:
+      no_voice: darkmercia/darkmerciaAttackNoVoice
+
+    hidden:
+      shouts:
+        - darkmercia_dyinggasp
+...

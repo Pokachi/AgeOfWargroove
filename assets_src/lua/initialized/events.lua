@@ -274,6 +274,8 @@ function Events.canExecuteTrigger(trigger)
 end
 
 function Events.executeTrigger(trigger)
+    local inspect = require "inspect"
+    print(inspect(trigger))
     triggerContext.fired[Events.getTriggerKey(trigger)] = true
     OriginalEvents.runActions(trigger.actions)
 end

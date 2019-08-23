@@ -1,0 +1,151 @@
+---
+
+weapons:
+  - id: nuruAttack
+    rangeMin: 1
+    rangeMax: 1
+    canMoveAndAttack: true
+    baseDamage:
+      land: 1
+    tagDamage:
+      archer: 1.3
+      soldier: 0.95
+      villager: 0.95
+      spearman: 0.65
+      dog: 1.15
+      wagon: 0.7
+      knight: 0.55
+      trebuchet: 0.55
+      ballista: 0.6
+      dragon: 0.3
+      mage: 0.8
+      giant: 0.4
+      structure: 0.7
+      balloon: 0.55
+      harpy: 0.9
+      witch: 0.7
+      dragon: 0.35
+      commander: 0.4
+      
+      warship: 0.55
+      harpoonship: 0.45
+      turtle: 0.55
+      travelboat: 0.6
+      merman: 0.95
+
+unitClasses:
+  - id: commander_nuru
+    name: unit_class_name_commander
+    cost: 500
+    movement: walking
+    moveRange: 4
+    aiPriority: 8.0
+    regeneration: 5
+    weapons:
+      - id: nuruAttack
+#      - id: bow
+        ammo: 5
+    verbs:
+      - load
+      - capture
+    tags:
+      - commander
+      - type.ground.light
+    battleUnitCount: 1
+    isCommander: true
+    grooveId: teleport_beam
+
+units:
+  - class: commander_nuru
+    faction: floran
+    name: character_nuru_name
+    mapAnimation: units/commanders/nuru/map_nuru
+    battleAnimation: units/commanders/nuru/battle_nuru
+    battleAnimationRiver: fx/river_overlay/battle_nuru_river
+    smallPortrait: units/commanders/nuru/portrait_nuru_small.png
+    mediumPortrait: units/commanders/nuru/portrait_nuru_medium.png
+    mapSpeed: 4.0
+    grabPos: [31, 25]
+    deathMoveMin: 0
+    deathMoveMax: 0
+    sounds:
+      attackMap: unitAttack
+      attack: nuru/nuruAttack
+      attackShout: nuru/nuruAttackShout
+      captureShout: nuru/nuruShoutIllTakeThis
+      attackCommanderShout: nuru/nuruCommanderKillShout
+      death: nuru/nuruDie
+      deathMap: nuru/nuruDieGhost
+      deathMapNoBattle: nuru/nuruDieNoBattle
+      run: infantryLightMapEntry
+      runMap: infantryLightMapEntry
+      firstHit: nuru/nuruHit
+      hit: hitOrganic
+      hitMap: hitOrganic
+      groove: nuru/nuruGrooveIntro
+    attacks:
+      - id: primary
+        hitSpark: fx/bs_stab_attack
+        hitDelay: 2.05
+        ranged: false
+    emotes:
+      idle: idle
+      surprise: emote_surprise
+      positive: emote_positive
+      negative: emote_negative
+      laugh: emote_laugh
+      hypno: emote_hypno
+      bow: emote_bow
+      dance: emote_dance
+    shouts:
+      nuru_bigfight: nuru/nuruShoutBigFight
+      nuru_reinforcements: nuru/nuruShoutCallingReinforcements
+      nuru_cantwait: nuru/nuruShoutCantWait
+      nuru_getusedtothis: nuru/nuruShoutCouldGetUsedToThis
+      nuru_fanfavourite: nuru/nuruShoutFanFavourite
+      nuru_floranneversurrender: nuru/nuruShoutFloranNeverSurrender
+      nuru_foughtbigger: nuru/nuruShoutFoughtBigger
+      nuru_ha: nuru/nuruShoutHa
+      nuru_hereicome: nuru/nuruShoutHereICome
+      nuru_hey: nuru/nuruShoutHey
+      nuru_heyesther: nuru/nuruShoutHeyEsther
+      nuru_hitexaggerated: nuru/nuruShoutHitExaggerated
+      nuru_takethis: nuru/nuruShoutIllTakeThis
+      nuru_introduction: nuru/nuruShoutIntroduction
+      nuru_diversion: nuru/nuruShoutJustADiversion
+      nuru_laugh: nuru/nuruShoutLaugh
+      nuru_likeyou: nuru/nuruShoutLikeYouAlready
+      nuru_littlehelp: nuru/nuruShoutLittleHelp
+      nuru_makingamistake: nuru/nuruShoutMakingAMistake
+      nuru_missioncomplete: nuru/nuruShoutMissionComplete
+      nuru_nah: nuru/nuruShoutNah
+      nuru_needbackup: nuru/nuruShoutNeedBackup
+      nuru_neverlostbefore: nuru/nuruShoutNeverLostBefore
+      nuru_notfromroundhere: nuru/nuruShoutNotFromRoundHere
+      nuru_oops: nuru/nuruShoutOops
+      nuru_seeya: nuru/nuruShoutSeeya
+      nuru_sidequest: nuru/nuruShoutSideQuest
+      nuru_sigh: nuru/nuruShoutSigh
+      nuru_stillchampion: nuru/nuruShoutStillChampion
+      nuru_stillundefeated: nuru/nuruShoutStillUndefeated
+      nuru_surprise: nuru/nuruShoutSurprise
+      nuru_terreneprotectorate: nuru/nuruShoutTerreneProtectorate
+      nuru_thanks: nuru/nuruShoutThanks
+      nuru_myfight: nuru/nuruShoutThisIsMyFight
+      nuru_what: nuru/nuruShoutWhat
+      nuru_yeah: nuru/nuruShoutYeah
+      nuru_yoink: nuru/nuruShoutYoink
+      nuru_yougotlucky: nuru/nuruShoutYouGotLucky
+      nuru_attack1: nuru/nuruShoutAttack1
+      nuru_attack2: nuru/nuruShoutAttack2
+      nuru_attack3: nuru/nuruShoutAttack3
+      nuru_attack4: nuru/nuruShoutAttack4
+      nuru_hit1: nuru/nuruShoutHit1
+      nuru_hit2: nuru/nuruShoutHit2
+      nuru_hit3: nuru/nuruShoutHit3
+      nuru_hit4: nuru/nuruShoutHit4
+      nuru_hit5: nuru/nuruShoutHit5
+
+    alternativeAttackSounds:
+      no_voice: nuru/nuruAttackNoVoice
+...

@@ -59,5 +59,13 @@ verbs:
     scriptName: verbs/tech_up
     targetted: false
     hasResourceCost: true
+  - id: pick_up
+    icon: ui/icons/unit_action_icon_load.png
+    name: ui_unit_verbs_pick_up
+    targetColour: target
+    targetOutlineColour: target_outline
+    targetted: true
+    directTarget: true
+    scriptName: verbs/pick_up
 
 ...

@@ -1,0 +1,278 @@
+---
+
+weapons:
+  - id: mercivalSword
+    rangeMin: 1
+    rangeMax: 1
+    canMoveAndAttack: true
+    baseDamage:
+      land: 1
+    tagDamage:
+      archer: 1.3
+      soldier: 0.95
+      villager: 0.95
+      spearman: 0.65
+      dog: 1.15
+      wagon: 0.7
+      knight: 0.55
+      trebuchet: 0.55
+      ballista: 0.6
+      dragon: 0.3
+      mage: 0.8
+      giant: 0.4
+      structure: 0.7
+      balloon: 0.55
+      harpy: 0.9
+      witch: 0.7
+      dragon: 0.35
+      commander: 0.4
+      
+      warship: 0.55
+      harpoonship: 0.45
+      turtle: 0.55
+      travelboat: 0.6
+      merman: 0.95
+
+unitClasses:
+  - id: commander_mercival
+    name: unit_class_name_commander
+    cost: 500
+    movement: walking
+    moveRange: 4
+    aiPriority: 8.0
+    isRecruitable: false
+    regeneration: 5
+    weapons:
+      - id: mercivalSword
+#      - id: bow
+        ammo: 5
+    verbs:
+      - load
+      - capture
+    tags:
+      - commander
+      - type.ground.light
+    battleUnitCount: 1
+    isCommander: true
+    grooveId: fish
+
+
+units:
+  - class: commander_mercival
+    faction: cherrystone
+    name: character_mercival_name
+    mapAnimation: units/commanders/mercival/map_mercival
+    battleAnimation: units/commanders/mercival/battle_mercival
+    battleAnimationRiver: fx/river_overlay/battle_mercival_river
+    smallPortrait: units/commanders/mercival/portrait_mercival_small.png
+    mediumPortrait: units/commanders/mercival/portrait_mercival_medium.png
+    mapSpeed: 4.0
+    skinColour: typeII
+    grabPos: [36, 20]
+    deathMoveMin: 0
+    deathMoveMax: 0
+    stayAfterDeath: true
+    sounds:
+      attackMap: unitAttack
+      preAttack: mercival/mercivalPreAttack
+      attack: mercival/mercivalAttack
+      attackShout: mercival/mercivalAttackShout
+      captureShout: mercival/mercivalCapture
+      attackCommanderShout: mercival/mercivalCommanderKillShout
+      death: mercival/mercivalDie
+      deathMap: mercival/mercivalDieGhost
+      deathMapNoBattle: mercival/mercivalDieNoBattle
+      run: infantryHeavyMapEntry
+      runMap: infantryHeavyMapEntry
+      firstHit: mercival/mercivalHit
+      hit: hitOrganic
+      hitMap: hitOrganic
+      groove: mercival/mercivalGrooveIntro
+    attacks:
+      - id: primary
+        hitSpark: fx/bs_stab_attack
+        hitDelay: 1.25
+    emotes:
+      idle: idle
+      positive: emote_positive
+      hurt: emote_hurt
+      dead: emote_dead
+      ghost_appear: emote_ghost_appear
+      ghost_idle: emote_ghost_idle
+      ghost_talk: emote_ghost_talk
+      ghost_fading: emote_ghost_fading
+      ghost_disappear: emote_ghost_disappear
+      dying: emote_dying
+      surprise: emote_surprise
+      hug: emote_hug
+      dance: emote_dance
+    shouts:
+      mercival_attack1: mercival/mercivalShoutAttack1
+      mercival_attack2: mercival/mercivalShoutAttack2
+      mercival_attack3: mercival/mercivalShoutAttack3
+      mercival_attack4: mercival/mercivalShoutAttack4
+      mercival_didnthavetobethisway: mercival/mercivalShoutDidntHaveToBeThisWay
+      mercival_die: mercival/mercivalShoutDie
+      mercival_donotfalter: mercival/mercivalShoutDoNotFalter
+      mercival_donotlosehope: mercival/mercivalShoutDoNotLoseHope
+      mercival_donotholdback: mercival/mercivalShoutDontHoldBack
+      mercival_doyouunderstand: mercival/mercivalShoutDoYouUnderstand
+      mercival_emeric: mercival/mercivalShoutEmeric
+      mercival_farewell: mercival/mercivalShoutFarewell
+      mercival_greetings: mercival/mercivalShoutGreetings
+      mercival_hellooldfriend: mercival/mercivalShoutHelloOldFriend
+      mercival_hit1: mercival/mercivalShoutHit1
+      mercival_hit2: mercival/mercivalShoutHit2
+      mercival_hit3: mercival/mercivalShoutHit3
+      mercival_hit4: mercival/mercivalShoutHit4
+      mercival_hmph: mercival/mercivalShoutHmph
+      mercival_iamwithyou: mercival/mercivalShoutIAmWithYou
+      mercival_ibelieveinyou: mercival/mercivalShoutIBelieveInYou
+      mercival_itsinsafehands: mercival/mercivalShoutItsInSafeHands
+      mercival_laugh1: mercival/mercivalShoutLaugh1
+      mercival_laugh2: mercival/mercivalShoutLaugh2
+      mercival_laugh3: mercival/mercivalShoutLaugh3
+      mercival_listen: mercival/mercivalShoutListen
+      mercival_mercia1: mercival/mercivalShoutMercia1
+      mercival_mercia2: mercival/mercivalShoutMercia2
+      mercival_mylittlebluebird1: mercival/mercivalShoutMyLittleBlueBird1
+      mercival_mylittlebluebird2: mercival/mercivalShoutMyLittleBlueBird2
+      mercival_no: mercival/mercivalShoutNo
+      mercival_offwego: mercival/mercivalShoutOffWeGo
+      mercival_safehands: mercival/mercivalShoutSafeHands
+      mercival_sigh: mercival/mercivalShoutSigh
+      mercival_steelyourself: mercival/mercivalShoutSteelYourself
+      mercival_tellmercia: mercival/mercivalShoutTellMercia
+      mercival_thankyou: mercival/mercivalShoutThankYou
+      mercival_thelightshallnotfade: mercival/mercivalShoutTheLightShallNotFade
+      mercival_themorethemerrier: mercival/mercivalShoutTheMoreTheMerrier
+      mercival_thisshallserveuswell: mercival/mercivalShoutThisShallServeUsWell
+      mercival_toarms: mercival/mercivalShoutToArms
+      mercival_togetherwestand: mercival/mercivalShoutTogetherWeStand
+      mercival_verywellthen: mercival/mercivalShoutVeryWellThen
+      mercival_weshallprevail: mercival/mercivalShoutWeShallPrevail
+      mercival_what: mercival/mercivalShoutWhat
+      mercival_whoops: mercival/mercivalShoutWhoops
+      mercival_worthyadversary: mercival/mercivalShoutWorthyAdversary
+      mercival_yes: mercival/mercivalShoutYes
+      mercival_youhaveneverletmedown: mercival/mercivalShoutYouHaveNeverLetMeDown
+      mercival_youhavetoknowthesethings: mercival/mercivalShoutYouHaveToKnowTheseThings
+      mercival_youmustlisten: mercival/mercivalShoutYouMustListen
+      mercival_ghost_attack1: mercival/mercivalGhostShoutAttack1
+      mercival_ghost_attack2: mercival/mercivalGhostShoutAttack2
+      mercival_ghost_attack3: mercival/mercivalGhostShoutAttack3
+      mercival_ghost_attack4: mercival/mercivalGhostShoutAttack4
+      mercival_ghost_die: mercival/mercivalGhostShoutDie
+      mercival_ghost_didnthavetobethisway: mercival/mercivalGhostShoutDidntHaveToBeThisWay
+      mercival_ghost_donotfalter: mercival/mercivalGhostShoutDoNotFalter
+      mercival_ghost_donotlosehope: mercival/mercivalGhostShoutDoNotLoseHope
+      mercival_ghost_donotholdback: mercival/mercivalGhostShoutDontHoldBack
+      mercival_ghost_doyouunderstand: mercival/mercivalGhostShoutDoYouUnderstand
+      mercival_ghost_emeric: mercival/mercivalGhostShoutEmeric
+      mercival_ghost_farewell: mercival/mercivalGhostShoutFarewell
+      mercival_ghost_greetings: mercival/mercivalGhostShoutGreetings
+      mercival_ghost_hellooldfriend: mercival/mercivalGhostShoutHelloOldFriend
+      mercival_ghost_hit1: mercival/mercivalGhostShoutHit1
+      mercival_ghost_hit2: mercival/mercivalGhostShoutHit2
+      mercival_ghost_hit3: mercival/mercivalGhostShoutHit3
+      mercival_ghost_hit4: mercival/mercivalGhostShoutHit4
+      mercival_ghost_hmph: mercival/mercivalGhostShoutHmph
+      mercival_ghost_iamwithyou: mercival/mercivalGhostShoutIAmWithYou
+      mercival_ghost_ibelieveinyou: mercival/mercivalGhostShoutIBelieveInYou
+      mercival_ghost_itsinsafehands: mercival/mercivalGhostShoutItsInSafeHands
+      mercival_ghost_laugh1: mercival/mercivalGhostShoutLaugh1
+      mercival_ghost_laugh2: mercival/mercivalGhostShoutLaugh2
+      mercival_ghost_laugh3: mercival/mercivalGhostShoutLaugh3
+      mercival_ghost_listen: mercival/mercivalGhostShoutListen
+      mercival_ghost_mercia1: mercival/mercivalGhostShoutMercia1
+      mercival_ghost_mercia2: mercival/mercivalGhostShoutMercia2
+      mercival_ghost_mylittlebluebird1: mercival/mercivalGhostShoutMyLittleBlueBird1
+      mercival_ghost_mylittlebluebird2: mercival/mercivalGhostShoutMyLittleBlueBird2
+      mercival_ghost_no: mercival/mercivalGhostShoutNo
+      mercival_ghost_offwego: mercival/mercivalGhostShoutOffWeGo
+      mercival_ghost_safehands: mercival/mercivalGhostShoutSafeHands
+      mercival_ghost_sigh: mercival/mercivalGhostShoutSigh
+      mercival_ghost_steelyourself: mercival/mercivalGhostShoutSteelYourself
+      mercival_ghost_tellmercia: mercival/mercivalGhostShoutTellMercia
+      mercival_ghost_thankyou: mercival/mercivalGhostShoutThankYou
+      mercival_ghost_thelightshallnotfade: mercival/mercivalGhostShoutTheLightShallNotFade
+      mercival_ghost_themorethemerrier: mercival/mercivalGhostShoutTheMoreTheMerrier
+      mercival_ghost_thisshallserveuswell: mercival/mercivalGhostShoutThisShallServeUsWell
+      mercival_ghost_toarms: mercival/mercivalGhostShoutToArms
+      mercival_ghost_togetherwestand: mercival/mercivalGhostShoutTogetherWeStand
+      mercival_ghost_verywellthen: mercival/mercivalGhostShoutVeryWellThen
+      mercival_ghost_weshallprevail: mercival/mercivalGhostShoutWeShallPrevail
+      mercival_ghost_what: mercival/mercivalGhostShoutWhat
+      mercival_ghost_whoops: mercival/mercivalGhostShoutWhoops
+      mercival_ghost_worthyadversary: mercival/mercivalGhostShoutWorthyAdversary
+      mercival_ghost_yes: mercival/mercivalGhostShoutYes
+      mercival_ghost_youhaveneverletmedown: mercival/mercivalGhostShoutYouHaveNeverLetMeDown
+      mercival_ghost_youhavetoknowthesethings: mercival/mercivalGhostShoutYouHaveToKnowTheseThings
+      mercival_ghost_youmustlisten: mercival/mercivalGhostShoutYouMustListen
+
+    alternativeAttackSounds:
+      no_voice: mercival/mercivalAttackNoVoice
+
+    hidden:
+      emotes:
+        - dead
+        - dying
+        - ghost_appear
+        - ghost_disappear
+        - ghost_fading
+        - ghost_talk
+        - ghost_idle
+      shouts:
+        - mercival_ghost_attack1
+        - mercival_ghost_attack2
+        - mercival_ghost_attack3
+        - mercival_ghost_attack4
+        - mercival_ghost_didnthavetobethisway
+        - mercival_ghost_die
+        - mercival_ghost_donotfalter
+        - mercival_ghost_donotlosehope
+        - mercival_ghost_donotholdback
+        - mercival_ghost_doyouunderstand
+        - mercival_ghost_emeric
+        - mercival_ghost_farewell
+        - mercival_ghost_greetings
+        - mercival_ghost_hellooldfriend
+        - mercival_ghost_hit1
+        - mercival_ghost_hit2
+        - mercival_ghost_hit3
+        - mercival_ghost_hit4
+        - mercival_ghost_hmph
+        - mercival_ghost_iamwithyou
+        - mercival_ghost_ibelieveinyou
+        - mercival_ghost_itsinsafehands
+        - mercival_ghost_laugh1
+        - mercival_ghost_laugh2
+        - mercival_ghost_laugh3
+        - mercival_ghost_listen
+        - mercival_ghost_mercia1
+        - mercival_ghost_mercia2
+        - mercival_ghost_mylittlebluebird1
+        - mercival_ghost_mylittlebluebird2
+        - mercival_ghost_no
+        - mercival_ghost_offwego
+        - mercival_ghost_safehands
+        - mercival_ghost_sigh
+        - mercival_ghost_steelyourself
+        - mercival_ghost_tellmercia
+        - mercival_ghost_thankyou
+        - mercival_ghost_thelightshallnotfade
+        - mercival_ghost_themorethemerrier
+        - mercival_ghost_thisshallserveuswell
+        - mercival_ghost_toarms
+        - mercival_ghost_togetherwestand
+        - mercival_ghost_verywellthen
+        - mercival_ghost_weshallprevail
+        - mercival_ghost_what
+        - mercival_ghost_whoops
+        - mercival_ghost_worthyadversary
+        - mercival_ghost_yes
+        - mercival_ghost_youhaveneverletmedown
+        - mercival_ghost_youhavetoknowthesethings
+        - mercival_ghost_youmustlisten
+        - mercival_hit3
+...

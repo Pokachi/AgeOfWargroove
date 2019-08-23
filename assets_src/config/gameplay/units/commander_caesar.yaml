@@ -1,0 +1,169 @@
+---
+
+weapons:
+  - id: caesarBite
+    rangeMin: 1
+    rangeMax: 1
+    canMoveAndAttack: true
+    baseDamage:
+      land: 1
+    tagDamage:
+      archer: 1.3
+      soldier: 0.95
+      villager: 0.95
+      spearman: 0.65
+      dog: 1.15
+      wagon: 0.7
+      knight: 0.55
+      trebuchet: 0.55
+      ballista: 0.6
+      dragon: 0.3
+      mage: 0.8
+      giant: 0.4
+      structure: 0.7
+      balloon: 0.55
+      harpy: 0.9
+      witch: 0.7
+      dragon: 0.35
+      commander: 0.4
+      
+      warship: 0.55
+      harpoonship: 0.45
+      turtle: 0.55
+      travelboat: 0.6
+      merman: 0.95
+
+unitClasses:
+  - id: commander_caesar
+    name: unit_class_name_commander
+    cost: 500
+    movement: walking
+    moveRange: 4
+    aiPriority: 8.0
+    regeneration: 5
+    weapons:
+      - id: caesarBite
+#      - id: bow
+        ammo: 5
+    verbs:
+      - load
+      - capture
+    tags:
+      - commander
+      - type.ground.light
+    battleUnitCount: 1
+    isCommander: true
+    grooveId: second_wind
+
+
+units:
+  - class: commander_caesar
+    faction: cherrystone
+    name: character_caesar_name
+    mapAnimation: units/commanders/caesar/map_caesar
+    battleAnimation: units/commanders/caesar/battle_caesar
+    battleAnimationRiver: fx/river_overlay/battle_caesar_river
+    smallPortrait: units/commanders/caesar/portrait_caesar_small.png
+    mediumPortrait: units/commanders/caesar/portrait_caesar_medium.png
+    menuIdleSequence: capture_idle
+    mapSpeed: 4.0
+    skinColour: typeV
+    grabPos: [27, 27]
+    deathMoveMin: 0
+    deathMoveMax: 0
+    sounds:
+      attackMap: unitAttack
+      attack1: caesar/caesarAttack1
+      attack2: caesar/caesarAttack2
+      attack3: caesar/caesarAttack3
+      counter: caesar/caesarCounterAttack
+      captureShout: caesar/caesarShoutExcited
+      death: caesar/caesarDie
+      deathMap: caesar/caesarDieGhost
+      deathMapNoBattle: caesar/caesarDieNoBattle
+      preIdle: caesar/caesarPreIdle
+      run: dogEntry
+      runMap: dogEntry
+      firstHit: caesar/caesarHit
+      hit: hitOrganic
+      hitMap: hitOrganic
+      groove: caesar/caesarGrooveIntro
+      cutsceneAttack: caesar/caesarAttackBarking
+    attacks:
+      - id: primary
+        attackAnimationSequence: counter
+        hitSpark: fx/bs_stab_attack
+        hitDelay: [1.0, 1.1]
+        samePanel: true
+        attackSound: counter
+      - id: secondary
+        attackAnimationSequence: [attack, attack2, attack3]
+        hitSpark: fx/bs_stab_attack
+        effect: fx/bs_caesar_attack
+        effectDelay: 0.7
+        hitDelay: [0.9, 1.1]
+        ranged: true
+        attackSound: [attack1, attack2, attack3]
+        postAttackAnimationSequence: post_attack_idle
+        postAttackHitSequence: post_attack_hit
+        postAttackDeathSequence: post_attack_death
+      - id: cutscene
+        attackAnimationSequence: [cutscene_attack]
+        hitSpark: fx/bs_stab_attack
+        effect: fx/bs_caesar_attack
+        effectDelay: 0.7
+        hitDelay: [0.9, 1.1]
+        ranged: true
+        attackSound: cutsceneAttack
+        postAttackAnimationSequence: post_attack_idle
+        postAttackHitSequence: post_attack_hit
+        postAttackDeathSequence: post_attack_death
+        cutsceneOnly: true
+    cutscenePreIdle: ""
+    cutsceneIdle: capture_idle
+    cutsceneHit: hit_foot
+    emotes:
+      idle: capture_idle
+      surprise: emote_surprise
+      positive: emote_positive
+      negative: emote_negative
+      laugh: emote_laugh
+      sniff: emote_sniff
+      hypno: emote_hypno
+      howl: emote_howl
+      unhappy: emote_unhappy
+      darkcaesar: emote_darkcaesar
+      dance: emote_dance
+    shouts:
+      caesar_bark1: caesar/caesarShoutBark1
+      caesar_bark2: caesar/caesarShoutBark2
+      caesar_bark3: caesar/caesarShoutBark3
+      caesar_bark4: caesar/caesarShoutBark4
+      caesar_bark5: caesar/caesarShoutBark5
+      caesar_bark6: caesar/caesarShoutBark6
+      caesar_barktwice: caesar/caesarShoutBarkTwice
+      caesar_excited: caesar/caesarShoutExcited
+      caesar_growl: caesar/caesarShoutGrowl
+      caesar_grumble: caesar/caesarShoutGrumble
+      caesar_howl: caesar/caesarShoutHowl
+      caesar_panting: caesar/caesarShoutPanting
+      caesar_hit1: caesar/caesarShoutHit1
+      caesar_hit2: caesar/caesarShoutHit2
+      caesar_hit3: caesar/caesarShoutHit3
+      caesar_hit4: caesar/caesarShoutHit4
+      caesar_whimper: caesar/caesarShoutWhimper
+
+    alternativeRuns:
+      - id: run_sniff
+
+    hidden:
+      shouts:
+        - caesar_bark2
+        - caesar_bark4
+        - caesar_bark5
+        - caesar_bark6
+        - caesar_hit2
+        - caesar_hit3
+      alternativeRuns:
+        - angry_run
+...

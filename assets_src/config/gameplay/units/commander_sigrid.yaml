@@ -1,0 +1,204 @@
+---
+
+weapons:
+  - id: sigridAttack
+    rangeMin: 1
+    rangeMax: 1
+    canMoveAndAttack: true
+    baseDamage:
+      land: 1
+    tagDamage:
+      archer: 1.3
+      soldier: 0.95
+      villager: 0.95
+      spearman: 0.65
+      dog: 1.15
+      wagon: 0.7
+      knight: 0.55
+      trebuchet: 0.55
+      ballista: 0.6
+      dragon: 0.3
+      mage: 0.8
+      giant: 0.4
+      structure: 0.7
+      balloon: 0.55
+      harpy: 0.9
+      witch: 0.7
+      dragon: 0.35
+      commander: 0.4
+      
+      warship: 0.55
+      harpoonship: 0.45
+      turtle: 0.55
+      travelboat: 0.6
+      merman: 0.95
+
+unitClasses:
+  - id: commander_sigrid
+    name: unit_class_name_commander
+    cost: 500
+    movement: walking
+    moveRange: 4
+    aiPriority: 8.0
+    regeneration: 5
+    weapons:
+      - id: sigridAttack
+#      - id: bow
+        ammo: 5
+    verbs:
+      - load
+      - capture
+    tags:
+      - commander
+      - type.ground.light
+    battleUnitCount: 1
+    isCommander: true
+    grooveId: vampiric_touch
+
+
+units:
+  - class: commander_sigrid
+    faction: felheim
+    name: character_sigrid_name
+    mapAnimation: units/commanders/sigrid/map_sigrid
+    battleAnimation: units/commanders/sigrid/battle_sigrid
+    battleAnimationRiver: fx/river_overlay/battle_sigrid_river
+    smallPortrait: units/commanders/sigrid/portrait_sigrid_small.png
+    mediumPortrait: units/commanders/sigrid/portrait_sigrid_medium.png
+    mapSpeed: 4.0
+    skinColour: typeI
+    grabPos: [34, 55]
+    deathMoveMin: 0
+    deathMoveMax: 0
+    attackRunTimeMin: 2.5
+    attackRunTimeMax: 3.5
+    sounds:
+      attackMap: unitAttack
+      attack: sigrid/sigridAttack
+      attackShout: sigrid/sigridPreAttack
+      counter: sigrid/sigridCounterAttack
+      captureShout: sigrid/sigridShoutCalmAmIInvited
+      attackCommander: sigrid/sigridCommanderKillAttack
+      attackCommanderShout: sigrid/sigridCommanderKillShout
+      death: sigrid/sigridDie
+      deathMap: sigrid/sigridDieGhost
+      deathMapNoBattle: sigrid/sigridDieNoBattle
+      run: infantryLightMapEntry
+      angryRun: balloonEntryMap
+      runMap: infantryLightMapEntry
+      firstHit: sigrid/sigridHit
+      hit: hitOrganic
+      hitMap: hitOrganic
+      groove: sigrid/sigridGrooveIntro
+    attacks:
+      - id: primary
+        hitSpark: fx/bs_stab_attack
+        hitDelay: [1.1]
+        ranged: false
+    emotes:
+      idle: idle
+      idle_floating: angry_run
+      surprise: emote_surprise
+      positive: emote_positive
+      negative: emote_negative
+      laugh: emote_laugh
+      attack: counter
+      idle_sword: emote_idle_sword
+      positive_sword: emote_positive_sword
+      brave_sword: emote_brave_sword
+      idle_flying: idle_flying
+      surprise_flying: emote_surprise_flying
+      key: emote_key
+      stab_loop: emote_stab_loop
+      stab: emote_stab
+      swordup: emote_swordup
+      swordswing: emote_swordswing
+      negative_sword: emote_negative_sword
+      dance: emote_dance
+    shouts:
+      sigrid_calminvited: sigrid/sigridShoutCalmAmIInvited
+      sigrid_calmareyouafraid: sigrid/sigridShoutCalmAreYouAfraid
+      sigrid_calmdeadtravelfast: sigrid/sigridShoutCalmDeadTravelFast
+      sigrid_calmfoughtmanybattles: sigrid/sigridShoutCalmFoughtManyBattles
+      sigrid_calmgoodbye: sigrid/sigridShoutCalmGoodbye
+      sigrid_calmhit1: sigrid/sigridShoutCalmHit1
+      sigrid_calmhit2: sigrid/sigridShoutCalmHit2
+      sigrid_calmhit3: sigrid/sigridShoutCalmHit3
+      sigrid_calmhit4: sigrid/sigridShoutCalmHit4
+      sigrid_calmhmm: sigrid/sigridShoutCalmHmm
+      sigrid_calmhmph: sigrid/sigridShoutCalmHmph
+      sigrid_calmhowfoolish: sigrid/sigridShoutCalmHowFoolish
+      sigrid_calmidontcare: sigrid/sigridShoutCalmIDontCare
+      sigrid_calmitssoclose: sigrid/sigridShoutCalmItsSoClose
+      sigrid_calmlaugh: sigrid/sigridShoutCalmLaugh1
+      sigrid_calmlaugh2: sigrid/sigridShoutCalmLaugh2
+      sigrid_calmlaugh3: sigrid/sigridShoutCalmLaugh3
+      sigrid_calmmortallife: sigrid/sigridShoutCalmMortalLife
+      sigrid_calmmortalsdieeasily: sigrid/sigridShoutCalmMortalsDieEasily
+      sigrid_calmno: sigrid/sigridShoutCalmNo
+      sigrid_calmolderthanilook: sigrid/sigridShoutCalmOlderThanILook
+      sigrid_calmqueenmercia: sigrid/sigridShoutCalmQueenMercia
+      sigrid_calmsigh: sigrid/sigridShoutCalmSigh
+      sigrid_calmsobeit: sigrid/sigridShoutCalmSoBeIt
+      sigrid_calmthisistiresome: sigrid/sigridShoutCalmThisIsTiresome
+      sigrid_calmvictorymeanslittle: sigrid/sigridShoutCalmVictoryMeansLittle
+      sigrid_calmwhat: sigrid/sigridShoutCalmWhat
+      sigrid_calmwhatisaman: sigrid/sigridShoutCalmWhatIsAMan
+      sigrid_calmwhatsurprised: sigrid/sigridShoutCalmWhatSurprised
+      sigrid_calmwhythankyou: sigrid/sigridShoutCalmWhyThankYou
+      sigrid_calmyes: sigrid/sigridShoutCalmYes
+      sigrid_calmyetanotherbattle: sigrid/sigridShoutCalmYetAnotherBattle
+      sigrid_feralattack1: sigrid/sigridShoutFeralAttack1
+      sigrid_feralattack2: sigrid/sigridShoutFeralAttack2
+      sigrid_feralattack3: sigrid/sigridShoutFeralAttack3
+      sigrid_feralattack4: sigrid/sigridShoutFeralAttack4
+      sigrid_feralbloodislife: sigrid/sigridShoutFeralBloodIsLife
+      sigrid_feralendyou: sigrid/sigridShoutFeralEndYou
+      sigrid_feralfacemenow: sigrid/sigridShoutFeralFaceMeNow
+      sigrid_feralfallbeforeme: sigrid/sigridShoutFeralFallBeforeMe
+      sigrid_feralhaveatyou: sigrid/sigridShoutFeralHaveAtYou
+      sigrid_feralhit1: sigrid/sigridShoutFeralHit1
+      sigrid_feralhit2: sigrid/sigridShoutFeralHit2
+      sigrid_feralhit3: sigrid/sigridShoutFeralHit3
+      sigrid_feralhit4: sigrid/sigridShoutFeralHit4
+      sigrid_feralihunger: sigrid/sigridShoutFeralIHunger
+      sigrid_feralkillyou: sigrid/sigridShoutFeralKillYou
+      sigrid_feralmynextvictim: sigrid/sigridShoutFeralMyNextVictim
+      sigrid_feralnowheretorun: sigrid/sigridShoutFeralNowhereToRun
+      sigrid_feralsohungry: sigrid/sigridShoutFeralSoHungry
+      sigrid_feralvampiricforce: sigrid/sigridShoutFeralVampiricForce
+      sigrid_feralwaitedlongenough: sigrid/sigridShoutFeralWaitedLongEnough
+      sigrid_feralwhat: sigrid/sigridShoutFeralWhat
+      sigrid_feralwhereisit: sigrid/sigridShoutFeralWhereIsIt
+      sigrid_feralyouarenothing: sigrid/sigridShoutFeralYouAreNothing
+      sigrid_feralscream1: sigrid/sigridShoutFeralScream1
+      sigrid_feralscream2: sigrid/sigridShoutFeralScream2
+      sigrid_feralscream3: sigrid/sigridShoutFeralScream3
+    alternativeRuns:
+      - id: run_sword
+      - id: angryrun_sword
+        sound: balloonEntryMap
+      - id: idle_flying
+        sound: balloonEntryMap
+
+    alternativeAttackSounds:
+      no_voice: sigrid/sigridAttackNoVoice
+      
+    hidden:
+      emotes:
+        - attack
+        - idle_sword
+        - brave_sword
+        - key
+        - stab_loop
+        - stab
+        - swordup
+        - swordswing
+        - negative_sword
+        - positive_sword
+      shouts:
+        - sigrid_feralattack2
+      alternativeRuns:
+        - run_sword
+        - angryrun_sword
+...

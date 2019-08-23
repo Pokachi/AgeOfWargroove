@@ -57,21 +57,21 @@ function Actions.modifyCurrentPopulation(context)
                 local popCapUnit = Wargroove.getUnitAt({ x = -91, y = -12 })
                 popCapUnit.pos = { x = -99, y = -99 }
                 popCapUnit:setHealth(popCap, -1)
-                Wargroove.updateUnit(popCapUnit)
                 table.insert(u.loadedUnits, popCapUnit.id)
                 popCapUnit.inTransport = true
                 popCapUnit.transportedBy = u.id
+                Wargroove.updateUnit(popCapUnit)
                 
                 Wargroove.spawnUnit(-1, { x = -91, y = -12 }, "villager", true, "")
                 Wargroove.waitFrame()
                 local currentPopUnit = Wargroove.getUnitAt({ x = -91, y = -12 })
                 currentPopUnit.pos = { x = -99, y = -99 }
                 currentPopUnit:setHealth(currentPop, -1)
-                Wargroove.updateUnit(currentPopUnit)
                 table.insert(u.loadedUnits, currentPopUnit.id)
                 currentPopUnit.inTransport = true
                 currentPopUnit.transportedBy = u.id
                 Wargroove.updateUnit(u)
+                Wargroove.updateUnit(currentPopUnit)
             end
                 
         end

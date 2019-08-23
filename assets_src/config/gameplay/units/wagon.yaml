@@ -1,0 +1,8 @@
+---
+
+modifyingUnitClasses:
+  - id: wagon
+    replace:
+        transportTags: [ type.ground.light, type.amphibious, type.ground.villager ]
+
+...

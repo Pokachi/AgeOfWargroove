@@ -34,8 +34,9 @@ function TechUp:execute(unit, targetPos, strParam, path)
     local techUpCost = AOW.getTechUpCost(AOW.getTechLevel(unit.playerId))
     AOW.setTechLevel(unit.playerId, newTechLevel)
     
-    
     Wargroove.changeMoney(unit.playerId, -techUpCost)
+    
+    Wargroove.showDialogueBox("neutral", "generic_outlaw", "player " .. tostring(unit.playerId + 1) .. " has reached tech level " .. tostring(newTechLevel), "")
     
 end
 
