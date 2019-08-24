@@ -22,9 +22,9 @@ units:
   - class: gold
     faction: neutral
     name: structure_name_gold
-    mapAnimation: [units/structures/gold_mine_1, units/structures/gold_mine_2, units/structures/gold_mine_3]
+    mapAnimation: [units/structures/gold/map_gold_mine_1, units/structures/gold/map_gold_mine_2, units/structures/gold/map_gold_mine_3]
     smallPortrait: portraits/small/portrait_structure_small.png
-    mediumPortrait: units/structures/gold_mine_medium.png
+    mediumPortrait: units/structures/gold/portrait_gold_mine_medium.png
     grabPos: [12, 5]
     sounds:
       hit: hitWood

@@ -12,5 +12,5 @@ en-GB:
     equipment_name_short_sword: Short Sword
     unit_description_gold: Vaulable resources. Can be mined by constructing a mining camp on top of it and staff it with villagers
     unit_description_gold_camp: Mining camp for gold. Garrison with villagers to start mining 50 gold per villager per turn
-    unit_description_short_sword: Plain short sword. Increases minimal damage dealt by 3%
+    unit_description_short_sword: Well forged short sword. Increases minimal damage dealt by 3%
 ...

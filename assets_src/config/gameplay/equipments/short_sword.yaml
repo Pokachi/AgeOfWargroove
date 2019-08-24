@@ -6,11 +6,12 @@ unitClasses:
     aiPriority: 2.0
     moveRange: 0
     isStructure: false
+    classIconSpritesheet: ui_AgeOfWarGrooveMod
     canReinforce: false
     canBeReinforced: false
     canBeCaptured: false
-    isNeutraliseable: true
-    damageMultiplier: 10
+    isNeutraliseable: false
+    damageMultiplier: 1
     hostileNeutral: true
     garrisonUnit: ""
     movement: hovering
@@ -18,27 +19,20 @@ unitClasses:
     cost: 250
     tags:
       - equipment
-      
+
 units:
   - class: short_sword
     faction: neutral
     name: equipment_name_short_sword
-    mapAnimation: [units/equipments/short_sword]
-    smallPortrait: units/equipments/short_sword_small.png
-    mediumPortrait: units/equipments/short_sword_medium.png
+    mapAnimation: units/equipments/short_sword/map_short_sword
+    smallPortrait: units/equipments/short_sword/portrait_short_sword_small.png
+    mediumPortrait: units/equipments/short_sword/portrait_short_sword_medium.png
+    battleAnimation: units/equipments/short_sword/battle_short_sword
     grabPos: [12, 5]
     hasBattleScreen: false
     sounds:
       hit: hitWood
       hitMap: hitStone
       death: gateDie
-    structureImage:
-      spriteSheet: backgrounds/city/city_background_full
-      farBackground: city_background_full_background_2
-      nearBackground: city_background_full_background_1
-      foreground: city_background_full_foreground
-      keeperPosition: [78, 95]
-      leftBannerOffset: [-6, 2]
-      rightBannerOffset: [0, 2]
 
 ...
