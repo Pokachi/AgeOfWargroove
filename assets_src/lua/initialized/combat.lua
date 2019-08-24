@@ -121,26 +121,32 @@ function Combat:getDamage(attacker, defender, solveType, isCounter, attackerPos,
 
     local randomMinModifier = 0
     local randomMaxModifier = 0
+    local damageModifier = 0
     if attacker.loadedUnits ~= nil and #attacker.loadedUnits > 0 then
         for i, uid in ipairs(attacker.loadedUnits) do
             local u = Wargroove.getUnitById(uid)
             randomMinModifier = randomMinModifier + Equipment.getAttackerRandomMinModifier(u.unitClassId)
             randomMaxModifier = randomMaxModifier + Equipment.getAttackerRandomMaxModifier(u.unitClassId)
+            damageModifier = damageModifier + Equipment.getAttackerDamageModifier(u.unitClassId)
         end
     end
 
-	local damage = self:solveDamage(baseDamage, attackerEffectiveness, defenderEffectiveness, terrainDefenceBonus, randomValue, multiplier, randomMinModifier, randomMaxModifier)
+	local damage = self:solveDamage(baseDamage, attackerEffectiveness, defenderEffectiveness, terrainDefenceBonus, randomValue, multiplier, randomMinModifier, randomMaxModifier, damageModifier)
 
 	local hasPassive = passiveMultiplier > 1.01
 	return damage, hasPassive
 end
 
-function Combat:solveDamage(weaponDamage, attackerEffectiveness, defenderEffectiveness, terrainDefenceBonus, randomValue, multiplier, randomMinModifier, randomMaxModifier)
-    local modifiedRandomMin = randomMinModifier + randomDamageMin
+function Combat:solveDamage(weaponDamage, attackerEffectiveness, defenderEffectiveness, terrainDefenceBonus, randomValue, multiplier, randomMinModifier, randomMaxModifier, damageModifier)
     local modifiedRandomMax = randomMaxModifier + randomDamageMax
+    local modifiedRandomMin = randomMinModifier + randomDamageMin
+    if modifiedRandomMin > modifiedRandomMax then
+        modifiedRandomMax = modifiedRandomMax + 2
+        modifiedRandomMin = modifiedRandomMin + 2
+    end
 	local randomBonus = modifiedRandomMin + (modifiedRandomMax - modifiedRandomMin) * randomValue
 
-	local offence = weaponDamage + randomBonus
+	local offence = weaponDamage + randomBonus + damageModifier
 	local defence = defenderEffectiveness * math.max(0, terrainDefenceBonus) - math.max(0, -terrainDefenceBonus)
 	local damage = attackerEffectiveness * offence * (1.0 - defence) * multiplier
 

@@ -1,8 +1,8 @@
 ---
 
 unitClasses:
-  - id: short_sword
-    name: equipment_name_short_sword
+  - id: dagger
+    name: equipment_name_dagger
     aiPriority: 2.0
     moveRange: 0
     isStructure: false
@@ -21,13 +21,13 @@ unitClasses:
       - equipment
 
 units:
-  - class: short_sword
+  - class: dagger
     faction: neutral
-    name: equipment_name_short_sword
-    mapAnimation: units/equipments/short_sword/map_short_sword
-    smallPortrait: units/equipments/short_sword/portrait_short_sword_small.png
-    mediumPortrait: units/equipments/short_sword/portrait_short_sword_medium.png
-    battleAnimation: units/equipments/short_sword/battle_short_sword
+    name: equipment_name_dagger
+    mapAnimation: units/equipments/dagger/map_dagger
+    smallPortrait: units/equipments/dagger/portrait_dagger_small.png
+    mediumPortrait: units/equipments/dagger/portrait_dagger_medium.png
+    battleAnimation: units/equipments/dagger/battle_dagger
     grabPos: [12, 5]
     hasBattleScreen: false
     sounds:

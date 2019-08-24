@@ -1,8 +1,8 @@
 ---
 
 unitClasses:
-  - id: short_sword
-    name: equipment_name_short_sword
+  - id: axe
+    name: equipment_name_axe
     aiPriority: 2.0
     moveRange: 0
     isStructure: false
@@ -21,13 +21,13 @@ unitClasses:
       - equipment
 
 units:
-  - class: short_sword
+  - class: axe
     faction: neutral
-    name: equipment_name_short_sword
-    mapAnimation: units/equipments/short_sword/map_short_sword
-    smallPortrait: units/equipments/short_sword/portrait_short_sword_small.png
-    mediumPortrait: units/equipments/short_sword/portrait_short_sword_medium.png
-    battleAnimation: units/equipments/short_sword/battle_short_sword
+    name: equipment_name_axe
+    mapAnimation: units/equipments/axe/map_axe
+    smallPortrait: units/equipments/axe/portrait_axe_small.png
+    mediumPortrait: units/equipments/axe/portrait_axe_medium.png
+    battleAnimation: units/equipments/axe/battle_axe
     grabPos: [12, 5]
     hasBattleScreen: false
     sounds:

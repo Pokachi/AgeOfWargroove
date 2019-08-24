@@ -1,5 +1,6 @@
 local Wargroove = require "wargroove/wargroove"
 local Verb = require "wargroove/verb"
+local Inspect = require "inspect"
 
 local PickUp = Verb:new()
 
