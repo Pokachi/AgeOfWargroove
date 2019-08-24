@@ -1,6 +1,7 @@
 local Wargroove = require "wargroove/wargroove"
 local Verb = require "wargroove/verb"
 local AOW = require "age_of_wargroove/age_of_wargroove"
+local AI = require "age_of_wargroove/ai"
 local Constants = require "constants"
 
 local Mine = Verb:new()
@@ -51,4 +52,11 @@ function Mine:onPostUpdateUnit(unit, targetPos, strParam, path)
     unit.pos = { x = -100, y = -100 }
 end
 
+function Mine:generateOrders(unitId, canMove)
+    return AI.placeVillagerInMineOrders(unitId, canMove)
+end
+
+function Mine:getScore(unitId, order)
+    return AI.placeVillagerInMineScore(unitId, order)
+end
 return Mine
