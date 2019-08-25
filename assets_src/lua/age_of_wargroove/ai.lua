@@ -11,6 +11,9 @@ local AIGlobals = {}
 
 function AI.updateAIGlobals(playerId)    
     local allUnits = Wargroove.getAllUnitsForPlayer(playerId, true)
+    if playerId == nil then
+        return
+    end
     AIGlobals[playerId] = {barracks=0, towers=0, ports=0, goldPos={}, villagers=0, goldCamps=0}
     for i, unit in ipairs(allUnits) do
         local unitClassId = unit.unitClass.id
@@ -27,7 +30,6 @@ function AI.updateAIGlobals(playerId)
         elseif unitClassId == "gold_camp" then
             AIGlobals[playerId].goldCamps = AIGlobals[playerId].goldCamps + 1
         end
-        
     end
 end
 
@@ -87,21 +89,21 @@ end
 
 function AI.buildUnitOrders(unitId, canMove, classToRecruit)
     local orders = {}
-    if ( not canMove ) then
-        return orders
-    end
     
     local unit = Wargroove.getUnitById(unitId)
     local unitClass = Wargroove.getUnitClass(unit.unitClassId)
     local money = Wargroove.getMoney(unit.playerId)
     local recruitClass = Wargroove.getUnitClass(classToRecruit)
     local recruitCost = recruitClass.cost
+    print("0")
     if money < recruitCost then
         return orders
     end
-    if AOW.getPopulationCap(playerId) >= AOW.getCurrentPopulation(playerId) then
+    print("1")
+    if AOW.getPopulationCap(unit.playerId) <= AOW.getCurrentPopulation(unit.playerId) then
         return orders
     end
+    print("2")
     
     local targets = {{x=1,y=0},{x=-1,y=0},{x=0,y=1},{x=0,y=-1}}
     
@@ -111,11 +113,12 @@ function AI.buildUnitOrders(unitId, canMove, classToRecruit)
             table.insert(orders, { targetPosition = target, strParam = classToRecruit, movePosition = unit.pos, endPosition = unit.pos })
         end
     end
+    print("Orders: " .. inspect(orders))
     return orders
 end
 
 function AI.buildUnitScore(unitId, order)
-    return { score = 1, healthDelta = 0, introspection = {}}
+    return { score = 25, healthDelta = 0, introspection = {}}
 end
 
 function AI.placeVillagerInMineOrders(unitId, canMove)
@@ -216,13 +219,13 @@ function AI.placeStructureOrders(unitId, canMove, classToRecruit)
     if money < recruitCost then
         return orders
     end
-    if recruitClass == "barracks" and AIGlobals[unit.playerId].barracks >= 2 then
+    if classToRecruit == "barracks" and AIGlobals[unit.playerId].barracks >= 2 then
         return orders
     end
-    if recruitClass == "tower" and AIGlobals[unit.playerId].towers >= 1 then
+    if classToRecruit == "tower" and AIGlobals[unit.playerId].towers >= 1 then
         return orders
     end
-    if recruitClass == "port" and AIGlobals[unit.playerId].ports >= 1 then
+    if classToRecruit == "port" and AIGlobals[unit.playerId].ports >= 1 then
         return orders
     end
     local movePositions = {}
@@ -248,18 +251,24 @@ function AI.placeStructureScore(unitId, order)
     local unitClass = Wargroove.getUnitClass(unit.unitClassId)
     local endPos = order.endPosition
     local unitsInRange = Wargroove.getTargetsInRange(endPos, 2, "unit")
-    local score = 25
+    local score = -1
     local popDiff = AOW.getPopulationCap(unit.playerId) - AOW.getCurrentPopulation(unit.playerId)
-    if order.strParam == "city" or order.strParam == "water_city" and popDiff <= 1 then
+    if (order.strParam == "city" or order.strParam == "water_city") and popDiff <= 1 then
         score = 80
     else
-        score = -1
+        score = -80
     end
     if order.strParam == "hq" and popDiff <= 1 then
         score = 68 + AOW.getPopulationCap(unit.playerId)
     end
     if order.strParam == "barracks" then
         score = 10 * AIGlobals[unit.playerId].villagers - AIGlobals[unit.playerId].barracks * 30
+    end
+    if order.strParam == "tower" then
+        score = 15
+    end
+    if order.strParam == "port" then
+        score = 15
     end
     for i,targetPos in ipairs(unitsInRange) do
         local u = Wargroove.getUnitAt(targetPos)
@@ -268,10 +277,10 @@ function AI.placeStructureScore(unitId, order)
                 score = score - 30
             end
             if u.unitClass.id == "city" then
-                score = score - 1
+                score = score - 3
             end
             if u.unitClass.id == "barracks" or u.unitClass.id == "tower" then
-                score = score - 2
+                score = score - 5
             end
         end
     end
