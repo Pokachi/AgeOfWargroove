@@ -16,6 +16,25 @@ local randomDamageMax = 0.1
 function Combat:init()
     OriginalCombat.getDamage = Combat.getDamage
     OriginalCombat.solveDamage = Combat.solveDamage
+    OriginalCombat.getBestWeapon = Combat.getBestWeapon
+end
+
+function Combat:getBestWeapon(attacker, defender, delta, moved, facing)
+	assert(facing ~= nil)
+    
+    Equipment.addBowForCommander(attacker)
+
+	local weapons = attacker.unitClass.weapons
+		for i, weapon in ipairs(weapons) do
+            if OriginalCombat:canUseWeapon(weapon, moved, delta, facing) then
+				local dmg = Wargroove.getWeaponDamage(weapon, defender, facing)
+            if dmg > 0.0001 then
+                return weapon, dmg
+            end
+        end
+    end
+
+	return nil, 0.0
 end
 
 function Combat:getDamage(attacker, defender, solveType, isCounter, attackerPos, defenderPos, attackerPath, isGroove, grooveWeaponIdOverride)
@@ -102,7 +121,7 @@ function Combat:getDamage(attacker, defender, solveType, isCounter, attackerPos,
 			baseDamage = Wargroove.getWeaponDamageForceGround(weapon, defender)
 		end
 	else	
-		weapon, baseDamage = OriginalCombat:getBestWeapon(effectiveAttacker, defender, delta, moved, attackerPos.facing)
+		weapon, baseDamage = self:getBestWeapon(effectiveAttacker, defender, delta, moved, attackerPos.facing)
 	end
 
 	if weapon == nil or (isCounter and not weapon.canMoveAndAttack) or baseDamage < 0.01 then
@@ -130,6 +149,14 @@ function Combat:getDamage(attacker, defender, solveType, isCounter, attackerPos,
             damageModifier = damageModifier + Equipment.getAttackerDamageModifier(u.unitClassId)
         end
     end
+    if defender.loadedUnits ~= nil and #defender.loadedUnits > 0 then
+        for i, uid in ipairs(defender.loadedUnits) do
+            local u = Wargroove.getUnitById(uid)
+            randomMinModifier = randomMinModifier - Equipment.getDefenderRandomMinModifier(u.unitClassId)
+            randomMaxModifier = randomMaxModifier - Equipment.getDefenderRandomMaxModifier(u.unitClassId)
+            damageModifier = damageModifier - Equipment.getDefenderDamageModifier(u.unitClassId)
+        end
+    end
 
 	local damage = self:solveDamage(baseDamage, attackerEffectiveness, defenderEffectiveness, terrainDefenceBonus, randomValue, multiplier, randomMinModifier, randomMaxModifier, damageModifier)
 
@@ -141,8 +168,8 @@ function Combat:solveDamage(weaponDamage, attackerEffectiveness, defenderEffecti
     local modifiedRandomMax = randomMaxModifier + randomDamageMax
     local modifiedRandomMin = randomMinModifier + randomDamageMin
     if modifiedRandomMin > modifiedRandomMax then
-        modifiedRandomMax = modifiedRandomMax + 2
-        modifiedRandomMin = modifiedRandomMin + 2
+        modifiedRandomMax = (modifiedRandomMin + modifiedRandomMax) / 2
+        modifiedRandomMin = modifiedRandomMax
     end
 	local randomBonus = modifiedRandomMin + (modifiedRandomMax - modifiedRandomMin) * randomValue
 

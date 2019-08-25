@@ -1,8 +1,8 @@
 ---
 
 unitClasses:
-  - id: short_sword
-    name: equipment_name_short_sword
+  - id: rare_sword
+    name: equipment_name_rare_sword
     aiPriority: 2.0
     moveRange: 0
     isStructure: false
@@ -16,18 +16,18 @@ unitClasses:
     garrisonUnit: ""
     movement: walking
     income: 0
-    cost: 350
+    cost: 750
     tags:
       - equipment
 
 units:
-  - class: short_sword
+  - class: rare_sword
     faction: neutral
-    name: equipment_name_short_sword
-    mapAnimation: units/equipments/short_sword/map_short_sword
-    smallPortrait: units/equipments/short_sword/portrait_short_sword_small.png
-    mediumPortrait: units/equipments/short_sword/portrait_short_sword_medium.png
-    battleAnimation: units/equipments/short_sword/battle_short_sword
+    name: equipment_name_rare_sword
+    mapAnimation: units/equipments/rare_sword/map_rare_sword
+    smallPortrait: units/equipments/rare_sword/portrait_rare_sword_small.png
+    mediumPortrait: units/equipments/rare_sword/portrait_rare_sword_medium.png
+    battleAnimation: units/equipments/rare_sword/battle_rare_sword
     grabPos: [12, 5]
     hasBattleScreen: false
     sounds:
