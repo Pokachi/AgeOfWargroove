@@ -1,0 +1,38 @@
+---
+
+unitClasses:
+  - id: rare_shield
+    name: equipment_name_rare_shield
+    aiPriority: 2.0
+    moveRange: 0
+    isStructure: false
+    classIconSpritesheet: ui_AgeOfWarGrooveMod
+    canReinforce: false
+    canBeReinforced: false
+    canBeCaptured: false
+    isNeutraliseable: false
+    damageMultiplier: 1
+    hostileNeutral: true
+    garrisonUnit: ""
+    movement: walking
+    income: 0
+    cost: 750
+    tags:
+      - equipment
+
+units:
+  - class: rare_shield
+    faction: neutral
+    name: equipment_name_rare_shield
+    mapAnimation: units/equipments/rare_shield/map_rare_shield
+    smallPortrait: units/equipments/rare_shield/portrait_rare_shield_small.png
+    mediumPortrait: units/equipments/rare_shield/portrait_rare_shield_medium.png
+    battleAnimation: units/equipments/rare_shield/battle_rare_shield
+    grabPos: [12, 5]
+    hasBattleScreen: false
+    sounds:
+      hit: hitWood
+      hitMap: hitStone
+      death: gateDie
+
+...

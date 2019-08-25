@@ -1,0 +1,37 @@
+---
+
+weapons:
+  - id: commanderBow
+    rangeMin: 1
+    rangeMax: 3
+    canMoveAndAttack: true
+    baseDamage:
+      land: 1
+      air: 1
+      water: 1
+    tagDamage:
+      archer: 0.65
+      soldier: 0.45
+      villager: 0.45
+      spearman: 0.3
+      dog: 0.55
+      wagon: 0.35
+      knight: 0.25
+      trebuchet: 0.25
+      ballista: 0.3
+      dragon: 0.15
+      mage: 0.4
+      giant: 0.2
+      structure: 0.35
+      balloon: 0.25
+      harpy: 0.45
+      witch: 0.35
+      commander: 0.2
+      
+      warship: 0.25
+      harpoonship: 0.20
+      turtle: 0.25
+      travelboat: 0.3
+      merman: 0.45
+
+...

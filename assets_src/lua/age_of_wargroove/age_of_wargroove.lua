@@ -95,6 +95,7 @@ function AgeOfWargroove.getTechLevel(playerId)
     state.techLevel={}
     local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
     local techLevelString = Wargroove.getUnitState(globalStateUnit, "techLevel")
+
     if techLevelString ~= nil then
         state.techLevel = (loadstring or load)("return "..techLevelString)()
     end

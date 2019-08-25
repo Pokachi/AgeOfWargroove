@@ -14,9 +14,9 @@ unitClasses:
     damageMultiplier: 1
     hostileNeutral: true
     garrisonUnit: ""
-    movement: hovering
+    movement: walking
     income: 0
-    cost: 250
+    cost: 350
     tags:
       - equipment
 

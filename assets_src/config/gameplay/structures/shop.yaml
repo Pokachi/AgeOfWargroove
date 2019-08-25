@@ -1,0 +1,42 @@
+---
+
+unitClasses:
+  - id: shop
+    name: structure_name_shop
+    aiPriority: 2.0
+    moveRange: 0
+    isStructure: true
+    canReinforce: false
+    canBeReinforced: false
+    canBeCaptured: false
+    isNeutraliseable: true
+    damageMultiplier: 0
+    hostileNeutral: true
+    movement: land_building
+    income: 0
+    cost: 300
+    tags:
+      - structure
+      
+units:
+  - class: shop
+    faction: neutral
+    name: structure_name_gold
+    mapAnimation: units/structures/shop/map_shop
+    smallPortrait: portraits/small/portrait_structure_small.png
+    mediumPortrait: units/structures/shop/portrait_shop_medium.png
+    grabPos: [12, 5]
+    sounds:
+      hit: hitWood
+      hitMap: hitStone
+      death: gateDie
+    structureImage:
+      spriteSheet: backgrounds/city/city_background_full
+      farBackground: city_background_full_background_2
+      nearBackground: city_background_full_background_1
+      foreground: city_background_full_foreground
+      keeperPosition: [78, 95]
+      leftBannerOffset: [-6, 2]
+      rightBannerOffset: [0, 2]
+
+...

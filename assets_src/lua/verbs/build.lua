@@ -151,6 +151,8 @@ function Build:execute(unit, targetPos, strParam, path)
     
     if (uc.id == "city" or uc.id == "water_city") then
         AOW.setPopulationCap(unit.playerId, AOW.getPopulationCap(unit.playerId) + Constants.populationPerVillage)
+    elseif (uc.id == "hq") then
+        AOW.setPopulationCap(unit.playerId, AOW.getPopulationCap(unit.playerId) + Constants.populationPerHQ)
     end
     
     Wargroove.updateUnit(newUnit)

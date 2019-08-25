@@ -1,0 +1,38 @@
+---
+
+unitClasses:
+  - id: shield
+    name: equipment_name_shield
+    aiPriority: 2.0
+    moveRange: 0
+    isStructure: false
+    classIconSpritesheet: ui_AgeOfWarGrooveMod
+    canReinforce: false
+    canBeReinforced: false
+    canBeCaptured: false
+    isNeutraliseable: false
+    damageMultiplier: 1
+    hostileNeutral: true
+    garrisonUnit: ""
+    movement: walking
+    income: 0
+    cost: 350
+    tags:
+      - equipment
+
+units:
+  - class: shield
+    faction: neutral
+    name: equipment_name_shield
+    mapAnimation: units/equipments/shield/map_shield
+    smallPortrait: units/equipments/shield/portrait_shield_small.png
+    mediumPortrait: units/equipments/shield/portrait_shield_medium.png
+    battleAnimation: units/equipments/shield/battle_shield
+    grabPos: [12, 5]
+    hasBattleScreen: false
+    sounds:
+      hit: hitWood
+      hitMap: hitStone
+      death: gateDie
+
+...

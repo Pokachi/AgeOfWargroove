@@ -1,0 +1,38 @@
+---
+
+unitClasses:
+  - id: bow
+    name: equipment_name_bow
+    aiPriority: 2.0
+    moveRange: 0
+    isStructure: false
+    classIconSpritesheet: ui_AgeOfWarGrooveMod
+    canReinforce: false
+    canBeReinforced: false
+    canBeCaptured: false
+    isNeutraliseable: false
+    damageMultiplier: 1
+    hostileNeutral: true
+    garrisonUnit: ""
+    movement: walking
+    income: 0
+    cost: 450
+    tags:
+      - equipment
+
+units:
+  - class: bow
+    faction: neutral
+    name: equipment_name_bow
+    mapAnimation: units/equipments/bow/map_bow
+    smallPortrait: units/equipments/bow/portrait_bow_small.png
+    mediumPortrait: units/equipments/bow/portrait_bow_medium.png
+    battleAnimation: units/equipments/bow/battle_bow
+    grabPos: [12, 5]
+    hasBattleScreen: false
+    sounds:
+      hit: hitWood
+      hitMap: hitWood
+      death: gateDie
+
+...
