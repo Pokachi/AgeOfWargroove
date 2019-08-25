@@ -1,0 +1,38 @@
+---
+
+unitClasses:
+  - id: groove_pot
+    name: equipment_name_groove_pot
+    aiPriority: 2.0
+    moveRange: 0
+    isStructure: false
+    classIconSpritesheet: ui_AgeOfWarGrooveMod
+    canReinforce: false
+    canBeReinforced: false
+    canBeCaptured: false
+    isNeutraliseable: false
+    damageMultiplier: 1
+    hostileNeutral: true
+    garrisonUnit: ""
+    movement: walking
+    income: 0
+    cost: 150
+    tags:
+      - equipment
+
+units:
+  - class: groove_pot
+    faction: neutral
+    name: equipment_name_groove_pot
+    mapAnimation: units/equipments/groove_pot/map_groove_pot
+    smallPortrait: units/equipments/groove_pot/portrait_groove_pot_small.png
+    mediumPortrait: units/equipments/groove_pot/portrait_groove_pot_medium.png
+    battleAnimation: units/equipments/groove_pot/battle_groove_pot
+    grabPos: [12, 5]
+    hasBattleScreen: false
+    sounds:
+      hit: hitWood
+      hitMap: hitStone
+      death: gateDie
+
+...

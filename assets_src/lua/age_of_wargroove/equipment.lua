@@ -1,6 +1,20 @@
 local Wargroove = require "wargroove/wargroove"
 local Equipment = {}
 
+local availableEquipments = {
+    "dagger",
+    "axe",
+    "short_sword",
+    "rare_sword",
+    "shield",
+    "helmet",
+    "armor",
+    "rare_shield",
+    "dimensional_door",
+    "groove_pot",
+    "health_pot",
+    "bow"
+}
 
 local attackerRandomMinModifier = {
     dagger = 0.03,
@@ -74,6 +88,27 @@ function Equipment.getDefenderDamageModifier(unitClass)
     return 0
 end
 
+function Equipment.getAllArtifactsIds()
+    return availableEquipments
+end
+
+function Equipment.generateRandomArtifacts(numberOfArtifacts)
+    local choosenEquipments = {}
+    
+    for i = 0, numberOfArtifacts - 1, 1 do
+        local values = { i, numberOfArtifacts, Wargroove.getTurnNumber(), Wargroove.getCurrentPlayerId() }
+        local str = ""
+        for i, v in ipairs(values) do
+            str = str .. tostring(v) .. ":"
+        end
+        local randomValue = Wargroove.pseudoRandomFromString(str)
+        local equipmentId = math.floor((#availableEquipments - 1) * randomValue + 0.5)
+        table.insert(choosenEquipments, availableEquipments[equipmentId + 1])
+    end
+    
+    return choosenEquipments
+end
+
 local bowArtifactWeapon = {
   canMoveAndAttack = true,
   directionality = "omni",
@@ -85,7 +120,7 @@ local bowArtifactWeapon = {
 }
 
 function Equipment.addBowForCommander(unit)
-    --check if commander has bow, if so, add bow weapon to commander
+    --check if commander has bow, if so, add commanderBow weapon to commander
     if unit.unitClass.isCommander then
         if unit.loadedUnits ~= nil and #unit.loadedUnits > 0 then
             for i, weaponId in ipairs(unit.loadedUnits) do
@@ -97,6 +132,7 @@ function Equipment.addBowForCommander(unit)
                         end
                     end
                     table.insert(unit.unitClass.weapons, bowArtifactWeapon)
+                    return
                 end
             end
         end

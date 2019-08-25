@@ -1,0 +1,38 @@
+---
+
+unitClasses:
+  - id: dimensional_door
+    name: equipment_name_dimensional_door
+    aiPriority: 2.0
+    moveRange: 0
+    isStructure: false
+    classIconSpritesheet: ui_AgeOfWarGrooveMod
+    canReinforce: false
+    canBeReinforced: false
+    canBeCaptured: false
+    isNeutraliseable: false
+    damageMultiplier: 1
+    hostileNeutral: true
+    garrisonUnit: ""
+    movement: walking
+    income: 0
+    cost: 600
+    tags:
+      - equipment
+
+units:
+  - class: dimensional_door
+    faction: neutral
+    name: equipment_name_dimensional_door
+    mapAnimation: units/equipments/dimensional_door/map_dimensional_door
+    smallPortrait: units/equipments/dimensional_door/portrait_dimensional_door_small.png
+    mediumPortrait: units/equipments/dimensional_door/portrait_dimensional_door_medium.png
+    battleAnimation: units/equipments/dimensional_door/battle_dimensional_door
+    grabPos: [12, 5]
+    hasBattleScreen: false
+    sounds:
+      hit: hitWood
+      hitMap: hitWood
+      death: gateDie
+
+...

@@ -9,6 +9,16 @@ verbs:
     preExecute: true
     scriptName: verbs/build
     aiUses: true
+  - id: buy_artifacts
+    icon: ui/icons/unit_action_icon_recruit.png
+    name: ui_unit_verbs_buy_artifacts
+    targetColour: target
+    targetOutlineColour: target_outline
+    preExecute: true
+    targetted: true
+    directTarget: true
+    scriptName: verbs/buy_artifacts
+    aiUses: true
   - id: recruit_two
     icon: ui/icons/unit_action_icon_recruit.png
     name: ui_unit_verbs_recruit
@@ -31,10 +41,8 @@ verbs:
     name: ui_unit_verbs_spell_heal
     targetColour: target
     targetOutlineColour: target_outline
-    splashOutlineColour: heal_outline
     scriptName: verbs/spell_heal
     targetted: true
-    splashRadius: 1
     hasResourceCost: false
   - id: recruit
     icon: ui/icons/unit_action_icon_recruit.png
@@ -67,5 +75,23 @@ verbs:
     targetted: true
     directTarget: true
     scriptName: verbs/pick_up
-
+  - id: drink_h_pot
+    icon: ui/icons/unit_action_icon_drink_pot.png
+    name: ui_unit_verbs_drink_h_pot
+    scriptName: verbs/drink_h_pot
+    targetted: false
+  - id: drink_g_pot
+    icon: ui/icons/unit_action_icon_drink_pot.png
+    name: ui_unit_verbs_drink_g_pot
+    scriptName: verbs/drink_g_pot
+    targetted: false
+  - id: dimensional_door
+    icon: ui/icons/unit_action_icon_dimensional_door.png
+    name: ui_unit_verbs_dimensional_door
+    targetColour: target
+    targetOutlineColour: target_outline
+    scriptName: verbs/dimensional_door
+    targetted: true
+    directTarget: true
+    aiUses: true
 ...
