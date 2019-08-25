@@ -16,7 +16,7 @@ Change the gameplay to be more like Age of Empires or Warcraft. In a nutshell, H
 1. Gold is hostile neutral and takes no damage, so you can't walk through them
 1. Villagers can garrison Mining Camp to gather gold (80 gold per villagers per turn, up to 3 villagers per camp)
 1. Each gold will have a value of 4000, and for every 80 gold mined from the gold pile, gold pile's hp will decrease by 2 (so a gold pile with 12 hp can be mined for 480 gold. Which is 3 villagers in the mining camp for 2 turns or 1 villager in the mining camp for 6 turns)
-1. villagers inside the mining camp when the mining camp is destroyed are lost
+1. Villagers inside the mining camp are lost when the mining camp is destroyed
 1. 3 Different Tech Levels
 ```
 Level 1 production:
