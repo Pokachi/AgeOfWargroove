@@ -7,5 +7,9 @@ modifyingUnitClasses:
     add:
         verbs:
             - pick_up
+            - drink_g_pot
+            - drink_h_pot
+            - dimensional_door
+            - buy_artifacts
 
 ...
