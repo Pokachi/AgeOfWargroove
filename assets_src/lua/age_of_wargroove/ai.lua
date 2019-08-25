@@ -7,7 +7,46 @@ local AI = {}
 
 local inspect = require "inspect"
 
-local AIGlobals = {numBarracks}
+local AIGlobals = {}
+
+function AI.updateAIGlobals(playerId)    
+    local allUnits = Wargroove.getAllUnitsForPlayer(playerId, true)
+    AIGlobals[playerId] = {barracks=0, towers=0, ports=0, goldPos={}, villagers=0, goldCamps=0}
+    for i, unit in ipairs(allUnits) do
+        local unitClassId = unit.unitClass.id
+        if unitClassId == "barracks" then
+            AIGlobals[playerId].barracks = AIGlobals[playerId].barracks + 1
+        elseif unitClassId == "tower" then
+            AIGlobals[playerId].towers = AIGlobals[playerId].towers + 1
+        elseif unitClassId == "port" then
+            AIGlobals[playerId].ports = AIGlobals[playerId].ports + 1
+        elseif unitClassId == "gold" then
+            table.insert(AIGlobals[playerId].goldPos, unit.pos)
+        elseif unitClassId == "villager" then
+            AIGlobals[playerId].villagers = AIGlobals[playerId].villagers + 1
+        elseif unitClassId == "gold_camp" then
+            AIGlobals[playerId].goldCamps = AIGlobals[playerId].goldCamps + 1
+        end
+        
+    end
+end
+
+function AI.getAIGlobals()
+    return AIGlobals
+end
+
+function AI.modifyAIGlobalsTrigger(referenceTrigger)
+    local trigger = {}
+    trigger.id =  "modifyAIGlobalsTrigger"
+    trigger.recurring = "repeat"
+    trigger.players = referenceTrigger.players
+    trigger.conditions = {}
+    table.insert(trigger.conditions, { id = "start_of_turn", parameters = {} })
+    trigger.actions = {}
+    table.insert(trigger.actions, { id = "modify_ai_globals", parameters = { "current" }  })
+    
+    return trigger
+end
 
 function AI.buildVillagerOrders(unitId, canMove)
     local orders = {}
@@ -23,7 +62,11 @@ function AI.buildVillagerOrders(unitId, canMove)
     if money < villagerCost then
         return orders
     end
-    if AOW.getPopulationCap(playerId) >= AOW.getCurrentPopulation(playerId) then
+    if AOW.getPopulationCap(unit.playerId) <= AOW.getCurrentPopulation(unit.playerId) then
+        return orders
+    end
+    
+    if AIGlobals[unit.playerId].villagers >= 13 then
         return orders
     end
     
@@ -117,9 +160,6 @@ function AI.placeMineOrders(unitId, canMove)
     if money < goldCampCost then
         return orders
     end
-    if AOW.getPopulationCap(playerId) >= AOW.getCurrentPopulation(playerId) then
-        return orders
-    end
     local movePositions = {}
     if canMove then
         movePositions = Wargroove.getTargetsInRange(unit.pos, unitClass.moveRange, "empty")
@@ -143,7 +183,12 @@ function AI.placeMineOrders(unitId, canMove)
 end
 
 function AI.placeMineScore(unitId, order)
-    return { score = 45, healthDelta = 0, introspection = {}}
+    local score = 45
+    local unit = Wargroove.getUnitById(unitId)
+    if AIGlobals[unit.playerId].goldCamps == 0 then
+        score = 100
+    end
+    return { score = score, healthDelta = 0, introspection = {}}
 end
 
 function AI.techUpOrders(unitId, canMove, cost)
@@ -166,9 +211,18 @@ function AI.placeStructureOrders(unitId, canMove, classToRecruit)
     local unit = Wargroove.getUnitById(unitId)
     local unitClass = Wargroove.getUnitClass(unit.unitClassId)
     local money = Wargroove.getMoney(unit.playerId)
-    local villageClass = Wargroove.getUnitClass("city")
-    local villageCost = villageClass.cost
-    if money < villageCost then
+    local recruitClass = Wargroove.getUnitClass(classToRecruit)
+    local recruitCost = recruitClass.cost
+    if money < recruitCost then
+        return orders
+    end
+    if recruitClass == "barracks" and AIGlobals[unit.playerId].barracks >= 2 then
+        return orders
+    end
+    if recruitClass == "tower" and AIGlobals[unit.playerId].towers >= 1 then
+        return orders
+    end
+    if recruitClass == "port" and AIGlobals[unit.playerId].ports >= 1 then
         return orders
     end
     local movePositions = {}
@@ -196,17 +250,22 @@ function AI.placeStructureScore(unitId, order)
     local unitsInRange = Wargroove.getTargetsInRange(endPos, 2, "unit")
     local score = 25
     local popDiff = AOW.getPopulationCap(unit.playerId) - AOW.getCurrentPopulation(unit.playerId)
-    if order.strParam == "city" and popDiff <= 1 then
+    if order.strParam == "city" or order.strParam == "water_city" and popDiff <= 1 then
         score = 80
+    else
+        score = -1
     end
     if order.strParam == "hq" and popDiff <= 1 then
         score = 68 + AOW.getPopulationCap(unit.playerId)
     end
+    if order.strParam == "barracks" then
+        score = 10 * AIGlobals[unit.playerId].villagers - AIGlobals[unit.playerId].barracks * 30
+    end
     for i,targetPos in ipairs(unitsInRange) do
         local u = Wargroove.getUnitAt(targetPos)
         if u ~= nil then
-            if (u.unitClass.id == "hq" and Wargroove.areAllies(u.playerId, unit.playerId)) or u.unitClass.id == "gold" or u.unitClass.id == "gold_camp" then
-                score = - 30
+            if ((u.unitClass.id == "hq" and Wargroove.areAllies(u.playerId, unit.playerId)) or u.unitClass.id == "gold" or u.unitClass.id == "gold_camp") and order.strParam ~= "gold_camp" then
+                score = score - 30
             end
             if u.unitClass.id == "city" then
                 score = score - 1
@@ -217,6 +276,38 @@ function AI.placeStructureScore(unitId, order)
         end
     end
     return { score = score, healthDelta = 0, introspection = {}}
+end
+
+function AI.unloadCampOrders(unitId, canMove)
+    local unit = Wargroove.getUnitById(unitId)
+    local unitClass = Wargroove.getUnitClass(unit.unitClassId)
+    local start = true
+    local strParam = ""
+    
+    if unit.loadedUnits ~= nil and #(unit.loadedUnits) > 0 and unit.loadedUnits[1] ~= nil and  Wargroove.getUnitById(unit.loadedUnits[1]).unitClass.id ~= "gold" then
+        for i, id in ipairs(unit.loadedUnits) do
+            local u = Wargroove.getUnitById(id)
+            if u ~= nil then 
+                local targets = Wargroove.getTargetsInRange(unit.pos, 1, "empty")
+                if targets ~= nil or #targets ~= 0 then
+                    local target = targets[1]
+                    if start then
+                        start = false
+                    else
+                        strParam = strParam .. ";"
+                    end
+
+                    strParam = strParam .. u.id .. ":" .. target.x .. "," .. target.y
+                end
+            end
+        end
+    end
+    
+    return {{targetPosition = unit.pos, strParam = strParam, movePosition = unit.pos, endPosition = unit.pos}}
+end
+
+function AI.unloadCampScore(unitId, order)
+    return { score = 15, healthDelta = 0, introspection = {}}
 end
 
 return AI

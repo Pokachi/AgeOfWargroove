@@ -67,5 +67,13 @@ verbs:
     targetted: true
     directTarget: true
     scriptName: verbs/pick_up
+  - id: unload_two
+    icon: ui/icons/unit_action_icon_unload.png
+    name: ui_unit_verbs_unload
+    targetColour: target
+    targetOutlineColour: target_outline
+    preExecute: true
+    scriptName: verbs/unload_two
+    aiUses: true
 
 ...

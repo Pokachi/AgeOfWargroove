@@ -1,6 +1,7 @@
 local AOW = require "age_of_wargroove/age_of_wargroove"
 local Events = require "initialized/events"
 local Wargroove = require "wargroove/wargroove"
+local AI = require "age_of_wargroove/ai"
 local Constants = require "constants"
 
 local Actions = {}
@@ -20,6 +21,12 @@ function Actions.populate(dst)
     dst["set_init_pop_cap"] = Actions.setInitialPopulationCap
     dst["modify_population_cap"] = Actions.modifyCurrentPopulation
     dst["report_dead_village"] = Actions.reportDeadVillage
+    dst["modify_ai_globals"] = Actions.modifyAIGlobals
+end
+
+function Actions.modifyAIGlobals(context)
+    local playerId = context:getPlayerId(0)
+    AI.updateAIGlobals(playerId)
 end
 
 function Actions.reportDeadVillage(context)
