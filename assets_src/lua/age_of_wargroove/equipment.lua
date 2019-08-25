@@ -92,11 +92,11 @@ function Equipment.getAllArtifactsIds()
     return availableEquipments
 end
 
-function Equipment.generateRandomArtifacts(numberOfArtifacts)
+function Equipment.generateRandomArtifacts(unit, numberOfArtifacts)
     local choosenEquipments = {}
     
     for i = 0, numberOfArtifacts - 1, 1 do
-        local values = { i, numberOfArtifacts, Wargroove.getTurnNumber(), Wargroove.getCurrentPlayerId() }
+        local values = { i, numberOfArtifacts, Wargroove.getTurnNumber(), Wargroove.getCurrentPlayerId(), unit.pos.x, unit.pos.y }
         local str = ""
         for i, v in ipairs(values) do
             str = str .. tostring(v) .. ":"
