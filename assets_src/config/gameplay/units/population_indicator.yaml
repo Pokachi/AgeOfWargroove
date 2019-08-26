@@ -6,9 +6,9 @@ unitClasses:
     cost: 50
     movement: walking
     moveRange: 3
-    damageMultiplier: 1
+    damageMultiplier: 0
     canBeReinforced: false
-    aiPriority: 0.5
+    aiPriority: 0
     weapons: []
     verbs:
       - load
