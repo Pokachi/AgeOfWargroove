@@ -46,32 +46,21 @@ function Actions.modifyCurrentPopulation(context)
         
             if #u.loadedUnits > 0 then
                 local popCapUnit = Wargroove.getUnitById(u.loadedUnits[1])
-                local currentPopUnit = Wargroove.getUnitById(u.loadedUnits[2])
                 popCapUnit:setHealth(popCap, -1)
-                currentPopUnit:setHealth(currentPop, -1)
+                popCapUnit:setGroove(currentPop, -1)
                 Wargroove.updateUnit(popCapUnit)
-                Wargroove.updateUnit(currentPopUnit)
             else
-                Wargroove.spawnUnit(-1, { x = -91, y = -12 }, "villager", true, "")
+                Wargroove.spawnUnit(-1, { x = -91, y = -12 }, "population_indicator", true, "")
                 Wargroove.waitFrame()
                 local popCapUnit = Wargroove.getUnitAt({ x = -91, y = -12 })
                 popCapUnit.pos = { x = -99, y = -99 }
                 popCapUnit:setHealth(popCap, -1)
+                popCapUnit:setGroove(currentPop, -1)
                 table.insert(u.loadedUnits, popCapUnit.id)
                 popCapUnit.inTransport = true
                 popCapUnit.transportedBy = u.id
                 Wargroove.updateUnit(popCapUnit)
-                
-                Wargroove.spawnUnit(-1, { x = -91, y = -12 }, "villager", true, "")
-                Wargroove.waitFrame()
-                local currentPopUnit = Wargroove.getUnitAt({ x = -91, y = -12 })
-                currentPopUnit.pos = { x = -99, y = -99 }
-                currentPopUnit:setHealth(currentPop, -1)
-                table.insert(u.loadedUnits, currentPopUnit.id)
-                currentPopUnit.inTransport = true
-                currentPopUnit.transportedBy = u.id
                 Wargroove.updateUnit(u)
-                Wargroove.updateUnit(currentPopUnit)
             end
                 
         end

@@ -1,0 +1,17 @@
+---
+
+grooves:
+  - id: dimensional_door
+    name: groove_name_dimensional_door
+    description: groove_description_dimensional_door
+    maxCharge: 5
+    chargePerUse: 5
+    verb: dimensional_door
+  - id: indicate_population
+    name: groove_name_indicate_population
+    description: groove_description_indicate_population
+    maxCharge: 100
+    chargePerUse: 0
+    verb: wait
+
+...

@@ -33,7 +33,9 @@ function DimensionalDoor:canExecuteAnywhere(unit)
     for i, equipmentId in ipairs(unit.loadedUnits) do
         local equipment = Wargroove.getUnitById(equipmentId)
         if equipment.unitClassId == "dimensional_door" then
-            
+            if equipment.grooveCharge ~= 5 then
+                return false
+            end
             local allUnits = Wargroove.getAllUnitsForPlayer(unit.playerid, false)
             for i, unit in ipairs(allUnits) do
                 if unit.unitClassId == "hq" then
