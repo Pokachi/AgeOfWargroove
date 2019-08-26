@@ -20,6 +20,7 @@ function Actions.populate(dst)
     dst["set_init_pop_cap"] = Actions.setInitialPopulationCap
     dst["modify_population_cap"] = Actions.modifyCurrentPopulation
     dst["report_dead_village"] = Actions.reportDeadVillage
+    dst["modify_dimensional_door_groove"] = Actions.modifyDimensionalDoorGroove
 end
 
 function Actions.reportDeadVillage(context)
@@ -63,6 +64,21 @@ function Actions.modifyCurrentPopulation(context)
                 Wargroove.updateUnit(u)
             end
                 
+        end
+    end
+end
+
+function Actions.modifyDimensionalDoorGroove(context)
+    
+    local allUnits = Wargroove.getAllUnitsForPlayer(-2, true)
+    
+    for i, u in ipairs(allUnits) do
+        
+        if u.unitClassId == "dimensional_door" then
+            if u.grooveCharge < 5 then
+                u.grooveCharge = u.grooveCharge + 1
+                Wargroove.updateUnit(u)
+            end 
         end
     end
 end

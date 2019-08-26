@@ -4,7 +4,6 @@ local Constants = require "constants"
 
 local DimensionalDoor = Verb:new()
 
-local coolDownStateName = "D_DOOR_CD"
 
 function DimensionalDoor:getMaximumRange(unit, endPos)
     local mapSize = Wargroove.getMapSize()
@@ -22,19 +21,11 @@ function DimensionalDoor:canExecuteAnywhere(unit)
         return false
     end
     
-    local coolDownTimer = Wargroove.getUnitState(unit, coolDownStateName)
-    if coolDownTimer ~= nil then
-        if Wargroove.getTurnNumber() < tonumber(coolDownTimer) then
-            return false
-        end
-    end
-    
-    
     for i, equipmentId in ipairs(unit.loadedUnits) do
         local equipment = Wargroove.getUnitById(equipmentId)
         if equipment.unitClassId == "dimensional_door" then
-            if equipment.grooveCharge ~= 5 then
-                return false
+            if equipment.grooveCharge < 5 then
+                goto continue
             end
             local allUnits = Wargroove.getAllUnitsForPlayer(unit.playerid, false)
             for i, unit in ipairs(allUnits) do
@@ -44,6 +35,7 @@ function DimensionalDoor:canExecuteAnywhere(unit)
             end
             return true
         end
+        ::continue::
     end
     
     return false
@@ -55,13 +47,25 @@ function DimensionalDoor:canExecuteWithTarget(unit, endPos, targetPos, strParam)
             return true
         end
     end
-    return flase
+    return false
 end
 
 function DimensionalDoor:onPostUpdateUnit(unit, targetPos, strParam, path)
     local currentTurn = Wargroove.getTurnNumber()
-    Wargroove.setUnitState(unit, coolDownStateName, currentTurn + Constants.coolDown.door);
+    
     unit.pos = targetPos
+    
+    -- clear dimensional door grooveCharge
+    for i, equipmentId in ipairs(unit.loadedUnits) do
+        local equipment = Wargroove.getUnitById(equipmentId)
+        if equipment.unitClassId == "dimensional_door" then
+            if equipment.grooveCharge >= 5 then
+                equipment.grooveCharge = 0
+                Wargroove.updateUnit(equipment)
+                return
+            end
+        end
+    end
 end
 
 return DimensionalDoor

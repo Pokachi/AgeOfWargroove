@@ -179,6 +179,7 @@ function Events.populateTriggerList()
     Events.addTriggerToList(AOW.setInitialPopulationCap(referenceTrigger))
     Events.addTriggerToList(AOW.reportDeadVillageTrigger(referenceTrigger))
     Events.addTriggerToList(AOW.modifyUnitCapTrigger(referenceTrigger))
+    Events.addTriggerToList(AOW.modifyDDoorGroove())
     
     local Actions = require("triggers/actions")
     local Conditions = require("triggers/conditions")
