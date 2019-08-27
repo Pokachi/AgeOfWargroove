@@ -69,6 +69,9 @@ Change the gameplay to be more like Age of Empires or Warcraft. In a nutshell, H
 1. AI
 1. Bug fixes
 1. Nerf Mage
+1. unigue faction bonus
+1. remove commander selection and replace with faction selection
+1. unigue faction playstyle. 
 
 ## NexusMod URL
 https://www.nexusmods.com/wargroove/mods/20
