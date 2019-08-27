@@ -59,7 +59,7 @@ function AI.modifyAIGlobalsAlwaysTrigger(referenceTrigger)
     trigger.recurring = "repeat"
     trigger.players = referenceTrigger.players
     trigger.conditions = {}
-    table.insert(trigger.conditions, { id = "unit_presence", parameters = { "current", "0", "0", "villager", "-1" } })
+    table.insert(trigger.conditions, { id = "unit_presence", parameters = { "current", "0", "0", "barracks", "-1" } })
     trigger.actions = {}
     table.insert(trigger.actions, { id = "modify_ai_globals", parameters = { "current" }  })
     
@@ -343,6 +343,8 @@ function AI.waitVillagerOrders(unitId, canMove)
     local movePositions = Wargroove.getTargetsInRange(unit.pos, unitClass.moveRange, "empty")
     
     for i, targetPos in ipairs(movePositions) do
+        print("AI Location Score at: " .. targetPos.x .. " " .. targetPos.y)
+        print(inspect(Wargroove.getAILocationScore(unitId, targetPos)))
         table.insert(orders, {targetPosition = targetPos, strParam = "", movePosition = targetPos, endPosition = targetPos})
     end
     
