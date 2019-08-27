@@ -57,10 +57,9 @@ Change the gameplay to be more like Age of Empires or Warcraft. In a nutshell, H
 ## TODO:
 1. Building foundations so that it takes multiple "build" command to finish building a building (either 1 villager with multiple turns or multiple villagers on a single turn)
 1. Retreat Verb to allow units to quickly retreat to HQ
-1. New buildings: marketplace, blacksmith, monestary, research lab, outpost, watchtower, and maybe castle if I can figure out how to do a 4 tile building
+1. New buildings: marketplace, hero's altar, wall, blacksmith, monestary, research lab, outpost, watchtower, and maybe castle if I can figure out how to do a 4 tile building
 1. Unit upkeep
 1. Commander Leveling
-1. New buildings (e.g. altar to recruit commanders)
 1. New Units
 1. Better sprites (Terrible ms paint art for new buildings atm)
 1. Fix description strings
