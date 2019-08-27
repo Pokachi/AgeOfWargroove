@@ -59,6 +59,7 @@ Change the gameplay to be more like Age of Empires or Warcraft. In a nutshell, H
 1. Retreat Verb to allow units to quickly retreat to HQ
 1. New buildings: marketplace, hero's altar, wall, blacksmith, monestary, research lab, outpost, watchtower, and maybe castle if I can figure out how to do a 4 tile building
 1. Unit upkeep
+1. Salvage verb
 1. Commander Leveling
 1. New Units
 1. Better sprites (Terrible ms paint art for new buildings atm)
