@@ -138,6 +138,11 @@ function Actions.generateGoldPerTurnFromPosAction(context)
                     if numberOfMiners > 0 then
                         AOW.generateGoldPerTurnFromPos(u.pos, u.playerId, numberOfMiners * Constants.goldPerTurnPerMine)
                     end
+                elseif firstUnit.unitClassId == "gem" then
+                    local numberOfMiners = #u.loadedUnits - 1
+                    if numberOfMiners > 0 then
+                        AOW.generateGoldPerTurnFromPos(u.pos, u.playerId, numberOfMiners * Constants.gemPerTurnPerMine)
+                    end
                 end
             end
         end
@@ -194,7 +199,12 @@ function Actions.removeGenerateGoldPerTurnFromPos(context)
                 
                 local goldUnit = Wargroove.getUnitAt(pos)
                 
-                local goldHp = AOW.getGoldCount(pos) / Constants.goldPerTurnPerMine
+                local goldHp
+                if goldUnit.unitClassId == "gold" then
+                    goldHp = AOW.getGoldCount(pos) / Constants.goldPerTurnPerMine * 2
+                elseif goldUnit.unitClassId == "gem" then
+                    goldHp = AOW.getGoldCount(pos) / Constants.gemPerTurnPerMine * 4
+                end
                 goldUnit:setHealth(goldHp, -1)
                 goldUnit.playerId = -2
                 Wargroove.updateUnit(goldUnit)
@@ -213,10 +223,17 @@ function Actions.modifyGoldAtPos(context)
     local remainingGold = operation(AOW.getGoldCount(pos), gold)
     AOW.setGoldCount(pos, remainingGold)
     
-    local goldHp = remainingGold / Constants.goldPerTurnPerMine * 2
     
     local goldCamp = Wargroove.getUnitAt(pos)
     local goldUnit = Wargroove.getUnitById(goldCamp.loadedUnits[1])
+    
+    local goldHp
+    if goldUnit.unitClassId == "gold" then
+        goldHp = remainingGold / Constants.goldPerTurnPerMine * 2
+    elseif goldUnit.unitClassId == "gem" then
+        goldHp = remainingGold / Constants.gemPerTurnPerMine * 4
+    end
+    
     
     goldUnit:setHealth(goldHp, -1)
     Wargroove.updateUnit(goldUnit)

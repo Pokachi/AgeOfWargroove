@@ -16,6 +16,7 @@ en-GB:
     groove_name_indicate_population: Population
     groove_description_indicate_population: The Current Population
     structure_name_gold: Gold
+    structure_name_gem: Gem
     structure_name_gold_camp: Mining Camp
     structure_name_shop: Shop
     equipment_name_short_sword: Short Sword
@@ -31,6 +32,7 @@ en-GB:
     equipment_name_bow: Hunting Bow
     equipment_name_dimensional_door: Dimensional Door
     unit_description_gold: Vaulable resources. Can be mined by constructing a mining camp on top of it and staff it with villagers
+    unit_description_gem: Rare Vaulable resources. Can be mined by constructing a mining camp on top of it and staff it with villagers
     unit_description_gold_camp: Mining camp for gold. Garrison with villagers to start mining 50 gold per villager per turn
     unit_description_shop: Shop selling 5 random artifacts. restocks every 5 turns.
     unit_description_short_sword: Well forged short sword. Increases the wielder's overall damage by 2%
