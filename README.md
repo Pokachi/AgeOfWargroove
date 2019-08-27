@@ -73,6 +73,7 @@ Change the gameplay to be more like Age of Empires or Warcraft. In a nutshell, H
 1. remove commander selection and replace with faction selection
 1. unigue faction playstyle. 
 1. villager garrison towers or village and increse tower damage/village can counter attack
+1. treasure chest for immeidate gold/artifact
 
 ## NexusMod URL
 https://www.nexusmods.com/wargroove/mods/20
