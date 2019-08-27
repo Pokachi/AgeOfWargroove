@@ -102,4 +102,12 @@ verbs:
     targetted: true
     directTarget: true
     aiUses: true
+  - id: wait_villager
+    icon: ui/icons/unit_action_icon_wait.png
+    name: ui_unit_verbs_wait
+    targetColour: target
+    targetOutlineColour: target_outline
+    scriptName: verbs/wait_villager
+    targetted: true
+    aiUses: true
 ...

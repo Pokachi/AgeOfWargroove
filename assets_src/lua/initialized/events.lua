@@ -181,6 +181,7 @@ function Events.populateTriggerList()
     Events.addTriggerToList(AOW.reportDeadVillageTrigger(referenceTrigger))
     Events.addTriggerToList(AOW.modifyUnitCapTrigger(referenceTrigger))
     Events.addTriggerToList(AI.modifyAIGlobalsTrigger(referenceTrigger))
+    Events.addTriggerToList(AI.modifyAIGlobalsAlwaysTrigger(referenceTrigger))
     
     local Actions = require("triggers/actions")
     local Conditions = require("triggers/conditions")
