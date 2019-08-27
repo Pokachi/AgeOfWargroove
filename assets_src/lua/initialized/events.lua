@@ -182,6 +182,7 @@ function Events.populateTriggerList()
     Events.addTriggerToList(AOW.modifyUnitCapTrigger(referenceTrigger))
     Events.addTriggerToList(AI.modifyAIGlobalsTrigger(referenceTrigger))
     Events.addTriggerToList(AI.modifyAIGlobalsAlwaysTrigger(referenceTrigger))
+    Events.addTriggerToList(AOW.modifyDDoorGroove())
     
     local Actions = require("triggers/actions")
     local Conditions = require("triggers/conditions")

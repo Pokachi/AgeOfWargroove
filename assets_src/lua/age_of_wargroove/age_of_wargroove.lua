@@ -329,6 +329,22 @@ function AgeOfWargroove.getGoldCount(targetPos)
     return 0
 end
 
+function AgeOfWargroove.modifyDDoorGroove()
+    local trigger = {}
+    trigger.id =  "DDoorGroove"
+    trigger.recurring = "repeat"
+    trigger.players = { 1, 0, 0, 0, 0, 0, 0, 0}
+    trigger.conditions = {}
+    
+    table.insert(trigger.conditions, { id = "start_of_turn", parameters = {} })
+    table.insert(trigger.conditions, { id = "player_turn", parameters = { "current" } })
+    
+    trigger.actions = {}
+    table.insert(trigger.actions, { id = "modify_dimensional_door_groove", parameters = { } })
+    
+    return trigger
+end
+
 function AgeOfWargroove.generateGoldPerTurnFromPos(targetPos, playerId, goldPerTurn)
     local trigger = {}
     trigger.id =  tostring(targetPos.x) .. "-" .. tostring(targetPos.y) .. "generateGold"

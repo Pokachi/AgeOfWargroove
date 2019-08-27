@@ -1,0 +1,40 @@
+---
+
+unitClasses:
+  - id: population_indicator
+    name: unit_class_name_villager
+    cost: 50
+    movement: walking
+    moveRange: 3
+    damageMultiplier: 0
+    canBeReinforced: false
+    aiPriority: 0
+    weapons: []
+    verbs:
+      - load
+    tags: []
+    hostileNeutral: true
+    isRecruitable: false
+    palettePriority: 1
+    grooveId: indicate_population
+    isSpawnable: false
+    isHidden: true
+
+units:
+  - class: population_indicator
+    faction: neutral
+    name: unit_name_villager_cherrystone
+    mapAnimation: units/villager/cherrystone/map_villager_cherrystone
+    smallPortrait: units/villager/cherrystone/portrait_villager_cherrystone_small.png
+    mediumPortrait: units/villager/cherrystone/portrait_villager_cherrystone_medium.png
+    mapSpeed: 4.0
+    grabPos: [13, 14]
+    sounds:
+      death: soldierDieRed
+      deathMap: unitDie
+      run: infantryLightEntry
+      runMap: infantryLightMapEntry
+      hit: hitOrganic
+      hitMap: hitOrganic
+
+...

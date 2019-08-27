@@ -65,10 +65,6 @@ function RecruitTwo:canExecuteWithTarget(unit, endPos, targetPos, strParam)
 
     local uc = Wargroove.getUnitClass(classToRecruit)
     
-    if uc.id == "gold_camp" then
-        return u ~= nil and u.unitClass.id == "gold"
-    end
-    
     return (endPos.x ~= targetPos.x or endPos.y ~= targetPos.y) and (u == nil or unit.id == u.id) and Wargroove.canStandAt(classToRecruit, targetPos) and Wargroove.getMoney(unit.playerId) >= getCost(uc.cost)
 end
 
@@ -129,36 +125,9 @@ function RecruitTwo:execute(unit, targetPos, strParam, path)
     Wargroove.spawnUnit(unit.playerId, targetPos, strParam, false)
     Wargroove.waitFrame()
     
-    
-    local gold = {}
-    if (uc.id == "gold_camp") then
-        gold = Wargroove.getUnitAt(targetPos)
-        gold.pos = { x = -100, y = -100 }
-        Wargroove.updateUnit(gold)
-    end
-    
     local newUnit = Wargroove.getUnitAt(targetPos)
     newUnit.playerId = unit.playerId
     newUnit.hadTurn = true
-    
-    local techLevel = tonumber(AOW.getTechLevel(unit.playerId))
-    if techLevel > 1 and (uc.id == "hq" or uc.id == "port" or uc.id == "tower" or uc.id == "barracks") then
-        local EffectName = AOW.getTechLevelEffectName(techLevel)
-        local techLevelEffectId = Wargroove.spawnUnitEffect(newUnit.id, "units/structures/tech_level", EffectName, "", true)
-    end
-    
-    if (uc.id == "gold_camp") then
-        local remainingGold = AOW.getGoldCount(targetPos)
-        if remainingGold == 0 then
-            AOW.setGoldCount(targetPos, Constants.goldPerTurnPerMine * gold.health / 2)
-        end
-        
-        gold.transportedBy = newUnit.id
-        gold.inTransport = true
-        Wargroove.updateUnit(gold)
-        
-        table.insert(newUnit.loadedUnits, gold.id)
-    end
     
     Wargroove.updateUnit(newUnit)
 

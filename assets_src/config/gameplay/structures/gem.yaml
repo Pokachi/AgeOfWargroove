@@ -1,0 +1,42 @@
+---
+
+unitClasses:
+  - id: gem
+    name: structure_name_gem
+    aiPriority: 4.0
+    moveRange: 0
+    isStructure: true
+    canReinforce: false
+    canBeReinforced: false
+    canBeCaptured: false
+    isNeutraliseable: true
+    damageMultiplier: 0
+    hostileNeutral: true
+    movement: land_building
+    income: 0
+    cost: 5000
+    tags:
+      - structure
+      
+units:
+  - class: gem
+    faction: neutral
+    name: structure_name_gem
+    mapAnimation: [units/structures/gem/map_gem_mine_1, units/structures/gem/map_gem_mine_2, units/structures/gem/map_gem_mine_3]
+    smallPortrait: portraits/small/portrait_structure_small.png
+    mediumPortrait: units/structures/gem/portrait_gem_mine_medium.png
+    grabPos: [12, 5]
+    sounds:
+      hit: hitWood
+      hitMap: hitStone
+      death: gateDie
+    structureImage:
+      spriteSheet: background_gold
+      farBackground: gem_mine_background_full_0_0
+      nearBackground: gem_mine_background_full_0_0
+      foreground: gem_mine_background_full_0_0
+      keeperPosition: [66, 98]
+      leftBannerOffset: [-6, 2]
+      rightBannerOffset: [-7, 0]
+
+...

@@ -19,6 +19,7 @@ unitClasses:
     cost: 600
     tags:
       - equipment
+    grooveId: dimensional_door
 
 units:
   - class: dimensional_door

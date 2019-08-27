@@ -12,10 +12,11 @@ Change the gameplay to be more like Age of Empires or Warcraft. In a nutshell, H
 1. Buildings no longer generate gold
 1. HQ can recruit villagers
 1. Villagers can build buildings
-1. New building "Mining Camp" that can be build on top of "Gold". Mining Camp takes 1.3x damage
-1. Gold is hostile neutral and takes no damage, so you can't walk through them
-1. Villagers can garrison Mining Camp to gather gold (80 gold per villagers per turn, up to 3 villagers per camp)
+1. New building "Mining Camp" that can be build on top of "Gold" or "Gem". Mining Camp takes 1.3x damage
+1. Gold and Gem are hostile neutral and takes no damage, so you can't walk through them
+1. Villagers can garrison Mining Camp to gather gold (80 gold per villagers per turn, up to 3 villagers per camp), or gem (120 gold per villagers per turn, up to 3 villagers per camp)
 1. Each gold will have a value of 4000, and for every 80 gold mined from the gold pile, gold pile's hp will decrease by 2 (so a gold pile with 12 hp can be mined for 480 gold. Which is 3 villagers in the mining camp for 2 turns or 1 villager in the mining camp for 6 turns)
+1. Each gem will have a value of 3000, and for every 120 gold mined from the gold pile, gold pile's hp will decrease by 4 (so a gold pile with 12 hp can be mined for 360 gold. Which is 3 villagers in the mining camp for 1 turns or 1 villager in the mining camp for 3 turns)
 1. Villagers inside the mining camp are lost when the mining camp is destroyed
 1. 3 Different Tech Levels
     ```
@@ -56,15 +57,23 @@ Change the gameplay to be more like Age of Empires or Warcraft. In a nutshell, H
 
 ## TODO:
 1. Building foundations so that it takes multiple "build" command to finish building a building (either 1 villager with multiple turns or multiple villagers on a single turn)
+1. Retreat Verb to allow units to quickly retreat to HQ
+1. New buildings: marketplace, hero's altar, wall, blacksmith, monestary, research lab, outpost, watchtower, and maybe castle if I can figure out how to do a 4 tile building
 1. Unit upkeep
+1. Salvage verb
+1. bring back neutral captureable structures
 1. Commander Leveling
-1. New buildings (e.g. altar to recruit commanders)
 1. New Units
 1. Better sprites (Terrible ms paint art for new buildings atm)
 1. Fix description strings
 1. AI
 1. Bug fixes
 1. Nerf Mage
+1. unigue faction bonus
+1. remove commander selection and replace with faction selection
+1. unigue faction playstyle. 
+1. villager garrison towers or village and increse tower damage/village can counter attack
+1. treasure chest for immeidate gold/artifact
 
 ## NexusMod URL
 https://www.nexusmods.com/wargroove/mods/20

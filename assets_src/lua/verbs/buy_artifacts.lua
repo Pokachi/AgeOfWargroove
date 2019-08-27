@@ -23,7 +23,7 @@ function BuyArtifacts:getTargetType()
 end
 
 function BuyArtifacts:getRecruitableTargets(unit)
-    return Equipment.generateRandomArtifacts(5)
+    return Equipment.generateRandomArtifacts(unit, 5)
 end
 
 BuyArtifacts.classToRecruit = nil
@@ -47,11 +47,9 @@ function BuyArtifacts:roundUp(numToRound, multiple)
     return numToRound + multiple - remainder;
 end
 
-function BuyArtifacts:preExecute(unit, targetPos, strParam, endPos)
-    local currentTurn = Wargroove.getTurnNumber()
-    
+function BuyArtifacts:getAndUpdateStock(shop)
     local recruitableUnits = {}
-    local shop = Wargroove.getUnitAt(targetPos)
+    local currentTurn = Wargroove.getTurnNumber()
     local lastStockedTurn = tonumber(Wargroove.getUnitState(shop, "stockingTurn"))
     local stockingTurn = 0
     if lastStockedTurn ~=nil then
@@ -65,11 +63,18 @@ function BuyArtifacts:preExecute(unit, targetPos, strParam, endPos)
     end
     
     if currentTurn >= stockingTurn  or currentStockString == nil then
-        recruitableUnits = BuyArtifacts.getRecruitableTargets(self, unit)
+        recruitableUnits = self:getRecruitableTargets(shop)
         Wargroove.setUnitState(shop, "currentStock", Inspect(recruitableUnits))
         Wargroove.setUnitState(shop, "stockingTurn", currentTurn)
         Wargroove.updateUnit(shop)
     end
+    
+    return recruitableUnits
+end
+
+function BuyArtifacts:preExecute(unit, targetPos, strParam, endPos)
+    local shop = Wargroove.getUnitAt(targetPos)
+    local recruitableUnits = self:getAndUpdateStock(shop)
     
     Wargroove.openRecruitMenu(unit.playerId, unit.id, unit.pos, unit.unitClassId, recruitableUnits, costMultiplier)
 
@@ -105,8 +110,8 @@ function BuyArtifacts:execute(unit, targetPos, strParam, path)
     
     --remove the purchased item from stock
     local shop = Wargroove.getUnitAt(targetPos)
-    local currentStockString = Wargroove.getUnitState(shop, "currentStock")
-    local recruitableUnits = (loadstring or load)("return "..currentStockString)()
+    local recruitableUnits = self:getAndUpdateStock(shop)
+    
     for i, currentStock in ipairs(recruitableUnits) do
         if newUnit.unitClassId == currentStock then
             table.remove(recruitableUnits, i)

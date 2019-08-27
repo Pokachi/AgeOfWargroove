@@ -25,7 +25,7 @@ function Mine:canExecuteWithTarget(unit, endPos, targetPos, strParam)
         
         if #target.loadedUnits > 1 then
             local firstUnit = Wargroove.getUnitById(target.loadedUnits[1])
-            if firstUnit.unitClassId ~= "gold" then
+            if firstUnit.unitClassId ~= "gold" and firstUnit.unitClassId ~= "gem" then
                 capacity = target.unitClass.loadCapacity -1
             end
         end

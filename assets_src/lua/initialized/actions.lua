@@ -6,6 +6,10 @@ local Constants = require "constants"
 
 local Actions = {}
 
+local pop_animation_initalized = false
+local tech_animation_initalized = false
+local gold_animation_initialized = false
+
 -- This is called by the game when the map is loaded.
 function Actions.init()
   Events.addToActionsList(Actions)
@@ -22,6 +26,7 @@ function Actions.populate(dst)
     dst["modify_population_cap"] = Actions.modifyCurrentPopulation
     dst["report_dead_village"] = Actions.reportDeadVillage
     dst["modify_ai_globals"] = Actions.modifyAIGlobals
+    dst["modify_dimensional_door_groove"] = Actions.modifyDimensionalDoorGroove
 end
 
 function Actions.modifyAIGlobals(context)
@@ -51,36 +56,59 @@ function Actions.modifyCurrentPopulation(context)
         
         if u.unitClassId == "hq" or u.unitClassId == "city" or u.unitClassId == "water_city" then
         
+            local warningEffectId = Wargroove.getUnitState(u, "warningEffect")
+            if warningEffectId ~= nil and warningEffectId ~= "" and pop_animation_initalized then
+                Wargroove.deleteUnitEffect(warningEffectId, "")
+                Wargroove.setUnitState(u, "warningEffect", "")
+                Wargroove.updateUnit(u)
+            end
+            
+            -- draw indicator
+            if popCap - currentPop < 4 and popCap ~= currentPop then
+                local effectId = Wargroove.spawnUnitEffect(u.id, "units/fx/warning", "warn", "", true)
+                Wargroove.setUnitState(u, "warningEffect", effectId)
+                Wargroove.updateUnit(u)
+            elseif popCap <= currentPop then
+                local effectId = Wargroove.spawnUnitEffect(u.id, "units/fx/warning", "critical", "", true)
+                Wargroove.setUnitState(u, "warningEffect", effectId)
+                Wargroove.updateUnit(u)
+            end
+            
             if #u.loadedUnits > 0 then
                 local popCapUnit = Wargroove.getUnitById(u.loadedUnits[1])
-                local currentPopUnit = Wargroove.getUnitById(u.loadedUnits[2])
                 popCapUnit:setHealth(popCap, -1)
-                currentPopUnit:setHealth(currentPop, -1)
+                popCapUnit:setGroove(currentPop, -1)
                 Wargroove.updateUnit(popCapUnit)
-                Wargroove.updateUnit(currentPopUnit)
             else
-                Wargroove.spawnUnit(-1, { x = -91, y = -12 }, "villager", true, "")
+                Wargroove.spawnUnit(-1, { x = -91, y = -12 }, "population_indicator", true, "")
                 Wargroove.waitFrame()
                 local popCapUnit = Wargroove.getUnitAt({ x = -91, y = -12 })
                 popCapUnit.pos = { x = -99, y = -99 }
                 popCapUnit:setHealth(popCap, -1)
+                popCapUnit:setGroove(currentPop, -1)
                 table.insert(u.loadedUnits, popCapUnit.id)
                 popCapUnit.inTransport = true
                 popCapUnit.transportedBy = u.id
                 Wargroove.updateUnit(popCapUnit)
-                
-                Wargroove.spawnUnit(-1, { x = -91, y = -12 }, "villager", true, "")
-                Wargroove.waitFrame()
-                local currentPopUnit = Wargroove.getUnitAt({ x = -91, y = -12 })
-                currentPopUnit.pos = { x = -99, y = -99 }
-                currentPopUnit:setHealth(currentPop, -1)
-                table.insert(u.loadedUnits, currentPopUnit.id)
-                currentPopUnit.inTransport = true
-                currentPopUnit.transportedBy = u.id
                 Wargroove.updateUnit(u)
-                Wargroove.updateUnit(currentPopUnit)
             end
                 
+        end
+    end
+    pop_animation_initalized = true
+end
+
+function Actions.modifyDimensionalDoorGroove(context)
+    
+    local allUnits = Wargroove.getAllUnitsForPlayer(-2, true)
+    
+    for i, u in ipairs(allUnits) do
+        
+        if u.unitClassId == "dimensional_door" then
+            if u.grooveCharge < 5 then
+                u.grooveCharge = u.grooveCharge + 1
+                Wargroove.updateUnit(u)
+            end 
         end
     end
 end
@@ -117,6 +145,11 @@ function Actions.generateGoldPerTurnFromPosAction(context)
                     if numberOfMiners > 0 then
                         AOW.generateGoldPerTurnFromPos(u.pos, u.playerId, numberOfMiners * Constants.goldPerTurnPerMine)
                     end
+                elseif firstUnit.unitClassId == "gem" then
+                    local numberOfMiners = #u.loadedUnits - 1
+                    if numberOfMiners > 0 then
+                        AOW.generateGoldPerTurnFromPos(u.pos, u.playerId, numberOfMiners * Constants.gemPerTurnPerMine)
+                    end
                 end
             end
         end
@@ -133,10 +166,20 @@ function Actions.drawTechLevelEffect(context)
         local allUnits = Wargroove.getAllUnitsForPlayer(playerId, true)
         for i, u in ipairs(allUnits) do
             if u.unitClassId == "hq" then
-                local effectId = Wargroove.spawnUnitEffect(u.id, "units/structures/tech_level", effectToDraw, "", true)
+                local previousLevel = tonumber(Wargroove.getUnitState(u, "techEffectLevelDrawn"))
+                if tech_animation_initalized == false or previousLevel == nil or techlevel > previousLevel then
+                    if previousLevel ~= nil then
+                        Wargroove.deleteUnitEffect(Wargroove.getUnitState(u, "techEffect"), "")
+                    end
+                    local effectId = Wargroove.spawnUnitEffect(u.id, "units/fx/tech_level", effectToDraw, "", true)
+                    Wargroove.setUnitState(u, "techEffectLevelDrawn", techlevel)
+                    Wargroove.setUnitState(u, "techEffect", effectId)
+                    Wargroove.updateUnit(u)
+                end
             end
         end
     end
+    tech_animation_initalized = true
 end
 
 function Actions.spawnGlobalStateUnit(context)
@@ -163,7 +206,12 @@ function Actions.removeGenerateGoldPerTurnFromPos(context)
                 
                 local goldUnit = Wargroove.getUnitAt(pos)
                 
-                local goldHp = AOW.getGoldCount(pos) / Constants.goldPerTurnPerMine
+                local goldHp
+                if goldUnit.unitClassId == "gold" then
+                    goldHp = AOW.getGoldCount(pos) / Constants.goldPerTurnPerMine * 2
+                elseif goldUnit.unitClassId == "gem" then
+                    goldHp = AOW.getGoldCount(pos) / Constants.gemPerTurnPerMine * 4
+                end
                 goldUnit:setHealth(goldHp, -1)
                 goldUnit.playerId = -2
                 Wargroove.updateUnit(goldUnit)
@@ -182,15 +230,44 @@ function Actions.modifyGoldAtPos(context)
     local remainingGold = operation(AOW.getGoldCount(pos), gold)
     AOW.setGoldCount(pos, remainingGold)
     
-    local goldHp = remainingGold / Constants.goldPerTurnPerMine * 2
     
     local goldCamp = Wargroove.getUnitAt(pos)
     local goldUnit = Wargroove.getUnitById(goldCamp.loadedUnits[1])
     
+    local goldHp
+    if goldUnit.unitClassId == "gold" then
+        goldHp = remainingGold / Constants.goldPerTurnPerMine * 2
+    elseif goldUnit.unitClassId == "gem" then
+        goldHp = remainingGold / Constants.gemPerTurnPerMine * 4
+    end
+    
+    
     goldUnit:setHealth(goldHp, -1)
     Wargroove.updateUnit(goldUnit)
+    if goldUnit.health > 0 and goldUnit.health < 20 then
+        if gold_animation_initialized == false or Wargroove.getUnitState(goldCamp, "lowGoldEffectDrawn") == nil then
+            local effectId = Wargroove.spawnUnitEffect(goldCamp.id, "units/fx/warning", "warn", "", true)
+            Wargroove.setUnitState(goldCamp, "lowGoldEffect", effectId)
+            Wargroove.setUnitState(goldCamp, "lowGoldEffectDrawn", "warn")
+            Wargroove.updateUnit(goldCamp)
+        end
+    end
     
     if goldUnit.health == 0 then
+        
+        if gold_animation_initialized ~= false and Wargroove.getUnitState(goldCamp, "lowGoldEffectDrawn") == "warn" then
+            Wargroove.deleteUnitEffect(Wargroove.getUnitState(goldCamp, "lowGoldEffect"), "")
+        end
+        
+        if gold_animation_initialized == false or Wargroove.getUnitState(goldCamp, "lowGoldEffectDrawn") == "warn" then
+            Wargroove.spawnUnitEffect(goldCamp.id, "units/fx/warning", "critical", "", true)
+            Wargroove.setUnitState(goldCamp, "lowGoldEffect", effectId)
+            Wargroove.setUnitState(goldCamp, "lowGoldEffectDrawn", "critical")
+            Wargroove.updateUnit(goldCamp)
+        end
+        
+        gold_animation_initialized = true
+        
         table.remove(goldCamp.loadedUnits, 1)
         Wargroove.updateUnit(goldCamp)
         AOW.removeGoldGenerationFromPos(pos)

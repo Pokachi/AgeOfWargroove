@@ -41,7 +41,7 @@ function Unload:canExecuteWithTarget(unit, endPos, targetPos, strParam)
         end
 
         local loadedUnit = Wargroove.getUnitById(unitId)
-        if (loadedUnit.unitClassId == "gold") then
+        if (loadedUnit.unitClassId == "gold" or loadedUnit.unitClassId == "gem") then
             return false
         end
         

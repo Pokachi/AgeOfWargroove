@@ -61,7 +61,7 @@ function Build:canExecuteWithTarget(unit, endPos, targetPos, strParam)
     local uc = Wargroove.getUnitClass(classToRecruit)
     
     if uc.id == "gold_camp" then
-        return u ~= nil and u.unitClass.id == "gold"
+        return u ~= nil and (u.unitClass.id == "gold" or u.unitClass.id == "gem")
     end
     
     return (endPos.x ~= targetPos.x or endPos.y ~= targetPos.y) and (u == nil or unit.id == u.id) and Wargroove.canStandAt(classToRecruit, targetPos) and Wargroove.getMoney(unit.playerId) >= getCost(uc.cost)
@@ -125,11 +125,11 @@ function Build:execute(unit, targetPos, strParam, path)
     Wargroove.waitFrame()
     
     
-    local gold = {}
+    local resource = {}
     if (uc.id == "gold_camp") then
-        gold = Wargroove.getUnitAt(targetPos)
-        gold.pos = { x = -100, y = -100 }
-        Wargroove.updateUnit(gold)
+        resource = Wargroove.getUnitAt(targetPos)
+        resource.pos = { x = -100, y = -100 }
+        Wargroove.updateUnit(resource)
     end
     
     local newUnit = Wargroove.getUnitAt(targetPos)
@@ -139,14 +139,18 @@ function Build:execute(unit, targetPos, strParam, path)
     if (uc.id == "gold_camp") then
         local remainingGold = AOW.getGoldCount(targetPos)
         if remainingGold == 0 then
-            AOW.setGoldCount(targetPos, Constants.goldPerTurnPerMine * gold.health / 2)
+            if resource.unitClassId == "gold" then
+                AOW.setGoldCount(targetPos, Constants.goldPerTurnPerMine * resource.health / 2)
+            elseif resource.unitClassId == "gem" then
+                AOW.setGoldCount(targetPos, Constants.gemPerTurnPerMine * resource.health / 4)
+            end
         end
         
-        gold.transportedBy = newUnit.id
-        gold.inTransport = true
-        Wargroove.updateUnit(gold)
+        resource.transportedBy = newUnit.id
+        resource.inTransport = true
+        Wargroove.updateUnit(resource)
         
-        table.insert(newUnit.loadedUnits, gold.id)
+        table.insert(newUnit.loadedUnits, resource.id)
     end
     
     if (uc.id == "city" or uc.id == "water_city") then
