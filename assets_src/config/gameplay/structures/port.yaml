@@ -5,7 +5,7 @@ modifyingUnitClasses:
     replace:
         income: 0
         regeneration: 0
-        canBeCaptured: false
+        canBeCaptured: true
         canReinforce: false
         cost: 300
         isNeutraliseable: false
