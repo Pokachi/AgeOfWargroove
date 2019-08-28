@@ -8,7 +8,7 @@ unitClasses:
     isStructure: true
     canReinforce: false
     canBeReinforced: false
-    canBeCaptured: false
+    canBeCaptured: true
     isNeutraliseable: false
     damageMultiplier: 1.3
     battleUnitCount: 1
