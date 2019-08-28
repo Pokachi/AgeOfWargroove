@@ -2,6 +2,7 @@ local Events = require "wargroove/events"
 local Wargroove = require "wargroove/wargroove"
 local Constants = require "constants"
 local AOW = require "age_of_wargroove/age_of_wargroove"
+local Equipment = require "age_of_wargroove/equipment"
 
 local AI = {}
 
@@ -30,7 +31,7 @@ function AI.updateAIGlobals(playerId)
                 AIGlobals[playerId].goldCamps = AIGlobals[playerId].goldCamps + 1
                 table.insert(AIGlobals[playerId].goldCampsPos, unit.pos)
             end
-        elseif unitClassId == "gold" and unit.pos.x >= 0 and unit.pos.y >= 0 then
+        elseif (unitClassId == "gold" or unitClassId == "gem") and unit.pos.x >= 0 and unit.pos.y >= 0 then
             table.insert(AIGlobals[playerId].goldPos, unit.pos)
         end
     end
@@ -105,7 +106,9 @@ end
 
 function AI.buildUnitOrders(unitId, canMove, classToRecruit)
     local orders = {}
-    
+    if classToRecruit == "" then
+        return orders
+    end
     local unit = Wargroove.getUnitById(unitId)
     local unitClass = Wargroove.getUnitClass(unit.unitClassId)
     local money = Wargroove.getMoney(unit.playerId)
@@ -150,8 +153,11 @@ function AI.placeVillagerInMineOrders(unitId, canMove)
             local u = Wargroove.getUnitAt(targetPos)
             if u ~= nil then
                 local uc = Wargroove.getUnitClass(u.unitClassId)
-                if Wargroove.areAllies(u.playerId, unit.playerId) and uc.isStructure and uc.id == "gold_camp" and not (#(u.loadedUnits) >= uc.loadCapacity) and #(u.loadedUnits) ~= 0 and u.loadedUnits[1] ~= nil and Wargroove.getUnitById(u.loadedUnits[1]).unitClass.id == "gold" then
-                    orders[#orders+1] = {targetPosition = targetPos, strParam = "", movePosition = pos, endPosition = pos}
+                if Wargroove.areAllies(u.playerId, unit.playerId) and uc.isStructure and uc.id == "gold_camp" and not (#(u.loadedUnits) >= uc.loadCapacity) and #(u.loadedUnits) ~= 0 and u.loadedUnits[1] ~= nil then
+                    local lc = Wargroove.getUnitById(u.loadedUnits[1]).unitClass.id;
+                    if lc == "gold" or lc == "gem" then
+                        orders[#orders+1] = {targetPosition = targetPos, strParam = "", movePosition = pos, endPosition = pos}
+                    end
                 end
             end
         end
@@ -187,7 +193,7 @@ function AI.placeMineOrders(unitId, canMove)
             local u = Wargroove.getUnitAt(targetPos)
             if u ~= nil then
                 local uc = Wargroove.getUnitClass(u.unitClassId)
-                if uc.id == "gold" then
+                if uc.id == "gold" or uc.id == "gem" then
                     orders[#orders+1] = {targetPosition = targetPos, strParam = "gold_camp", movePosition = pos, endPosition = pos}
                 end
             end
@@ -285,8 +291,8 @@ function AI.placeStructureScore(unitId, order)
     for i,targetPos in ipairs(unitsInRange) do
         local u = Wargroove.getUnitAt(targetPos)
         if u ~= nil then
-            if ((u.unitClass.id == "hq" and Wargroove.areAllies(u.playerId, unit.playerId)) or u.unitClass.id == "gold" or u.unitClass.id == "gold_camp") and order.strParam ~= "gold_camp" then
-                score = score - 30
+            if ((u.unitClass.id == "hq" and Wargroove.areAllies(u.playerId, unit.playerId)) or u.unitClass.id == "gold" or u.unitClass.id == "gem" or u.unitClass.id == "gold_camp") and order.strParam ~= "gold_camp" then
+                score = score - 75
             end
             if u.unitClass.id == "city" then
                 score = score - 3
@@ -305,20 +311,23 @@ function AI.unloadCampOrders(unitId, canMove)
     local start = true
     local strParam = ""
     
-    if unit.loadedUnits ~= nil and #(unit.loadedUnits) > 0 and unit.loadedUnits[1] ~= nil and  Wargroove.getUnitById(unit.loadedUnits[1]).unitClass.id ~= "gold" then
-        for i, id in ipairs(unit.loadedUnits) do
-            local u = Wargroove.getUnitById(id)
-            if u ~= nil then 
-                local targets = Wargroove.getTargetsInRange(unit.pos, 1, "empty")
-                if targets ~= nil or #targets ~= 0 then
-                    local target = targets[1]
-                    if start then
-                        start = false
-                    else
-                        strParam = strParam .. ";"
-                    end
+    if unit.loadedUnits ~= nil and #(unit.loadedUnits) > 0 and unit.loadedUnits[1] ~= nil then
+        local lc = Wargroove.getUnitById(unit.loadedUnits[1]).unitClass.id
+        if lc ~= "gold" and lc ~= "gem" then
+            for i, id in ipairs(unit.loadedUnits) do
+                local u = Wargroove.getUnitById(id)
+                if u ~= nil then 
+                    local targets = Wargroove.getTargetsInRange(unit.pos, 1, "empty")
+                    if targets ~= nil or #targets ~= 0 then
+                        local target = targets[1]
+                        if start then
+                            start = false
+                        else
+                            strParam = strParam .. ";"
+                        end
 
-                    strParam = strParam .. u.id .. ":" .. target.x .. "," .. target.y
+                        strParam = strParam .. u.id .. ":" .. target.x .. "," .. target.y
+                    end
                 end
             end
         end
@@ -343,8 +352,6 @@ function AI.waitVillagerOrders(unitId, canMove)
     local movePositions = Wargroove.getTargetsInRange(unit.pos, unitClass.moveRange, "empty")
     
     for i, targetPos in ipairs(movePositions) do
-        print("AI Location Score at: " .. targetPos.x .. " " .. targetPos.y)
-        print(inspect(Wargroove.getAILocationScore(unitId, targetPos)))
         table.insert(orders, {targetPosition = targetPos, strParam = "", movePosition = targetPos, endPosition = targetPos})
     end
     
@@ -366,14 +373,84 @@ function AI.waitVillagerScore(unitId, order)
     for i, gPos in ipairs(AIGlobals[unit.playerId].goldCampsPos) do
         local u = Wargroove.getUnitAt(gPos)
         local uc = u.unitClass
-        if u ~= nil and not (#(u.loadedUnits) >= uc.loadCapacity) and #(u.loadedUnits) ~= 0 and u.loadedUnits[1] ~= nil and Wargroove.getUnitById(u.loadedUnits[1]).unitClass.id == "gold" then
-            local locationScore = 20 - ((math.abs(gPos.x - endPos.x) + math.abs(gPos.y - endPos.y)) * 0.35)
-            if locationScore > score then
-                score = locationScore
+        if u ~= nil and not (#(u.loadedUnits) >= uc.loadCapacity) and #(u.loadedUnits) ~= 0 and u.loadedUnits[1] ~= nil then
+            local lc = Wargroove.getUnitById(u.loadedUnits[1]).unitClass.id
+            if lc == "gold" or lc == "gem" then
+                local locationScore = 20 - ((math.abs(gPos.x - endPos.x) + math.abs(gPos.y - endPos.y)) * 0.35)
+                if locationScore > score then
+                    score = locationScore
+                end
             end
         end
     end
     return { score = score, healthDelta = 0, introspection = {}}
+end
+
+function AI.pickUpOrders(unitId, canMove)
+    local unit = Wargroove.getUnitById(unitId)
+    local unitClass = Wargroove.getUnitClass(unit.unitClassId)
+    local orders = {}
+    local movePositions = {}
+    if canMove then 
+        movePositions = Wargroove.getTargetsInRange(unit.pos, unitClass.moveRange, "empty")
+    end
+    
+    for i, movePos in ipairs(movePositions) do
+        local targets = Wargroove.getTargetsInRangeAfterMove(unit, movePos, movePos, 1, "unit")
+        for i, target in ipairs(targets) do
+        local u = Wargroove.getUnitAt(target)
+            if u ~= nil then
+                local allArtifacts = Equipment.getAllArtifactsIds()
+                local exists = false
+                for j, a in ipairs(allArtifacts) do
+                    exists = exists or (a == u.unitClass.id)
+                end
+                if exists then
+                    table.insert(orders, {targetPosition = target, strParam = "", movePosition = movePos, endPosition = movePos})
+                end
+            end
+        end
+    end
+    return orders
+end
+
+function AI.pickUpScore(unitId, order)
+    return { score = 6, healthDelta = 0, introspection = {}}
+end
+
+function AI.buyArtifactsOrders(unitId, canMove, recruitableUnits)
+    local unit = Wargroove.getUnitById(unitId)
+    local unitClass = Wargroove.getUnitClass(unit.unitClassId)
+    local orders = {}
+    local movePositions = {}
+    if canMove then 
+        movePositions = Wargroove.getTargetsInRange(unit.pos, unitClass.moveRange, "empty")
+    end
+    
+    for i, movePos in ipairs(movePositions) do
+        local targets = Wargroove.getTargetsInRangeAfterMove(unit, movePos, movePos, 1, "unit")
+        for k, target in ipairs(targets) do
+            local u = Wargroove.getUnitAt(target)
+            if u ~= nil and u.unitClass.id == "shop" then
+                local allArtifacts = Equipment.getAllArtifactsIds()
+                for p, r in ipairs(recruitableUnits) do
+                    
+                    local exists = false
+                    for j, a in ipairs(allArtifacts) do
+                        exists = exists or (a == r)
+                    end
+                    if exists and Wargroove.getMoney(unit.playerId) >= Wargroove.getUnitClass(r).cost then
+                        table.insert(orders, {targetPosition = target, strParam = r, movePosition = movePos, endPosition = movePos})
+                    end
+                end
+            end
+        end
+    end
+    return orders
+end
+
+function AI.buyArtifactsScore(unitId, order)
+    return { score = 5.9, healthDelta = 0, introspection = {}}
 end
 
 return AI
