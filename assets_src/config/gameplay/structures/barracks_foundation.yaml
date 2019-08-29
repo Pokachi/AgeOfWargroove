@@ -1,0 +1,47 @@
+---
+
+unitClasses:
+  - id: barracks_foundation
+    name: structure_name_barracks
+    aiPriority: 4.0
+    moveRange: 0
+    isStructure: true
+    canReinforce: false
+    canBeReinforced: false
+    canBeCaptured: true
+    isNeutraliseable: false
+    damageMultiplier: 1.3
+    battleUnitCount: 1
+    hostileNeutral: false
+    garrisonUnit: ""
+    movement: land_building
+    income: 0
+    cost: 200
+    tags:
+      - structure
+      - foundation
+    grooveId: indication_progress
+      
+units:
+  - class: barracks_foundation
+    faction: neutral
+    name: structure_name_barracks
+    mapAnimation: [units/structures/foundation/map_foundation]
+    smallPortrait: portraits/small/portrait_structure_small.png
+    mediumPortrait: portraits/medium/barracks.png
+    grabPos: [11, 7]
+    hasBattleScreen: false
+    sounds:
+      hit: hitWood
+      hitMap: hitStone
+      death: gateDie
+    structureImage:
+      spriteSheet: backgrounds/barracks/barracks_background_full
+      farBackground: barracks_background_full_background_2
+      nearBackground: barracks_background_full_background_1
+      foreground: barracks_background_full_foreground
+      keeperPosition: [74, 85]
+      leftBannerOffset: [2, 0]
+      rightBannerOffset: [3, 1]
+
+...

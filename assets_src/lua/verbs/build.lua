@@ -38,6 +38,17 @@ end
 Build.classToRecruit = nil
 
 function Build:canExecuteWithTarget(unit, endPos, targetPos, strParam)
+    local u = Wargroove.getUnitAt(targetPos)
+    
+    -- if we are building an existing foundation, then always return true
+    if u ~= nil then
+        for i, tag in ipairs(u.unitClass.tags) do
+            if tag == "foundation" then
+                return true
+            end
+        end
+    end
+    
     -- if we haven't choose what to build yet, then we can always execute
     if Build.classToRecruit == nil then
         return true
@@ -52,7 +63,6 @@ function Build:canExecuteWithTarget(unit, endPos, targetPos, strParam)
         classToRecruit = strParam
     end
 
-    local u = Wargroove.getUnitAt(targetPos)
     if (classToRecruit == "") then
         return u == nil
     end
@@ -68,6 +78,26 @@ end
 
 
 function Build:preExecute(unit, targetPos, strParam, endPos)
+    Wargroove.selectTarget()
+
+    while Wargroove.waitingForSelectedTarget() do
+        coroutine.yield()
+    end
+
+    local target = Wargroove.getSelectedTarget()
+    -- if we are building an existing foundation, then always return true
+    if (target ~= nil) then
+        local u = Wargroove.getUnitAt(target)
+        
+        if u ~= nil then
+            for i, tag in ipairs(u.unitClass.tags) do
+                if tag == "foundation" then
+                    return true
+                end
+            end
+        end
+    end
+    
     local recruitableUnits = Build.getRecruitableTargets(self, unit);
     Wargroove.openRecruitMenu(unit.playerId, unit.id, unit.pos, unit.unitClassId, recruitableUnits, costMultiplier);
 
@@ -81,14 +111,6 @@ function Build:preExecute(unit, targetPos, strParam, endPos)
         return false, ""
     end
 
-    Wargroove.selectTarget()
-
-    while Wargroove.waitingForSelectedTarget() do
-        coroutine.yield()
-    end
-
-    local target = Wargroove.getSelectedTarget()
-
     if (target == nil) then
         Build.classToRecruit = nil
         return false, ""
@@ -99,6 +121,19 @@ end
 
 function Build:execute(unit, targetPos, strParam, path)
     Build.classToRecruit = nil
+    
+    local u = Wargroove.getUnitAt(targetPos)
+    
+    -- if we are building an existing foundation, then always return true
+    if u ~= nil then
+        for i, tag in ipairs(u.unitClass.tags) do
+            if tag == "foundation" then
+                Wargroove.removeUnit(u.id)
+                Wargroove.waitFrame()
+                Wargroove.spawnUnit(unit.playerId, targetPos, "barracks", true, "")
+            end
+        end
+    end
     
     if strParam == "" then
         print("Build was not given a class to recruit.")

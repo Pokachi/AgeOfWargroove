@@ -15,6 +15,8 @@ en-GB:
     groove_description_dimensional_door: A relic from the anicent. Allows the wielder to teleport to a tile beside HQ. 5 turn cooldown
     groove_name_indicate_population: Population
     groove_description_indicate_population: The Current Population
+    groove_name_indicate_progress: Progress
+    groove_description_indicate_progress: percentage completed on the current action
     structure_name_gold: Gold
     structure_name_gem: Gem
     structure_name_gold_camp: Mining Camp
