@@ -139,11 +139,16 @@ end
 function RecruitTwo:generateOrders(unitId, canMove)
     local unit = Wargroove.getUnitById(unitId)
     local orders = {}
-    
     if unit.unitClass.id == "hq" then
+        if (not Wargroove.canPlayerRecruit(unit.playerId, "villager")) then
+            return orders
+        end
         return AI.buildVillagerOrders(unitId, canMove)
     end
     RecruitTwo.classToRecruit = Wargroove.getBestUnitToRecruit(RecruitTwo.getRecruitableTargets(self, unit))
+    if (not Wargroove.canPlayerRecruit(unit.playerId, RecruitTwo.classToRecruit)) then
+        return orders
+    end
     return AI.buildUnitOrders(unitId, canMove, RecruitTwo.classToRecruit)
 end
 

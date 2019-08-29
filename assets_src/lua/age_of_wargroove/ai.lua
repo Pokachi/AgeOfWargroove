@@ -60,7 +60,7 @@ function AI.modifyAIGlobalsAlwaysTrigger(referenceTrigger)
     trigger.recurring = "repeat"
     trigger.players = referenceTrigger.players
     trigger.conditions = {}
-    table.insert(trigger.conditions, { id = "unit_presence", parameters = { "current", "0", "0", "barracks", "-1" } })
+    table.insert(trigger.conditions, { id = "end_of_unit_turn", parameters = { } })
     trigger.actions = {}
     table.insert(trigger.actions, { id = "modify_ai_globals", parameters = { "current" }  })
     
@@ -352,7 +352,9 @@ function AI.waitVillagerOrders(unitId, canMove)
     local movePositions = Wargroove.getTargetsInRange(unit.pos, unitClass.moveRange, "empty")
     
     for i, targetPos in ipairs(movePositions) do
-        table.insert(orders, {targetPosition = targetPos, strParam = "", movePosition = targetPos, endPosition = targetPos})
+        if Wargroove.canStandAt(unitClass.id, targetPos) then
+            table.insert(orders, {targetPosition = targetPos, strParam = "", movePosition = targetPos, endPosition = targetPos})
+        end
     end
     
     return orders
@@ -426,7 +428,9 @@ function AI.buyArtifactsOrders(unitId, canMove, recruitableUnits)
     if canMove then 
         movePositions = Wargroove.getTargetsInRange(unit.pos, unitClass.moveRange, "empty")
     end
-    
+    if #(unit.loadedUnits) >= unitClass.loadCapacity then
+        return orders
+    end
     for i, movePos in ipairs(movePositions) do
         local targets = Wargroove.getTargetsInRangeAfterMove(unit, movePos, movePos, 1, "unit")
         for k, target in ipairs(targets) do
@@ -450,7 +454,88 @@ function AI.buyArtifactsOrders(unitId, canMove, recruitableUnits)
 end
 
 function AI.buyArtifactsScore(unitId, order)
+    if order == nil or order.strParam == "" then
+        return { score = -1, healthDelta = 0, introspection = {}}
+    end
     return { score = 5.9, healthDelta = 0, introspection = {}}
+end
+
+function AI.drinkGPotOrders(unitId, canMove)
+    local unit = Wargroove.getUnitById(unitId)
+    local unitClass = Wargroove.getUnitClass(unit.unitClassId)
+    local orders = {}
+    local movePositions = {}
+    if unit.loadedUnits == nil then
+        return orders
+    end
+    local hasPot = false
+    for i, equipmentId in ipairs(unit.loadedUnits) do
+        local equipment = Wargroove.getUnitById(equipmentId)
+        if equipment.unitClassId == "health_pot" then
+            hasPot = true
+            break
+        end
+    end
+    if (not hasPot) then
+        return orders
+    end
+    if canMove then 
+        movePositions = Wargroove.getTargetsInRange(unit.pos, unitClass.moveRange, "empty")
+    end
+    local totalGroove = unit.grooveCharge + Constants.GPotValue
+    if totalGroove >= 100 then
+        return orders
+    end
+    for i, movePos in ipairs(movePositions) do
+        table.insert(orders, {targetPosition = movePos, strParam = "", movePosition = movePos, endPosition = movePos})
+    end
+    return orders
+end
+
+function AI.drinkGPotScore(unitId, order)
+    local unit = Wargroove.getUnitById(unitId)
+    local score = (10 - math.sqrt(unit.grooveCharge + Constants.GPotValue + 10))
+    
+    return { score = score, healthDelta = 0, introspection = {}}
+end
+
+function AI.drinkHPotOrders(unitId, canMove)
+    local unit = Wargroove.getUnitById(unitId)
+    local unitClass = Wargroove.getUnitClass(unit.unitClassId)
+    local orders = {}
+    local movePositions = {}
+    if unit.loadedUnits == nil then
+        return orders
+    end
+    local hasPot = false
+    for i, equipmentId in ipairs(unit.loadedUnits) do
+        local equipment = Wargroove.getUnitById(equipmentId)
+        if equipment.unitClassId == "health_pot" then
+            hasPot = true
+            break
+        end
+    end
+    if (not hasPot) then
+        return orders
+    end
+    if canMove then 
+        movePositions = Wargroove.getTargetsInRange(unit.pos, unitClass.moveRange, "empty")
+    end
+    local totalGroove = unit.health + Constants.HPotValue
+    if totalGroove >= 100 then
+        return orders
+    end
+    for i, movePos in ipairs(movePositions) do
+        table.insert(orders, {targetPosition = movePos, strParam = "", movePosition = movePos, endPosition = movePos})
+    end
+    return orders
+end
+
+function AI.drinkHPotScore(unitId, order)
+    local unit = Wargroove.getUnitById(unitId)
+    local score = (15 - math.sqrt(unit.health + Constants.HPotValue))
+    
+    return { score = score, healthDelta = Constants.HPotValue, introspection = {{ key = "healScore", value = score }}}
 end
 
 return AI

@@ -1,6 +1,7 @@
 local Wargroove = require "wargroove/wargroove"
 local Verb = require "wargroove/verb"
 local Constants = require "constants"
+local AI = require "age_of_wargroove/ai"
 
 local DrinkHPot = Verb:new()
 
@@ -31,6 +32,14 @@ function DrinkHPot:execute(unit, targetPos, strParam, path)
             return
         end
     end
+end
+
+function DrinkHPot:generateOrders(unitId, canMove)
+    return AI.drinkHPotOrders(unitId, canMove)
+end
+
+function DrinkHPot:getScore(unitId, order)
+    return AI.drinkHPotScore(unitId, order)
 end
 
 return DrinkHPot
