@@ -7,7 +7,7 @@ modifyingUnitClasses:
         regeneration: 0
         canBeCaptured: true
         canReinforce: false
-        cost: 400
+        cost: 250
         isNeutraliseable: false
         verbs:
             - recruit_two
