@@ -1,0 +1,77 @@
+---
+codex:
+
+- id: rules_gold_mines
+  category: rules
+  name: codex_rules_gold_mines
+  icon:
+    image: ui/codex/icons/icon_rules_question.png
+  pages:
+  - pageType: page
+    layoutType: animation
+    animation: ui/codex/content/rules_win
+    title: codex_rules_gold_mines_title
+    text: codex_rules_gold_mines_text
+
+- id: rules_tech
+  category: rules
+  name: codex_rules_tech
+  icon:
+    image: ui/codex/icons/icon_rules_question.png
+  pages:
+  - pageType: page
+    layoutType: animation
+    animation: ui/codex/content/rules_win
+    title: codex_rules_tech_title
+    text: codex_rules_tech_text
+
+- id: rules_building
+  category: rules
+  name: codex_rules_building
+  icon:
+    image: ui/codex/icons/icon_rules_question.png
+  pages:
+  - pageType: page
+    layoutType: animation
+    animation: ui/codex/content/rules_win
+    title: codex_rules_building_title
+    text: codex_rules_building_text
+
+- id: rules_pop_cap
+  category: rules
+  name: codex_rules_pop_cap
+  icon:
+    image: ui/codex/icons/icon_rules_question.png
+  pages:
+  - pageType: page
+    layoutType: animation
+    animation: ui/codex/content/rules_win
+    title: codex_rules_pop_cap_title
+    text: codex_rules_pop_cap_text
+
+- id: rules_artifacts
+  category: rules
+  name: codex_rules_artifacts
+  icon:
+    image: ui/codex/icons/icon_rules_question.png
+  pages:
+  - pageType: page
+    layoutType: animation
+    animation: ui/codex/content/rules_win
+    title: codex_rules_artifacts_title
+    text: codex_rules_artifacts_text
+
+- id: rules_shop
+  category: rules
+  name: codex_rules_shop
+  icon:
+    image: ui/codex/icons/icon_rules_question.png
+  pages:
+  - pageType: page
+    layoutType: animation
+    animation: ui/codex/content/rules_win
+    title: codex_rules_shop_title
+    text: codex_rules_shop_text
+
+
+...
