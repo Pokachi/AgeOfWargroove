@@ -1,8 +1,8 @@
 ---
 
 unitClasses:
-  - id: barracks_foundation
-    name: structure_name_barracks
+  - id: tower_foundation
+    name: structure_name_tower
     aiPriority: 4.0
     moveRange: 0
     isStructure: true
@@ -16,32 +16,31 @@ unitClasses:
     garrisonUnit: ""
     movement: land_building
     income: 0
-    cost: 200
+    cost: 250
     tags:
       - structure
       - foundation
-    grooveId: indication_progress
       
 units:
-  - class: barracks_foundation
+  - class: tower_foundation
     faction: neutral
-    name: structure_name_barracks
+    name: structure_name_tower
     mapAnimation: [units/structures/foundation/map_foundation]
     smallPortrait: portraits/small/portrait_structure_small.png
-    mediumPortrait: portraits/medium/barracks.png
-    grabPos: [11, 7]
+    mediumPortrait: portraits/medium/tower.png
+    grabPos: [14, 4]
     hasBattleScreen: false
     sounds:
       hit: hitWood
       hitMap: hitStone
       death: gateDie
     structureImage:
-      spriteSheet: backgrounds/barracks/barracks_background_full
-      farBackground: barracks_background_full_background_2
-      nearBackground: barracks_background_full_background_1
-      foreground: barracks_background_full_foreground
-      keeperPosition: [74, 85]
-      leftBannerOffset: [2, 0]
-      rightBannerOffset: [3, 1]
+      spriteSheet: backgrounds/tower/tower_background_full
+      farBackground: tower_background_full_background_2
+      nearBackground: tower_background_full_background_1
+      foreground: tower_background_full_foreground
+      keeperPosition: [72, 75]
+      leftBannerOffset: [0, 0]
+      rightBannerOffset: [0, 0]
 
 ...

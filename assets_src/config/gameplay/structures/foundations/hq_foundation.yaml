@@ -1,0 +1,47 @@
+---
+
+unitClasses:
+  - id: hq_foundation
+    name: structure_name_hq
+    aiPriority: 4.0
+    moveRange: 0
+    isStructure: true
+    canReinforce: false
+    canBeReinforced: false
+    canBeCaptured: true
+    isNeutraliseable: false
+    damageMultiplier: 1.3
+    battleUnitCount: 1
+    hostileNeutral: false
+    garrisonUnit: ""
+    movement: land_building
+    income: 0
+    cost: 750
+    tags:
+      - structure
+      - foundation
+      
+units:
+  - class: hq_foundation
+    faction: neutral
+    name: structure_name_hq
+    mapAnimation: [units/structures/foundation/map_foundation]
+    smallPortrait: portraits/small/portrait_structure_small.png
+    mediumPortrait: portraits/medium/red_hq.png
+    grabPos: [29, 10]
+    hasBattleScreen: false
+    sounds:
+      hit: hitWood
+      hitMap: hitStone
+      death: gateDie
+      deathMap: strongholdDieRed
+    structureImage:
+      spriteSheet: backgrounds/cherrystonehq/cherrystonehq_background_full
+      farBackground: cherrystonehq_background_full_background_2
+      nearBackground: cherrystonehq_background_full_background_1
+      foreground: cherrystonehq_background_full_foreground
+      bannerForeground: backgrounds/cherrystonehq/cherrystonehq_banner_foreground
+      keeperPosition: [66, 69]
+      hasBanners: false
+
+...

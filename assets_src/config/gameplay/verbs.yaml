@@ -9,6 +9,14 @@ verbs:
     preExecute: true
     scriptName: verbs/build
     aiUses: true
+  - id: build_phase_two
+    icon: ui/icons/unit_action_icon_build.png
+    name: ui_unit_verbs_build_phase_two
+    targetColour: target
+    targetOutlineColour: target_outline
+    targetted: true
+    scriptName: verbs/build_phase_two
+    aiUses: true
   - id: buy_artifacts
     icon: ui/icons/unit_action_icon_recruit.png
     name: ui_unit_verbs_buy_artifacts

@@ -1,0 +1,46 @@
+---
+
+unitClasses:
+  - id: water_city_foundation
+    name: structure_name_water_city
+    aiPriority: 4.0
+    moveRange: 0
+    isStructure: true
+    canReinforce: false
+    canBeReinforced: false
+    canBeCaptured: true
+    isNeutraliseable: false
+    damageMultiplier: 1.3
+    battleUnitCount: 1
+    hostileNeutral: false
+    garrisonUnit: ""
+    movement: sea_building
+    income: 0
+    cost: 100
+    tags:
+      - structure
+      - foundation
+      
+units:
+  - class: water_city_foundation
+    faction: neutral
+    name: structure_name_water_city
+    mapAnimation: [units/structures/foundation/map_foundation]
+    smallPortrait: portraits/small/portrait_structure_small.png
+    mediumPortrait: portraits/medium/water_city.png
+    grabPos: [14, 13]
+    hasBattleScreen: false
+    sounds:
+      hit: hitWood
+      hitMap: hitWood
+      death: gateDie
+    structureImage:
+      spriteSheet: backgrounds/watercity/watercity_background_full
+      farBackground: watercity_background_full_background_2
+      nearBackground: watercity_background_full_background_1
+      foreground: watercity_background_full_foreground
+      keeperPosition: [78, 95]
+      leftBannerOffset: [-6, 2]
+      rightBannerOffset: [0, 2]
+
+...

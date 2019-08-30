@@ -14,5 +14,6 @@ modifyingUnitClasses:
             - build
             - mine
             - repair
+            - build_phase_two
 
 ...

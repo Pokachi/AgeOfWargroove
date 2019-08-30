@@ -21,7 +21,7 @@ function Build:getTargetType()
 end
 
 function Build:getRecruitableTargets(unit)
-    local allAvailableRecruits = {"hq","port","barracks","tower","city","water_city","gate", "gold_camp"}
+    local allAvailableRecruits = {"hq_foundation","port_foundation","barracks_foundation","tower_foundation","city_foundation","water_city_foundation","gold_camp"}
     local availableRecruits = {}
     
     local availableRecruitsAtTechLevel = AOW.getRecruitsAtTechLevel(AOW.getTechLevel(unit.playerId))
@@ -38,17 +38,6 @@ end
 Build.classToRecruit = nil
 
 function Build:canExecuteWithTarget(unit, endPos, targetPos, strParam)
-    local u = Wargroove.getUnitAt(targetPos)
-    
-    -- if we are building an existing foundation, then always return true
-    if u ~= nil then
-        for i, tag in ipairs(u.unitClass.tags) do
-            if tag == "foundation" then
-                return true
-            end
-        end
-    end
-    
     -- if we haven't choose what to build yet, then we can always execute
     if Build.classToRecruit == nil then
         return true
@@ -63,6 +52,7 @@ function Build:canExecuteWithTarget(unit, endPos, targetPos, strParam)
         classToRecruit = strParam
     end
 
+    local u = Wargroove.getUnitAt(targetPos)
     if (classToRecruit == "") then
         return u == nil
     end
@@ -78,13 +68,6 @@ end
 
 
 function Build:preExecute(unit, targetPos, strParam, endPos)
-    Wargroove.selectTarget()
-
-    while Wargroove.waitingForSelectedTarget() do
-        coroutine.yield()
-    end
-
-    local target = Wargroove.getSelectedTarget()
     -- if we are building an existing foundation, then always return true
     if (target ~= nil) then
         local u = Wargroove.getUnitAt(target)
@@ -110,6 +93,14 @@ function Build:preExecute(unit, targetPos, strParam, endPos)
     if Build.classToRecruit == nil then
         return false, ""
     end
+    
+    Wargroove.selectTarget()
+
+    while Wargroove.waitingForSelectedTarget() do
+        coroutine.yield()
+    end
+
+    local target = Wargroove.getSelectedTarget()
 
     if (target == nil) then
         Build.classToRecruit = nil
@@ -121,19 +112,6 @@ end
 
 function Build:execute(unit, targetPos, strParam, path)
     Build.classToRecruit = nil
-    
-    local u = Wargroove.getUnitAt(targetPos)
-    
-    -- if we are building an existing foundation, then always return true
-    if u ~= nil then
-        for i, tag in ipairs(u.unitClass.tags) do
-            if tag == "foundation" then
-                Wargroove.removeUnit(u.id)
-                Wargroove.waitFrame()
-                Wargroove.spawnUnit(unit.playerId, targetPos, "barracks", true, "")
-            end
-        end
-    end
     
     if strParam == "" then
         print("Build was not given a class to recruit.")
@@ -166,9 +144,13 @@ function Build:execute(unit, targetPos, strParam, path)
         Wargroove.updateUnit(resource)
     end
     
+    local hp = math.floor(100 / AOW.getTurnRequirement(uc.id))
+    
     local newUnit = Wargroove.getUnitAt(targetPos)
     newUnit.playerId = unit.playerId
     newUnit.hadTurn = true
+    newUnit:setHealth(hp, -1)
+    Wargroove.setUnitState(newUnit, "turnsBuilding", 1)
     
     if (uc.id == "gold_camp") then
         local remainingGold = AOW.getGoldCount(targetPos)
