@@ -125,7 +125,7 @@ function Combat:getDamage(attacker, defender, solveType, isCounter, attackerPos,
     end
 
     if weapon == nil or (isCounter and not weapon.canMoveAndAttack) or baseDamage < 0.01 then
-        return nil, false
+        return 0, false
     end
 
     local multiplier = 1.0
