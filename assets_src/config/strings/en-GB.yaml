@@ -3,6 +3,7 @@
 en-GB:
     ui_unit_verbs_build: Plan
     ui_unit_verbs_build_phase_two: Build
+    ui_unit_verbs_salvage: Salvage
     ui_unit_verbs_mine: Mine
     ui_unit_verbs_dismiss: Dismiss
     ui_unit_verbs_repair: Repair

@@ -12,5 +12,8 @@ modifyingUnitClasses:
         verbs:
             - recruit_two
             - wait
+        tags:
+            - structure
+            - salvageable
 
 ...

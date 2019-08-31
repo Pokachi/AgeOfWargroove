@@ -13,5 +13,8 @@ modifyingUnitClasses:
           - tech_up
         recruitTags: [type.ground.villager]
         loadCapacity: 2
+        tags:
+            - structure
+            - salvageable
 
 ...

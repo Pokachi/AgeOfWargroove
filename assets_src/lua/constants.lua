@@ -7,6 +7,7 @@ Constants.populationPerVillage = 4
 Constants.populationPerHQ = 8
 Constants.HPotValue = 25
 Constants.GPotValue = 25
+Constants.salvageValueReturn = 0.5
 
 Constants.coolDown = {
     door = 5
