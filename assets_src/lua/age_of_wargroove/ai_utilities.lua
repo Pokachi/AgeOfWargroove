@@ -27,7 +27,7 @@ end
 function AiUtils.generateGoldHeatMap(goldUnits)
     for i, goldPos in ipairs(goldUnits) do
         local key = goldPos.x .. "," .. goldPos.y .. ":gold"
-        local stack = {{x=goldPos.x,y=goldPos.y+1,value=40},{x=goldPos.x-1,y=goldPos.y,value=40},{x=goldPos.x+1,y=goldPos.y,value=40},{x=goldPos.x,y=goldPos.y-1,value=40}}
+        local stack = {{x=goldPos.x,y=goldPos.y+1,value=35},{x=goldPos.x-1,y=goldPos.y,value=35},{x=goldPos.x+1,y=goldPos.y,value=35},{x=goldPos.x,y=goldPos.y-1,value=35}}
         
         while #stack > 0 do
             local current = table.remove(stack, 1)
@@ -37,7 +37,7 @@ function AiUtils.generateGoldHeatMap(goldUnits)
                     AiUtils.addToLocationMap({x=current.x,y=current.y}, key, current.value)
                     local targets = Wargroove.getTargetsInRange({x=current.x,y=current.y}, 1, "all")
                     for i, target in ipairs(targets) do
-                        if target ~= nil and AiUtils.distance(goldPos, target) <= 30 and value > 0 then
+                        if target ~= nil and AiUtils.distance(goldPos, target) <= 25 and value > 0 then
                             table.insert(stack, {x=target.x,y=target.y,value=value})
                         end
                     end

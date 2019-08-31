@@ -250,7 +250,14 @@ function AI.techUpOrders(unitId, canMove, cost)
 end
 
 function AI.techUpScore(unitId, order)
-    return { score = 75, healthDelta = 0, introspection = {}}
+    local unit = Wargroove.getUnitById(unitId)
+    local unitClass = Wargroove.getUnitClass(unit.unitClassId)
+    local score = -1
+    
+    if AIGlobals[unit.playerId].goldCamps > 0 and AIGlobals[unit.playerId].villagers > 3 then
+        score = 75
+    end
+    return { score = score, healthDelta = 0, introspection = {}}
 end
 
 function AI.placeStructureOrders(unitId, canMove, classToRecruit)
@@ -392,10 +399,14 @@ function AI.waitVillagerScore(unitId, order)
     
     local endPos = order.endPosition
     
+    local goldBonus = 225
+    if AIGlobals[unit.playerId].goldCamps > 0 then
+        goldBonus = 0
+    end
     local score = -1
     for i, pos in ipairs(AIGlobals[unit.playerId].goldPos) do
         local key = pos.x .. "," .. pos.y .. ":gold"
-        local tmpScore = AIUtils.getFromLocationMap(endPos, key)
+        local tmpScore = AIUtils.getFromLocationMap(endPos, key) + goldBonus
         score = math.max(tmpScore, score)
     end
     for i, pos in ipairs(AIGlobals[unit.playerId].goldCampsPos) do
