@@ -1,6 +1,18 @@
 ---
 codex:
 
+- id: rules_income
+  category: rules
+  name: codex_rules_income
+  icon:
+    image: ui/codex/icons/icon_rules_question.png
+  pages:
+  - pageType: page
+    layoutType: animation
+    animation: ui/codex/content/rules_income_2
+    title: codex_rules_income_title
+    text: codex_rules_income_text
+
 - id: rules_gold_mines
   category: rules
   name: codex_rules_gold_mines
@@ -9,7 +21,7 @@ codex:
   pages:
   - pageType: page
     layoutType: animation
-    animation: ui/codex/content/rules_win
+    animation: ui/codex/content/rules_mine
     title: codex_rules_gold_mines_title
     text: codex_rules_gold_mines_text
 
@@ -21,7 +33,7 @@ codex:
   pages:
   - pageType: page
     layoutType: animation
-    animation: ui/codex/content/rules_win
+    animation: ui/codex/content/rules_tech
     title: codex_rules_tech_title
     text: codex_rules_tech_text
 
@@ -33,9 +45,21 @@ codex:
   pages:
   - pageType: page
     layoutType: animation
-    animation: ui/codex/content/rules_win
+    animation: ui/codex/content/rules_build
     title: codex_rules_building_title
     text: codex_rules_building_text
+
+- id: rules_repairing
+  category: rules
+  name: codex_rules_repair
+  icon:
+    image: ui/codex/icons/icon_rules_question.png
+  pages:
+  - pageType: page
+    layoutType: animation
+    animation: ui/codex/content/rules_repair
+    title: codex_rules_repair_title
+    text: codex_rules_repair_text
 
 - id: rules_pop_cap
   category: rules
@@ -45,7 +69,7 @@ codex:
   pages:
   - pageType: page
     layoutType: animation
-    animation: ui/codex/content/rules_win
+    animation: ui/codex/content/rules_pop_cap
     title: codex_rules_pop_cap_title
     text: codex_rules_pop_cap_text
 
@@ -57,7 +81,7 @@ codex:
   pages:
   - pageType: page
     layoutType: animation
-    animation: ui/codex/content/rules_win
+    animation: ui/codex/content/rules_artifact
     title: codex_rules_artifacts_title
     text: codex_rules_artifacts_text
 
@@ -69,9 +93,10 @@ codex:
   pages:
   - pageType: page
     layoutType: animation
-    animation: ui/codex/content/rules_win
+    animation: ui/codex/content/rules_shop
     title: codex_rules_shop_title
     text: codex_rules_shop_text
 
+# We also need a REPAIRING rule
 
 ...
