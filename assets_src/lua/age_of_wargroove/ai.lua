@@ -3,6 +3,7 @@ local Wargroove = require "wargroove/wargroove"
 local Constants = require "constants"
 local AOW = require "age_of_wargroove/age_of_wargroove"
 local Equipment = require "age_of_wargroove/equipment"
+local AIUtils = require "age_of_wargroove/ai_utilities"
 
 local AI = {}
 
@@ -41,6 +42,20 @@ function AI.getAIGlobals()
     return AIGlobals
 end
 
+function AI.setupAIHeatMap(playerId)
+    if playerId == nil then
+        return
+    end
+    local allUnits = Wargroove.getUnitsAtLocation(nil)
+    local golds = {}
+    for i, unit in ipairs(allUnits) do
+        if (unit.unitClass.id == "gold" or unit.unitClass.id == "gem") and unit.pos.x >= 0 and unit.pos.y >= 0 then
+            table.insert(golds, unit.pos)
+        end
+    end
+    AIUtils.generateGoldHeatMap(golds)
+end
+
 function AI.modifyAIGlobalsTrigger(referenceTrigger)
     local trigger = {}
     trigger.id =  "modifyAIGlobalsTrigger"
@@ -50,6 +65,18 @@ function AI.modifyAIGlobalsTrigger(referenceTrigger)
     table.insert(trigger.conditions, { id = "start_of_turn", parameters = {} })
     trigger.actions = {}
     table.insert(trigger.actions, { id = "modify_ai_globals", parameters = { "current" }  })
+    
+    return trigger
+end
+
+function AI.setupAIHeatMapTrigger(referenceTrigger)
+    local trigger = {}
+    trigger.id =  "setupAIHeatMap"
+    trigger.recurring = "start_of_match"
+    trigger.players = referenceTrigger.players
+    trigger.conditions = {}
+    trigger.actions = {}
+    table.insert(trigger.actions, { id = "setup_ai_heatmap", parameters = { "current" }  })
     
     return trigger
 end
@@ -359,32 +386,27 @@ function AI.waitVillagerOrders(unitId, canMove)
     
     return orders
 end
-
 function AI.waitVillagerScore(unitId, order)
     local unit = Wargroove.getUnitById(unitId)
     local unitClass = Wargroove.getUnitClass(unit.unitClassId)
     
     local endPos = order.endPosition
+    
     local score = -1
-    for i, gPos in ipairs(AIGlobals[unit.playerId].goldPos) do
-        local locationScore = 11 - ((math.abs(gPos.x - endPos.x) + math.abs(gPos.y - endPos.y)) * 0.35)
-        if locationScore > score then
-            score = locationScore
+    for i, pos in ipairs(AIGlobals[unit.playerId].goldPos) do
+        local key = pos.x .. "," .. pos.y .. ":gold"
+        local tmpScore = AIUtils.getFromLocationMap(endPos, key)
+        score = math.max(tmpScore, score)
+    end
+    for i, pos in ipairs(AIGlobals[unit.playerId].goldCampsPos) do
+        local key = pos.x .. "," .. pos.y .. ":gold"
+        local u = Wargroove.getUnitAt(pos)
+        if u ~= nil and Wargroove.areAllies(u.playerId, unit.playerId) and u.unitClass.isStructure and u.unitClass.id == "gold_camp" and not (#(u.loadedUnits) >= u.unitClass.loadCapacity) and #(u.loadedUnits) ~= 0 and u.loadedUnits[1] ~= nil then
+            local tmpScore = AIUtils.getFromLocationMap(endPos, key) + 5
+            score = math.max(tmpScore, score)
         end
     end
-    for i, gPos in ipairs(AIGlobals[unit.playerId].goldCampsPos) do
-        local u = Wargroove.getUnitAt(gPos)
-        local uc = u.unitClass
-        if u ~= nil and not (#(u.loadedUnits) >= uc.loadCapacity) and #(u.loadedUnits) ~= 0 and u.loadedUnits[1] ~= nil then
-            local lc = Wargroove.getUnitById(u.loadedUnits[1]).unitClass.id
-            if lc == "gold" or lc == "gem" then
-                local locationScore = 20 - ((math.abs(gPos.x - endPos.x) + math.abs(gPos.y - endPos.y)) * 0.35)
-                if locationScore > score then
-                    score = locationScore
-                end
-            end
-        end
-    end
+    score = score / 3
     return { score = score, healthDelta = 0, introspection = {}}
 end
 

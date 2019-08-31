@@ -26,12 +26,18 @@ function Actions.populate(dst)
     dst["modify_population_cap"] = Actions.modifyCurrentPopulation
     dst["report_dead_village"] = Actions.reportDeadVillage
     dst["modify_ai_globals"] = Actions.modifyAIGlobals
+    dst["setup_ai_heatmap"] = Actions.setupAIHeatMap
     dst["modify_dimensional_door_groove"] = Actions.modifyDimensionalDoorGroove
 end
 
 function Actions.modifyAIGlobals(context)
     local playerId = context:getPlayerId(0)
     AI.updateAIGlobals(playerId)
+end
+
+function Actions.setupAIHeatMap(context)
+    local playerId = context:getPlayerId(0)
+    AI.setupAIHeatMap(playerId)
 end
 
 function Actions.reportDeadVillage(context)
