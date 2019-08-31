@@ -8,23 +8,6 @@ Constants.populationPerHQ = 8
 Constants.HPotValue = 25
 Constants.GPotValue = 25
 Constants.salvageValueReturn = 0.5
-Constants.salvageables = {
-                            "hq_foundation",
-                            "port_foundation",
-                            "barracks_foundation",
-                            "tower_foundation",
-                            "city_foundation",
-                            "water_city_foundation",
-                                                
-                            "hq",
-                            "port",
-                            "barracks",
-                            "tower",
-                            "city",
-                            "water_city",
-                            "gate",
-                            "gold_camp"
-                         }
 
 Constants.coolDown = {
     door = 5
