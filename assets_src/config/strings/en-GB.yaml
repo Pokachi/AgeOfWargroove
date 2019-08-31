@@ -35,7 +35,18 @@ en-GB:
     equipment_name_groove_pot: Groove Potion
     equipment_name_bow: Hunting Bow
     equipment_name_dimensional_door: Dimensional Door
-    unit_description_gold: Vaulable resources. Can be mined by constructing a mining camp on top of it and staff it with villagers
+    unit_description_barracks: Used to recruit new ground units.
+    unit_description_barracks_foundation: Foundation for a barracks. Use a villager to complete building it.
+    unit_description_port: Used to recruit new water units.
+    unit_description_port_foundation: Foundation for a port. Use a villager to complete building it.
+    unit_description_hq: Used to recruit villagers and provides 8 population space. If all HQs are destroyed, the player will be eliminated.
+    unit_description_hq_foundation: Foundation for a stronghold. Use a villager to complete building it.
+    unit_description_city: Villages provides population space for your troops. Each village adds 4 population space.
+    unit_description_city_foundation: Foundation for a village. Use a villager to complete building it.
+    unit_description_water_city: Water Villages provides population space for your troops. Each water village adds 4 population space.
+    unit_description_water_city_foundation: Foundation for a water village. Use a villager to complete building it.
+    unit_description_tower: Used to recruit new air units
+    unit_description_tower_foundation: Foundation for a tower. Use a villager to complete building it.
     unit_description_gem: Rare Vaulable resources. Can be mined by constructing a mining camp on top of it and staff it with villagers
     unit_description_gold_camp: Mining camp for gold. Garrison with villagers to start mining 50 gold per villager per turn
     unit_description_shop: Shop selling 5 random artifacts. restocks every 5 turns.
