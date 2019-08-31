@@ -181,7 +181,7 @@ function AgeOfWargroove.reportDeadVillageTrigger(referenceTrigger)
     trigger.players = referenceTrigger.players
     trigger.conditions = {}
     
-    table.insert(trigger.conditions, { id = "unit_killed", parameters = { "*unit", "current", "*structure", "any", "-1" } })
+    table.insert(trigger.conditions, { id = "unit_lost", parameters = { "*structure", "any", "-1" } })
     table.insert(trigger.conditions, { id = "player_turn", parameters = { "current" } })
     
     trigger.actions = {}
