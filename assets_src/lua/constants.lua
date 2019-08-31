@@ -12,4 +12,15 @@ Constants.coolDown = {
     door = 5
 }
 
+Constants.buildData = {
+    barracks_foundation = {2, "barracks"},
+    port_foundation = {2, "port"},
+    tower_foundation = {2, "tower"},
+    city_foundation = {2, "city"},
+    water_city_foundation = {2, "water_city"},
+    hq_foundation = {3, "hq"},
+    gold_camp = {1, ""},
+    gate_foundation = {2, "gate"}
+}
+
 return Constants

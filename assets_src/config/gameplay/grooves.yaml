@@ -13,5 +13,11 @@ grooves:
     maxCharge: 100
     chargePerUse: 0
     verb: wait
+  - id: indication_progress
+    name: groove_name_indicate_progress
+    description: groove_description_indicate_progress
+    maxCharge: 100
+    chargePerUse: 0
+    verb: wait
 
 ...
