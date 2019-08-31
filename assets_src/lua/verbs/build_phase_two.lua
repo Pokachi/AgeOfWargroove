@@ -50,6 +50,12 @@ function Build:onPostUpdateUnit(unit, targetPos, strParam, path)
     end
 
     u:setHealth(newHp, -1)
+
+    if (u.unitClassId == "city" or u.unitClassId == "water_city") then
+        AOW.setPopulationCap(unit.playerId, AOW.getPopulationCap(unit.playerId) + Constants.populationPerVillage)
+    elseif (u.unitClassId == "hq") then
+        AOW.setPopulationCap(unit.playerId, AOW.getPopulationCap(unit.playerId) + Constants.populationPerHQ)
+    end
     Wargroove.updateUnit(u)
 end
 

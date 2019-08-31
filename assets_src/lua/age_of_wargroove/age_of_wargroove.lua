@@ -62,6 +62,10 @@ function AgeOfWargroove.spawnGlobalStateSoldier()
 
 end
 
+function AgeOfWargroove.getGlobalStateSoldier()
+    return Wargroove.getUnitAt( Constants.globalStateUnitPos )
+end
+
 function AgeOfWargroove.generateGoldPerTurnFromPosTrigger(referenceTrigger)
     local trigger = {}
     trigger.id =  "generateGoldPerTurnFromPosMasterTrigger"

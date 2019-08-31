@@ -169,12 +169,6 @@ function Build:execute(unit, targetPos, strParam, path)
         table.insert(newUnit.loadedUnits, resource.id)
     end
     
-    if (uc.id == "city" or uc.id == "water_city") then
-        AOW.setPopulationCap(unit.playerId, AOW.getPopulationCap(unit.playerId) + Constants.populationPerVillage)
-    elseif (uc.id == "hq") then
-        AOW.setPopulationCap(unit.playerId, AOW.getPopulationCap(unit.playerId) + Constants.populationPerHQ)
-    end
-    
     Wargroove.updateUnit(newUnit)
 
     Wargroove.unsetFacingOverride(unit.id)
