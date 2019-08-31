@@ -13,7 +13,7 @@ codex:
     title: codex_rules_income_title
     text: codex_rules_income_text
 
-- id: rules_gold_mines
+- id: rules_reinforcement
   category: rules
   name: codex_rules_gold_mines
   icon:
@@ -96,6 +96,5 @@ codex:
     animation: ui/codex/content/rules_shop
     title: codex_rules_shop_title
     text: codex_rules_shop_text
-
 
 ...
