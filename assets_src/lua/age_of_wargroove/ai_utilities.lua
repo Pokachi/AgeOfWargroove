@@ -45,8 +45,17 @@ function AiUtils.generateGoldHeatMap(goldUnits)
             end
         end
     end
+    local gStateSoldier = AOW.getGlobalStateSoldier()
+    Wargroove.setUnitState(gStateSoldier, "aiGoldHeatMap", inspect(AiUtils.locationMap))
+    Wargroove.updateUnit(gStateSoldier)
 end
-
+function AiUtils.readGoldHeatMapFromState()
+    local gStateSoldier = AOW.getGlobalStateSoldier()
+    local heatMap = Wargroove.getUnitState(gStateSoldier, "aiGoldHeatMap")
+    if heatMap ~= nil then
+        AiUtils.locationMap = (loadstring or load)("return "..heatMap)()
+    end
+end
 function AiUtils.posToStr(pos)
     return pos.x .. "," .. pos.y
 end

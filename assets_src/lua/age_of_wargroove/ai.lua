@@ -20,13 +20,13 @@ function AI.updateAIGlobals(playerId)
     for i, unit in ipairs(allUnits) do
         local unitClassId = unit.unitClass.id
         if unit.playerId == playerId  then
-            if unitClassId == "barracks" then
+            if unitClassId == "barracks" or unitClassId == "barracks_foundation" then
                 AIGlobals[playerId].barracks = AIGlobals[playerId].barracks + 1
-            elseif unitClassId == "tower" then
+            elseif unitClassId == "tower" or unitClassId == "tower_foundation" then
                 AIGlobals[playerId].towers = AIGlobals[playerId].towers + 1
-            elseif unitClassId == "port" then
+            elseif unitClassId == "port" or unitClassId == "port_foundation" then
                 AIGlobals[playerId].ports = AIGlobals[playerId].ports + 1
-            elseif unitClassId == "villager" then
+            elseif unitClassId == "villager" or unitClassId == "villager_foundation" then
                 AIGlobals[playerId].villagers = AIGlobals[playerId].villagers + 1
             elseif unitClassId == "gold_camp" then
                 AIGlobals[playerId].goldCamps = AIGlobals[playerId].goldCamps + 1
@@ -36,6 +36,7 @@ function AI.updateAIGlobals(playerId)
             table.insert(AIGlobals[playerId].goldPos, unit.pos)
         end
     end
+    AIUtils.readGoldHeatMapFromState()
 end
 
 function AI.getAIGlobals()
@@ -72,9 +73,10 @@ end
 function AI.setupAIHeatMapTrigger(referenceTrigger)
     local trigger = {}
     trigger.id =  "setupAIHeatMap"
-    trigger.recurring = "start_of_match"
-    trigger.players = referenceTrigger.players
+    trigger.recurring = "oncePerPlayer"
+    trigger.players = { 1, 0, 0, 0, 0, 0, 0, 0 }
     trigger.conditions = {}
+    table.insert(trigger.conditions, { id = "start_of_turn", parameters = {} })
     trigger.actions = {}
     table.insert(trigger.actions, { id = "setup_ai_heatmap", parameters = { "current" }  })
     
@@ -271,13 +273,13 @@ function AI.placeStructureOrders(unitId, canMove, classToRecruit)
     if money < recruitCost then
         return orders
     end
-    if classToRecruit == "barracks" and AIGlobals[unit.playerId].barracks >= 3 then
+    if classToRecruit == "barracks_foundation" and AIGlobals[unit.playerId].barracks >= 3 then
         return orders
     end
-    if classToRecruit == "tower" and AIGlobals[unit.playerId].towers >= 1 then
+    if classToRecruit == "tower_foundation" and AIGlobals[unit.playerId].towers >= 1 then
         return orders
     end
-    if classToRecruit == "port" and AIGlobals[unit.playerId].ports >= 1 then
+    if classToRecruit == "port_foundation" and AIGlobals[unit.playerId].ports >= 1 then
         return orders
     end
     local movePositions = {}
@@ -305,33 +307,33 @@ function AI.placeStructureScore(unitId, order)
     local unitsInRange = Wargroove.getTargetsInRange(endPos, 2, "unit")
     local score = -1
     local popDiff = AOW.getPopulationCap(unit.playerId) - AOW.getCurrentPopulation(unit.playerId)
-    if (order.strParam == "city" or order.strParam == "water_city") and popDiff <= 1 then
+    if (order.strParam == "city_foundation" or order.strParam == "water_city_foundation") and popDiff <= 2 then
         score = 80
     else
-        score = -80
+        score = 1
     end
-    if order.strParam == "hq" and popDiff <= 1 then
+    if order.strParam == "hq_foundation" and popDiff <= 2 then
         score = 68 + AOW.getPopulationCap(unit.playerId)
     end
-    if order.strParam == "barracks" then
+    if order.strParam == "barracks_foundation" then
         score = 10 * AIGlobals[unit.playerId].villagers - AIGlobals[unit.playerId].barracks * 35
     end
-    if order.strParam == "tower" then
+    if order.strParam == "tower_foundation" then
         score = 15
     end
-    if order.strParam == "port" then
+    if order.strParam == "port_foundation" then
         score = 15
     end
     for i,targetPos in ipairs(unitsInRange) do
         local u = Wargroove.getUnitAt(targetPos)
         if u ~= nil then
-            if ((u.unitClass.id == "hq" and Wargroove.areAllies(u.playerId, unit.playerId)) or u.unitClass.id == "gold" or u.unitClass.id == "gem" or u.unitClass.id == "gold_camp") and order.strParam ~= "gold_camp" then
+            if ((u.unitClass.id == "hq_foundation" and Wargroove.areAllies(u.playerId, unit.playerId)) or u.unitClass.id == "gold" or u.unitClass.id == "gem" or u.unitClass.id == "gold_camp") and order.strParam ~= "gold_camp" then
                 score = score - 75
             end
-            if u.unitClass.id == "city" then
+            if u.unitClass.id == "city_foundation" then
                 score = score - 3
             end
-            if u.unitClass.id == "barracks" or u.unitClass.id == "tower" then
+            if u.unitClass.id == "barracks_foundation" or u.unitClass.id == "tower_foundation" then
                 score = score - 5
             end
         end
@@ -359,8 +361,9 @@ function AI.unloadCampOrders(unitId, canMove)
                         else
                             strParam = strParam .. ";"
                         end
-
-                        strParam = strParam .. u.id .. ":" .. target.x .. "," .. target.y
+                        if target ~= nil then
+                            strParam = strParam .. u.id .. ":" .. target.x .. "," .. target.y
+                        end
                     end
                 end
             end
@@ -527,7 +530,7 @@ end
 
 function AI.drinkGPotScore(unitId, order)
     local unit = Wargroove.getUnitById(unitId)
-    local score = (10 - math.sqrt(unit.grooveCharge + Constants.GPotValue + 10))
+    local score = (20 - math.sqrt(unit.grooveCharge + Constants.GPotValue + 10))
     
     return { score = score, healthDelta = 0, introspection = {}}
 end
@@ -554,8 +557,8 @@ function AI.drinkHPotOrders(unitId, canMove)
     if canMove then 
         movePositions = Wargroove.getTargetsInRange(unit.pos, unitClass.moveRange, "empty")
     end
-    local totalGroove = unit.health + Constants.HPotValue
-    if totalGroove >= 100 then
+    local totalHealth = unit.health + Constants.HPotValue
+    if totalHealth >= 100 then
         return orders
     end
     for i, movePos in ipairs(movePositions) do
@@ -566,9 +569,39 @@ end
 
 function AI.drinkHPotScore(unitId, order)
     local unit = Wargroove.getUnitById(unitId)
-    local score = (15 - math.sqrt(unit.health + Constants.HPotValue))
+    local score = (25 - math.sqrt(unit.health + Constants.HPotValue))
     
     return { score = score, healthDelta = Constants.HPotValue, introspection = {{ key = "healScore", value = score }}}
 end
 
+function AI.buildTwoOrders(unitId, canMove)
+    local orders = {}
+    local unit = Wargroove.getUnitById(unitId)
+    local unitClass = Wargroove.getUnitClass(unit.unitClassId)
+    local movePositions = {}
+    if canMove then
+        movePositions = Wargroove.getTargetsInRange(unit.pos, unitClass.moveRange, "empty")
+    end
+    table.insert(movePositions, unit.pos)
+
+    for i, pos in pairs(movePositions) do
+        local targets = Wargroove.getTargetsInRangeAfterMove(unit, pos, pos, 1, "unit")
+        for j, targetPos in pairs(targets) do
+            local u = Wargroove.getUnitAt(targetPos)
+            if u ~= nil then
+                for i, tag in ipairs(u.unitClass.tags) do
+                    if tag == "foundation" then
+                        orders[#orders+1] = {targetPosition = targetPos, strParam = classToRecruit, movePosition = pos, endPosition = pos}
+                        break
+                    end
+                end
+            end
+        end
+    end
+    return orders
+end
+
+function AI.buildTwoScore(unitId, order)
+    return { score = 85, healthDelta = 0, introspection = {}}
+end
 return AI
