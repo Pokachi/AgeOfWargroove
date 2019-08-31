@@ -17,6 +17,14 @@ verbs:
     targetted: true
     scriptName: verbs/build_phase_two
     aiUses: true
+  - id: salvage
+    icon: ui/icons/unit_action_icon_salvage.png
+    name: ui_unit_verbs_salvage
+    targetColour: target
+    targetOutlineColour: target_outline
+    targetted: true
+    scriptName: verbs/salvage
+    aiUses: true
   - id: buy_artifacts
     icon: ui/icons/unit_action_icon_recruit.png
     name: ui_unit_verbs_buy_artifacts
