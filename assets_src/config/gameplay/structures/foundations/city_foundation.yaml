@@ -28,7 +28,7 @@ units:
     name: structure_name_city
     mapAnimation: [units/structures/foundation/map_foundation]
     smallPortrait: portraits/small/portrait_structure_small.png
-    mediumPortrait: portraits/medium/city.png
+    mediumPortrait: units/structures/foundation/portrait_city_foundation_medium.png
     grabPos: [14, 15]
     hasBattleScreen: false
     sounds:
