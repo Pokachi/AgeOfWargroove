@@ -9,9 +9,11 @@ modifyingUnitClasses:
         canReinforce: false
         cost: 250
         isNeutraliseable: false
+        loadCapacity: 1
         verbs:
             - recruit_two
-            - wait
+            - recruit_two_phase_two
+            - cancel_recruit
         tags:
             - structure
             - salvageable

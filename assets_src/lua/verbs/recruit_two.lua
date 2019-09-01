@@ -16,6 +16,9 @@ function RecruitTwo:getMaximumRange(unit, endPos)
 end
 
 function RecruitTwo:canExecuteAnywhere(unit)
+    if unit.unitClassId ~= "hq" and #unit.loadedUnits > 0 then
+        return false
+    end
     return AOW.getPopulationSizeForUnit(unit.unitClassId) + AOW.getCurrentPopulation(unit.playerId) <= AOW.getPopulationCap(unit.playerId)
 end
 
@@ -82,17 +85,19 @@ function RecruitTwo:preExecute(unit, targetPos, strParam, endPos)
         return false, ""
     end
 
-    Wargroove.selectTarget()
+    if AOW.getTurnRequirement(RecruitTwo.classToRecruit) == 1 then
+        Wargroove.selectTarget()
 
-    while Wargroove.waitingForSelectedTarget() do
-        coroutine.yield()
-    end
+        while Wargroove.waitingForSelectedTarget() do
+            coroutine.yield()
+        end
 
-    local target = Wargroove.getSelectedTarget()
+        local target = Wargroove.getSelectedTarget()
 
-    if (target == nil) then
-        RecruitTwo.classToRecruit = nil
-        return false, ""
+        if (target == nil) then
+            RecruitTwo.classToRecruit = nil
+            return false, ""
+        end
     end
 
     return true, RecruitTwo.classToRecruit
@@ -106,31 +111,34 @@ function RecruitTwo:execute(unit, targetPos, strParam, path)
         return
     end
 
-    local facingOverride = ""
-    if targetPos.x > unit.pos.x then
-        facingOverride = "right"
-    elseif targetPos.x < unit.pos.x then
-        facingOverride = "left"
-    end
-
-    if facingOverride ~= "" then
-        Wargroove.setFacingOverride(unit.id, facingOverride)
-    end
-
     local uc = Wargroove.getUnitClass(strParam)
     
     Wargroove.changeMoney(unit.playerId, -getCost(uc.cost))
     
-    Wargroove.spawnUnit(unit.playerId, targetPos, strParam, false)
-    Wargroove.waitFrame()
-    
-    local newUnit = Wargroove.getUnitAt(targetPos)
-    newUnit.playerId = unit.playerId
-    newUnit.hadTurn = true
-    
-    Wargroove.updateUnit(newUnit)
-
-    Wargroove.unsetFacingOverride(unit.id)
+    if AOW.getTurnRequirement(strParam) == 1 then 
+        
+        Wargroove.spawnUnit(unit.playerId, targetPos, strParam, false)
+        Wargroove.waitFrame()
+        
+        local newUnit = Wargroove.getUnitAt(targetPos)
+        newUnit.hadTurn = true
+        
+        Wargroove.updateUnit(newUnit)
+    else
+        Wargroove.spawnUnit(unit.playerId, { x = -42, y = -19 }, strParam, false)
+        Wargroove.waitFrame()
+        
+        local newUnit = Wargroove.getUnitAt({ x = -42, y = -19 })
+        newUnit.transportedBy = unit.id
+        newUnit.inTransport = true
+        newUnit.pos = ({ x = -42, y = -20 })
+        Wargroove.updateUnit(newUnit)
+        
+        table.insert(unit.loadedUnits, newUnit.id)
+        Wargroove.setUnitState(unit, "turnsBuilding", 1)
+        local groove = math.floor(100 / AOW.getTurnRequirement(strParam))
+        unit:setGroove(groove)
+    end
 
     strParam = ""
 end

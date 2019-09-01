@@ -13,6 +13,8 @@ en-GB:
     ui_unit_verbs_drink_g_pot: Drink G-Potion
     ui_unit_verbs_dimensional_door: Recall
     ui_unit_verbs_buy_artifacts: Buy Artifacts
+    ui_unit_verbs_train: Train
+    ui_unit_verbs_cancel_recruit: Cancel Recruitment
     groove_name_dimensional_door: Dimensional Door
     groove_description_dimensional_door: A relic from the anicent. Allows the wielder to teleport to a tile beside HQ. 5 turn cooldown
     groove_name_indicate_population: Population

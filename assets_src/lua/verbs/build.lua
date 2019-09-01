@@ -40,6 +40,14 @@ Build.classToRecruit = nil
 function Build:canExecuteWithTarget(unit, endPos, targetPos, strParam)
     -- if we haven't choose what to build yet, then we can always execute
     if Build.classToRecruit == nil then
+        local target = Wargroove.getUnitAt(targetPos)
+        if (target ~= nil) then
+            for i, tag in ipairs(target.unitClass.tags) do
+                if tag == "foundation" then
+                    return false
+                end
+            end
+        end
         return true
     end
 
