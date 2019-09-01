@@ -11,6 +11,9 @@ modifyingUnitClasses:
         isNeutraliseable: false
         garrisonUnit: ""
         loadCapacity: 2
+        tags:
+            - structure
+            - salvageable
 
 units:
   - class: water_city
