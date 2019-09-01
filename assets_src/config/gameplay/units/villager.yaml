@@ -5,6 +5,7 @@ modifyingUnitClasses:
     replace:
         isRecruitable: true
         tags:
+            - villager
             - type.ground.villager
         cost: 75
         aiPriority: 2

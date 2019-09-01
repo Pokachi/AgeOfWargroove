@@ -327,13 +327,13 @@ function AI.placeStructureScore(unitId, order)
     for i,targetPos in ipairs(unitsInRange) do
         local u = Wargroove.getUnitAt(targetPos)
         if u ~= nil then
-            if ((u.unitClass.id == "hq_foundation" and Wargroove.areAllies(u.playerId, unit.playerId)) or u.unitClass.id == "gold" or u.unitClass.id == "gem" or u.unitClass.id == "gold_camp") and order.strParam ~= "gold_camp" then
+            if ((u.unitClass.id == "hq_foundation" and Wargroove.areAllies(u.playerId, unit.playerId)) or (u.unitClass.id == "hq" and Wargroove.areAllies(u.playerId, unit.playerId)) or u.unitClass.id == "gold" or u.unitClass.id == "gem" or u.unitClass.id == "gold_camp") and order.strParam ~= "gold_camp" then
                 score = score - 75
             end
-            if u.unitClass.id == "city_foundation" then
+            if u.unitClass.id == "city_foundation" or u.unitClass.id == "city" then
                 score = score - 3
             end
-            if u.unitClass.id == "barracks_foundation" or u.unitClass.id == "tower_foundation" then
+            if u.unitClass.id == "barracks_foundation" or u.unitClass.id == "tower_foundation" or u.unitClass.id == "barracks" or u.unitClass.id == "tower" then
                 score = score - 5
             end
         end
@@ -346,7 +346,6 @@ function AI.unloadCampOrders(unitId, canMove)
     local unitClass = Wargroove.getUnitClass(unit.unitClassId)
     local start = true
     local strParam = ""
-    
     if unit.loadedUnits ~= nil and #(unit.loadedUnits) > 0 and unit.loadedUnits[1] ~= nil then
         local lc = Wargroove.getUnitById(unit.loadedUnits[1]).unitClass.id
         if lc ~= "gold" and lc ~= "gem" then
@@ -355,14 +354,16 @@ function AI.unloadCampOrders(unitId, canMove)
                 if u ~= nil then 
                     local targets = Wargroove.getTargetsInRange(unit.pos, 1, "empty")
                     if targets ~= nil or #targets ~= 0 then
-                        local target = targets[1]
-                        if start then
-                            start = false
-                        else
-                            strParam = strParam .. ";"
-                        end
-                        if target ~= nil then
-                            strParam = strParam .. u.id .. ":" .. target.x .. "," .. target.y
+                        for l, target in ipairs(targets) do
+                            if start then
+                                start = false
+                            else
+                                strParam = strParam .. ";"
+                            end
+                            if target ~= nil and Wargroove.canStandAt("villager", target) then
+                                strParam = strParam .. u.id .. ":" .. target.x .. "," .. target.y
+                                break
+                            end
                         end
                     end
                 end

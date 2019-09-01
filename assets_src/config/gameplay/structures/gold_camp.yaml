@@ -21,6 +21,7 @@ unitClasses:
     tags:
       - structure
     verbs:
+      - unload
       - unload_two
       - wait
       

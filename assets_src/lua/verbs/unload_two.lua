@@ -19,7 +19,10 @@ function UnloadTwo:canExecuteWithTarget(unit, endPos, targetPos, strParam)
     if #unit.loadedUnits == 0 then
         return false
     end
-
+    if Wargroove.isHuman(unit.playerId) then
+        return false
+    end
+    
     -- If it's a water transport, is it on a beach?
     local tags = unit.unitClass.tags
     for i, tag in ipairs(tags) do
@@ -31,8 +34,8 @@ function UnloadTwo:canExecuteWithTarget(unit, endPos, targetPos, strParam)
     end
 
     if strParam == '' then
-        -- This means that the code is seeing if it should add unload to the action ui list
-        -- Actual checking is done in code.
+        -- This means that the code is seeing if it should add Dismiss to the action ui list
+        -- Actual checking is done in code.f
         return true
     end
 
@@ -46,7 +49,10 @@ function UnloadTwo:canExecuteWithTarget(unit, endPos, targetPos, strParam)
         end
 
         local loadedUnit = Wargroove.getUnitById(unitId)
-
+        if (loadedUnit.unitClassId == "gold" or loadedUnit.unitClassId == "gem") then
+            return false
+        end
+        
         if Wargroove.canStandAt(loadedUnit.unitClassId, targetPos) then
             return true
         end
@@ -57,6 +63,11 @@ function UnloadTwo:canExecuteWithTarget(unit, endPos, targetPos, strParam)
     local targets = UnloadTwo:parseStrParam(strParam)
     for unitId, target in pairs(targets) do
         local loadedUnit = Wargroove.getUnitById(unitId)
+        
+        if (loadedUnit.unitClassId == "gold") then
+            return false
+        end
+        
         if not Wargroove.canStandAt(loadedUnit.unitClassId, target) then
             return false
         end
@@ -247,6 +258,16 @@ function UnloadTwo:execute(unit, targetPos, strParam, path)
     end
 
     unit.loadedUnits = newLoadedUnits
+    
+    if #unit.loadedUnits > 0 then
+        local firstUnit = Wargroove.getUnitById(unit.loadedUnits[1])
+        if firstUnit ~= nil and firstUnit.unitClassId == "gold" then
+            local numberOfMiners = #unit.loadedUnits - 1
+            if numberOfMiners == 0 then
+                AOW.removeGoldGenerationFromPos(unit.pos)
+            end
+        end
+    end
 end
 
 function UnloadTwo:generateOrders(unitId, canMove)

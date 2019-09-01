@@ -8,16 +8,16 @@ local AiUtils = {}
 
 local inspect = require "inspect"
 
-AiUtils.locationMap = {}
+local locationMap = {}
 function AiUtils.addToLocationMap(pos, key, value)
     local keyStr = pos.x .. "," .. pos.y .. ":" .. key
     
-    AiUtils.locationMap[keyStr] = value
+    locationMap[keyStr] = value
 end
 
 function AiUtils.getFromLocationMap(pos, key)
     local keyStr = pos.x .. "," .. pos.y .. ":" .. key
-    local value = AiUtils.locationMap[keyStr]
+    local value = locationMap[keyStr]
     if value == nil then
         return 0
     end
@@ -46,14 +46,14 @@ function AiUtils.generateGoldHeatMap(goldUnits)
         end
     end
     local gStateSoldier = AOW.getGlobalStateSoldier()
-    Wargroove.setUnitState(gStateSoldier, "aiGoldHeatMap", inspect(AiUtils.locationMap))
+    Wargroove.setUnitState(gStateSoldier, "aiGoldHeatMap", inspect(locationMap))
     Wargroove.updateUnit(gStateSoldier)
 end
 function AiUtils.readGoldHeatMapFromState()
     local gStateSoldier = AOW.getGlobalStateSoldier()
     local heatMap = Wargroove.getUnitState(gStateSoldier, "aiGoldHeatMap")
     if heatMap ~= nil then
-        AiUtils.locationMap = (loadstring or load)("return "..heatMap)()
+        locationMap = (loadstring or load)("return "..heatMap)()
     end
 end
 function AiUtils.posToStr(pos)
