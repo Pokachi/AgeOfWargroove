@@ -32,7 +32,6 @@ function Actions.populate(dst)
     -- Editor
     dst["modify_experience"] = Actions.modifyExperience
     dst["modify_rank"] = Actions.modifyRank
-    --dst["update_leveling"] = Actions.updateLeveling
 end
 
 function Actions.reportDeadVillage(context)
