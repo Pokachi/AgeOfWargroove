@@ -36,32 +36,6 @@ local function getAffordableHealing(unit)
 end
 
 local targetedPos = nil
-function Repair:preExecute(unit, targetPos, strParam, endPos)
-    Repair.isInPreExecute = true
-    
-    targetedPos = targetPos
-    local targetUnit = Wargroove.getUnitAt(targetPos)
-    local toHeal, cost = self:getHealAndCost(targetUnit)
-    
-    Wargroove.showDialogueBox("neutral", "generic_outlaw", "heal " .. tostring(toHeal) .. " hp for " .. tostring(cost) .. " gold. Select the target again to confirm. Right click to cancel.", "")
-    
-    
-    Wargroove.selectTarget()
-    while Wargroove.waitingForSelectedTarget() do
-        coroutine.yield()
-    end
-
-    local target = Wargroove.getSelectedTarget()
-    
-    if (target == nil) then
-        Repair.isInPreExecute = false
-        targetedPos = nil
-        return false, ""
-    end
-    
-    Repair.isInPreExecute = false
-    return true, strParam
-end
 
 function Repair:canExecuteAt(unit, endPos)
     if not Verb.canExecuteAt(self, unit, endPos) then
@@ -80,6 +54,15 @@ function Repair:canExecuteWithTarget(unit, endPos, targetPos, strParam)
     
     if not targetUnit or not targetUnit.unitClass.isStructure or not Wargroove.areAllies(unit.playerId, targetUnit.playerId) then
         return false
+    end
+    
+    local targetUnit = Wargroove.getUnitAt(targetPos)
+    if (targetUnit ~= nil) then
+        for i, tag in ipairs(targetUnit.unitClass.tags) do
+            if tag == "foundation" then
+                return false
+            end
+        end
     end
 
     local desiredHealing = math.min(maxUnitHealth - targetUnit.health, maxRepairPerAction)

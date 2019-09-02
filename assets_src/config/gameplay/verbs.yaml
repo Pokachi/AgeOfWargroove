@@ -15,6 +15,7 @@ verbs:
     targetColour: target
     targetOutlineColour: target_outline
     targetted: true
+    directTarget: true
     scriptName: verbs/build_phase_two
     aiUses: true
   - id: salvage
@@ -42,7 +43,19 @@ verbs:
     targetOutlineColour: target_outline
     preExecute: true
     scriptName: verbs/recruit_two
+  - id: recruit_two_phase_two
+    icon: ui/icons/unit_action_icon_train.png
+    name: ui_unit_verbs_train
+    targetColour: target
+    targetOutlineColour: target_outline
+    preExecute: true
+    scriptName: verbs/recruit_two_phase_two
     aiUses: true
+  - id: cancel_recruit
+    icon: ui/icons/unit_action_icon_cancel.png
+    name: ui_unit_verbs_cancel_recruit
+    scriptName: verbs/cancel_recruit
+    targetted: false
   - id: mine
     icon: ui/icons/unit_action_icon_mine.png
     name: ui_unit_verbs_mine
