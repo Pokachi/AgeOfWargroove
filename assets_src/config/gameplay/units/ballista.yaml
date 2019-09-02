@@ -1,0 +1,11 @@
+---
+
+modifyingUnitClasses:
+  - id: ballista
+    replace:
+        tags:
+            - ballista
+            - type.ground.heavy
+            - canLevel
+          
+...

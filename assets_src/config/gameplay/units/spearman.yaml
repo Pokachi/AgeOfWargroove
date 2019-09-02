@@ -1,0 +1,11 @@
+---
+
+modifyingUnitClasses:
+  - id: spearman
+    replace:
+        tags:
+            - spearman
+            - type.ground.light
+            - canLevel
+          
+...

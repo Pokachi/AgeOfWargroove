@@ -1,0 +1,11 @@
+---
+
+modifyingUnitClasses:
+  - id: dragon
+    replace:
+        tags:
+            - dragon
+            - type.air
+            - canLevel
+          
+...

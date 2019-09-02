@@ -3,6 +3,7 @@ local Wargroove = require("wargroove/wargroove")
 local TriggerContext = require("triggers/trigger_context")
 local Resumable = require("wargroove/resumable")
 local AOW = require("age_of_wargroove/age_of_wargroove")
+local Leveling = require("age_of_wargroove/leveling")
 
 local Events = {}
 
@@ -180,7 +181,8 @@ function Events.populateTriggerList()
     Events.addTriggerToList(AOW.setInitialPopulationCap(referenceTrigger))
     Events.addTriggerToList(AOW.reportDeadVillageTrigger(referenceTrigger))
     Events.addTriggerToList(AOW.modifyUnitCapTrigger(referenceTrigger))
-    Events.addTriggerToList(AOW.modifyDDoorGroove())
+    Events.addTriggerToList(Leveling.onLoadTrigger(referenceTrigger))
+    Events.addTriggerToList(AOW.modifyDDoorGroove())    
     
     local Actions = require("triggers/actions")
     local Conditions = require("triggers/conditions")

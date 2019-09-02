@@ -8,6 +8,10 @@ Constants.populationPerHQ = 8
 Constants.HPotValue = 25
 Constants.GPotValue = 25
 Constants.salvageValueReturn = 0.5
+Constants.ranks = 5
+Constants.rankExpReqs = { 0.0, 1.0, 3.0, 6.0, 10.0, 15.0}
+Constants.rankOffMults = { 1.0, 1.1, 1.2, 1.3, 1.4, 1.5}
+Constants.rankDefMults = { 1.0, 0.95, 0.9, 0.85, 0.8, 0.75}
 
 Constants.coolDown = {
     door = 5

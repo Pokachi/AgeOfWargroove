@@ -1,0 +1,12 @@
+---
+
+modifyingUnitClasses:
+  - id: witch
+    replace:
+        tags:
+            - witch
+            - type.air
+            - spellcaster
+            - canLevel
+          
+...

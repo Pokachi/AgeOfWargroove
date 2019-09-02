@@ -1,0 +1,11 @@
+---
+
+modifyingUnitClasses:
+  - id: archer
+    replace:
+        tags:
+            - archer
+            - type.ground.light
+            - canLevel
+          
+...
