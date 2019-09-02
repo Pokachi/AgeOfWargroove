@@ -8,5 +8,5 @@ modifyingUnitClasses:
             - type.ground.light
             - spellcaster
             - canLevel
-          
+        grooveId: exp 
 ...

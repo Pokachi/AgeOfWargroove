@@ -7,5 +7,5 @@ modifyingUnitClasses:
             - knight
             - type.ground.heavy
             - canLevel
-          
+        grooveId: exp  
 ...

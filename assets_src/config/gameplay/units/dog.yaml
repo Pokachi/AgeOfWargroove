@@ -8,5 +8,5 @@ modifyingUnitClasses:
             - type.ground.light
             - animal
             - canLevel
-          
+        grooveId: exp
 ...

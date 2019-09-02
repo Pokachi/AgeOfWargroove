@@ -7,5 +7,5 @@ modifyingUnitClasses:
             - soldier
             - type.ground.light
             - canLevel
-          
+        grooveId: exp  
 ...

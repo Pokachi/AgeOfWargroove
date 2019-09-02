@@ -7,5 +7,5 @@ modifyingUnitClasses:
             - spearman
             - type.ground.light
             - canLevel
-          
+        grooveId: exp  
 ...

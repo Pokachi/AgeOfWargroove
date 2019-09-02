@@ -7,5 +7,5 @@ modifyingUnitClasses:
             - warship
             - type.sea
             - canLevel
-          
+        grooveId: exp  
 ...

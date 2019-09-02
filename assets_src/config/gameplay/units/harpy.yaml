@@ -7,5 +7,5 @@ modifyingUnitClasses:
             - harpy
             - type.air
             - canLevel
-          
+        grooveId: exp  
 ...

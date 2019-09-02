@@ -19,5 +19,16 @@ grooves:
     maxCharge: 100
     chargePerUse: 0
     verb: wait
-
+  - id: exp
+    name: groove_name_dummy
+    description: groove_description_dummy
+    maxCharge: 100
+    chargePerUse: 100
+    chargeBy:
+      endOfTurn: 0
+      attack: 0
+      counter: 0
+      kill: 0
+    verb: groove_dummy
+    
 ...

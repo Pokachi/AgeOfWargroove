@@ -8,5 +8,5 @@ modifyingUnitClasses:
             - type.air
             - spellcaster
             - canLevel
-          
+        grooveId: exp  
 ...

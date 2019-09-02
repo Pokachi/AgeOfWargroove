@@ -7,5 +7,5 @@ modifyingUnitClasses:
             - merman
             - type.amphibious
             - canLevel
-          
+        grooveId: exp  
 ...

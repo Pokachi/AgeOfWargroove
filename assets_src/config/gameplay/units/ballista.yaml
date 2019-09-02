@@ -7,5 +7,5 @@ modifyingUnitClasses:
             - ballista
             - type.ground.heavy
             - canLevel
-          
+        grooveId: exp
 ...

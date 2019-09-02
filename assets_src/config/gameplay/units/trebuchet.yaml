@@ -7,5 +7,5 @@ modifyingUnitClasses:
             - trebuchet
             - type.ground.heavy
             - canLevel
-          
+        grooveId: exp  
 ...

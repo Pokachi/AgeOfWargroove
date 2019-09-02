@@ -104,11 +104,11 @@ function Leveling.setExperience(unit, value, silent)
         Wargroove.setUnitState(unit, "rankSpriteId", rankSpriteId)
         
         -- Groove
-        --local progress = 0.0
-        --if newRank ~= Constants.ranks then
-        --    progress = math.min(99, (value - rankExpReqs[newRank]) / (rankExpReqs[newRank + 1] - rankExpReqs[newRank]) * 100)
-        --end
-        --unit:setGroove(progress)
+        local progress = 0.0
+        if newRank ~= Constants.ranks then
+            progress = math.min(99, (value - rankExpReqs[newRank]) / (rankExpReqs[newRank + 1] - rankExpReqs[newRank]) * 100)
+        end
+        unit:setGroove(progress)
         
         Wargroove.updateUnit(unit)
     end
