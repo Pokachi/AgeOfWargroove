@@ -31,7 +31,7 @@ end
 function Salvage:execute(unit, targetPos, strParam, path)
     local u = Wargroove.getUnitAt(targetPos)
     
-    local goldGain = u.unitClass.cost * u.health * 0.01 * Constants.salvageValueReturn
+    local goldGain = math.floor(u.unitClass.cost * u.health * 0.01 * Constants.salvageValueReturn + 0.5)
     
     u:setHealth(0, -1)     
     

@@ -170,6 +170,7 @@ function Events.populateTriggerList()
     --AOW specific triggers
     local referenceTrigger = Events.getTrigger("$trigger_default_defeat_hq")
     Events.addTriggerToList(AOW.spawnGlobalStateSoldier())
+    Events.addTriggerToList(AOW.drawMiningCampIndicator(referenceTrigger))
     Events.addTriggerToList(AOW.drawTechLevelEffect(referenceTrigger))
     Events.addTriggerToList(AOW.generateGoldPerTurnFromPosTrigger(referenceTrigger))
     Events.addTriggerToList(AOW.getReportDeadMineCampTrigger())
