@@ -17,4 +17,5 @@ modifyingUnitClasses:
         tags:
             - structure
             - salvageable
+        grooveId: indication_progress
 ...
