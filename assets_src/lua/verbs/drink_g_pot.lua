@@ -19,6 +19,13 @@ function DrinkHPot:canExecuteAnywhere(unit)
     return false
 end
 
+function DrinkHPot:canExecuteAt(unit, endPos)
+    if unit.pos.x ~= endPos.x or unit.pos.y ~= endPos.y then
+        return false
+    end
+
+    return (not Wargroove.canPlayerSeeTile(-1, endPos)) or (not Wargroove.isAnybodyElseAt(unit, endPos))
+end
 
 function DrinkHPot:execute(unit, targetPos, strParam, path)
     unit.grooveCharge = unit.grooveCharge + Constants.GPotValue
@@ -31,6 +38,10 @@ function DrinkHPot:execute(unit, targetPos, strParam, path)
             return
         end
     end
+end
+
+function DrinkHPot:onPostUpdateUnit(unit, targetPos, strParam, path)
+    unit.hadTurn = false
 end
 
 return DrinkHPot

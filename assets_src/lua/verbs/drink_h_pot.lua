@@ -2,9 +2,9 @@ local Wargroove = require "wargroove/wargroove"
 local Verb = require "wargroove/verb"
 local Constants = require "constants"
 
-local DrinkHPot = Verb:new()
+local DrinkGPot = Verb:new()
 
-function DrinkHPot:canExecuteAnywhere(unit)
+function DrinkGPot:canExecuteAnywhere(unit)
     if unit.loadedUnits == nil then
         return false
     end
@@ -19,8 +19,16 @@ function DrinkHPot:canExecuteAnywhere(unit)
     return false
 end
 
+function DrinkGPot:canExecuteAt(unit, endPos)
+    if unit.pos.x ~= endPos.x or unit.pos.y ~= endPos.y then
+        return false
+    end
 
-function DrinkHPot:execute(unit, targetPos, strParam, path)
+    return (not Wargroove.canPlayerSeeTile(-1, endPos)) or (not Wargroove.isAnybodyElseAt(unit, endPos))
+end
+
+
+function DrinkGPot:execute(unit, targetPos, strParam, path)
     unit.health = unit.health + Constants.HPotValue
     
     for i, equipmentId in ipairs(unit.loadedUnits) do
@@ -33,4 +41,8 @@ function DrinkHPot:execute(unit, targetPos, strParam, path)
     end
 end
 
-return DrinkHPot
+function DrinkGPot:onPostUpdateUnit(unit, targetPos, strParam, path)
+    unit.hadTurn = false
+end
+
+return DrinkGPot
