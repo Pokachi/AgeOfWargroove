@@ -1,0 +1,42 @@
+---
+
+unitClasses:
+  - id: ballista_upgrade
+    name: unit_class_name_ballista
+    cost: 200
+    movement: walking
+    moveRange: 3
+    damageMultiplier: 0
+    canBeReinforced: false
+    isStructure: false
+    classIconSpritesheet: ui_AgeOfWarGrooveMod
+    aiPriority: 0
+    weapons: []
+    verbs:
+      - load
+    tags: []
+    hostileNeutral: true
+    isRecruitable: true
+    palettePriority: 1
+    isSpawnable: false
+    isHidden: true
+    grooveId: upgraded_indicator
+      
+units:
+  - class: ballista_upgrade
+    faction: neutral
+    name: unit_class_name_ballista_cherrystone
+    mapAnimation: units/ballista/cherrystone/map_ballista_cherrystone
+    smallPortrait: units/ballista/cherrystone/portrait_ballista_cherrystone_small.png
+    mediumPortrait: units/ballista/cherrystone/portrait_ballista_cherrystone_medium.png
+    mapSpeed: 4.0
+    grabPos: [13, 14]
+    sounds:
+      death: soldierDieRed
+      deathMap: unitDie
+      run: infantryLightEntry
+      runMap: infantryLightMapEntry
+      hit: hitOrganic
+      hitMap: hitOrganic
+
+...

@@ -15,6 +15,7 @@ en-GB:
     ui_unit_verbs_buy_artifacts: Buy Artifacts
     ui_unit_verbs_train: Train
     ui_unit_verbs_cancel_recruit: Cancel Recruitment
+    ui_unit_verbs_upgrade_land: Upgrade
     groove_name_dimensional_door: Dimensional Door
     groove_description_dimensional_door: A relic from the anicent. Allows the wielder to teleport to a tile beside HQ. 5 turn cooldown
     groove_name_indicate_population: Population
@@ -25,6 +26,7 @@ en-GB:
     structure_name_gem: Gem
     structure_name_gold_camp: Mining Camp
     structure_name_shop: Shop
+    structure_name_blacksmith: Blacksmith
     equipment_name_short_sword: Short Sword
     equipment_name_rare_sword: Sword of Death
     equipment_name_axe: Battle Axe
@@ -52,6 +54,7 @@ en-GB:
     unit_description_gem: Rare Vaulable resources. Can be mined by constructing a mining camp on top of it and staff it with villagers
     unit_description_gold_camp: Mining camp for gold. Garrison with villagers to start mining 50 gold per villager per turn
     unit_description_shop: Shop selling 5 random artifacts. restocks every 5 turns.
+    unit_description_blacksmith: Upgrades tier 2 and tier 3 land units
     unit_description_short_sword: Well forged short sword. Increases the wielder's overall damage by 2%
     unit_description_rare_sword: A sword of unknown origin. Increases the wielder's overall damage by 2%, min and max damage by 3%
     unit_description_axe: A double bladed battle axe. Increases the wielder's maximal damage by 3%
@@ -88,6 +91,10 @@ en-GB:
     codex_rules_shop: Shops
     codex_rules_shop_title: Buying Artifacts
     codex_rules_shop_text: "> Artifacts can be bought by Commanders (and only Commanders) at shops.\n> Shops sell five random artifacts and restock every 5 turns"
+    
+    codex_rules_blacksmith: Blacksmiths
+    codex_rules_blacksmith_title: Blacksmiths
+    codex_rules_blacksmith_text: "> Blacksmiths can upgrade land units over the course of multiple turns.\n> Requires Tech level II or higher"
 
     codex_rules_repair: Repairing
     codex_rules_repair_title: Repairing Structures

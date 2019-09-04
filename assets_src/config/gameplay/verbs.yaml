@@ -36,6 +36,16 @@ verbs:
     directTarget: true
     scriptName: verbs/buy_artifacts
     aiUses: true
+  - id: upgrade_land
+    icon: ui/icons/unit_action_icon_tech_up.png
+    name: ui_unit_verbs_upgrade_land
+    targetColour: target
+    targetOutlineColour: target_outline
+    preExecute: true
+    targetted: false
+    directTarget: false
+    scriptName: verbs/upgrade
+    aiUses: true
   - id: recruit_two
     icon: ui/icons/unit_action_icon_recruit.png
     name: ui_unit_verbs_recruit

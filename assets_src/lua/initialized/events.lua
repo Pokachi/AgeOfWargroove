@@ -3,6 +3,7 @@ local Wargroove = require("wargroove/wargroove")
 local TriggerContext = require("triggers/trigger_context")
 local Resumable = require("wargroove/resumable")
 local AOW = require("age_of_wargroove/age_of_wargroove")
+local Upgrades = require "age_of_wargroove/upgrades"
 local AI = require "age_of_wargroove/ai"
 
 local Events = {}
@@ -184,6 +185,8 @@ function Events.populateTriggerList()
     Events.addTriggerToList(AI.setupAIHeatMapTrigger(referenceTrigger))
     Events.addTriggerToList(AI.modifyAIGlobalsAlwaysTrigger(referenceTrigger))
     Events.addTriggerToList(AOW.modifyDDoorGroove())
+    Events.addTriggerToList(Upgrades.modifyUpgradeGroove(referenceTrigger))
+    Events.addTriggerToList(Upgrades.modifyUpgradeIndicators(referenceTrigger))
     
     local Actions = require("triggers/actions")
     local Conditions = require("triggers/conditions")

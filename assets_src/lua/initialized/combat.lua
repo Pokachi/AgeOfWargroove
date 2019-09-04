@@ -1,6 +1,7 @@
 local OriginalCombat = require "wargroove/combat"
 local Wargroove = require "wargroove/wargroove"
 local Equipment = require "age_of_wargroove/equipment"
+local Upgrades = require "age_of_wargroove/upgrades"
 
 local Combat = {}
 
@@ -106,7 +107,7 @@ function Combat:getDamage(attacker, defender, solveType, isCounter, attackerPos,
     elseif defenderIsStructure then
         terrainDefence = 0
     else
-        terrainDefence = Wargroove.getTerrainDefenceAt(defenderPos)
+        terrainDefence = Wargroove.getTerrainDefenceAt(defenderPos) + Upgrades.getUpgradeTerrainDefenseModifier(defender)
     end
 
     local terrainDefenceBonus = terrainDefence * defencePerShield
@@ -157,7 +158,7 @@ function Combat:getDamage(attacker, defender, solveType, isCounter, attackerPos,
             damageModifier = damageModifier - Equipment.getDefenderDamageModifier(u.unitClassId)
         end
     end
-
+    damageModifier = damageModifier + Upgrades.getUpgradeDamageModifier(attacker, defender) - Upgrades.getUpgradeDefenseModifier(defender, attacker)
     local damage = self:solveDamage(baseDamage, attackerEffectiveness, defenderEffectiveness, terrainDefenceBonus, randomValue, multiplier, randomMinModifier, randomMaxModifier, damageModifier)
 
     local hasPassive = passiveMultiplier > 1.01

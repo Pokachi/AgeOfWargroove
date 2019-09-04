@@ -1,8 +1,11 @@
 local AOW = require "age_of_wargroove/age_of_wargroove"
+local Upgrades = require "age_of_wargroove/upgrades"
 local Events = require "initialized/events"
 local Wargroove = require "wargroove/wargroove"
 local AI = require "age_of_wargroove/ai"
 local Constants = require "constants"
+
+local inspect = require "inspect"
 
 local Actions = {}
 
@@ -28,6 +31,31 @@ function Actions.populate(dst)
     dst["modify_ai_globals"] = Actions.modifyAIGlobals
     dst["setup_ai_heatmap"] = Actions.setupAIHeatMap
     dst["modify_dimensional_door_groove"] = Actions.modifyDimensionalDoorGroove
+    dst["modify_upgrade_groove"] = Actions.modifyUpgradeGroove
+    dst["modify_upgrade_indicator"] = Actions.modifyUpgradeIndicators
+end
+
+function Actions.modifyUpgradeGroove(context)
+    local playerId = context:getPlayerId(0)
+    
+    local allUnits = Wargroove.getAllUnitsForPlayer(playerId, true)
+    for i, u in ipairs(allUnits) do
+        if u.unitClassId == "blacksmith" then
+            local upgrade = Upgrades.getWorkingUpgrade(playerId, u.id)
+            if upgrade ~= nil then
+                if u.grooveCharge < 5 then
+                    local newGrooveCharge = u.grooveCharge + 1
+                    u.grooveCharge = newGrooveCharge
+                    if newGrooveCharge >= 2 then
+                        Upgrades.addActiveUpgrade(playerId, upgrade)
+                        Upgrades.setWorkingUpgrade(playerId, u.id, nil)
+                        u.grooveCharge = 0
+                    end
+                    Wargroove.updateUnit(u)
+                end
+            end
+        end
+    end
 end
 
 function Actions.modifyAIGlobals(context)
@@ -46,6 +74,93 @@ function Actions.reportDeadVillage(context)
             AOW.setPopulationCap(u.playerId, AOW.getPopulationCap(u.playerId) - Constants.populationPerVillage)
         elseif u.unitClassId == "hq" then
             AOW.setPopulationCap(u.playerId, AOW.getPopulationCap(u.playerId) - Constants.populationPerHQ)
+        end
+    end
+end
+
+function Actions.modifyUpgradeIndicators(context)
+    local playerId = context:getPlayerId(0)
+    
+    local allUnits = Wargroove.getAllUnitsForPlayer(playerId, true)
+    for i, u in ipairs(allUnits) do
+        if u ~= nil and u.unitClassId == "blacksmith" then
+            for j, up in ipairs(Constants.allLandUpgrades) do
+            
+                local unitLoaded = false
+                local loaded = nil
+                for k, l in ipairs(u.loadedUnits) do
+                    loaded = Wargroove.getUnitById(l)
+                    if loaded.unitClassId == up then
+                        unitLoaded = true
+                        break
+                    end
+                end
+                if Upgrades.hasUpgrade(u.playerId, up) then
+                    if (not unitLoaded) then
+                        Wargroove.spawnUnit(-1, { x = -91, y = -12 }, up, true, "")
+                        Wargroove.waitFrame()
+                        local upgradeUnit = Wargroove.getUnitAt({ x = -91, y = -12 })
+                        upgradeUnit.pos = { x = -99, y = -99 }
+                        upgradeUnit:setGroove(1, -1)
+                        table.insert(u.loadedUnits, upgradeUnit.id)
+                        upgradeUnit.inTransport = true
+                        upgradeUnit.transportedBy = u.id
+                        Wargroove.updateUnit(upgradeUnit)
+                        Wargroove.updateUnit(u)
+                    else
+                        loaded:setGroove(1, -1)
+                        Wargroove.updateUnit(loaded)
+                        Wargroove.updateUnit(u)
+                    end
+                end
+                
+                if Upgrades.getWorkingUpgrade(u.playerId, u.id) == up and (not unitLoaded) then
+                    Wargroove.spawnUnit(-1, { x = -91, y = -12 }, up, true, "")
+                    Wargroove.waitFrame()
+                    local upgradeUnit = Wargroove.getUnitAt({ x = -91, y = -12 })
+                    upgradeUnit.pos = { x = -99, y = -99 }
+                    upgradeUnit:setGroove(0, -1)
+                    table.insert(u.loadedUnits, upgradeUnit.id)
+                    upgradeUnit.inTransport = true
+                    upgradeUnit.transportedBy = u.id
+                    Wargroove.updateUnit(upgradeUnit)
+                    Wargroove.updateUnit(u)
+                end
+            end
+            -- if #u.loadedUnits == 0 then
+                -- for j, up in ipairs(Constants.allLandUpgrades) do
+                    -- Wargroove.spawnUnit(-1, { x = -91, y = -12 }, up, true, "")
+                    -- Wargroove.waitFrame()
+                    -- local upgradeUnit = Wargroove.getUnitAt({ x = -91, y = -12 })
+                    -- upgradeUnit.pos = { x = -99, y = -99 }
+                    -- if Upgrades.hasUpgrade(u.playerId, up) then
+                        -- upgradeUnit:setGroove(1, -1)
+                    -- else
+                        -- upgradeUnit:setGroove(0, -1)
+                    -- end
+                    -- table.insert(u.loadedUnits, upgradeUnit.id)
+                    -- upgradeUnit.inTransport = true
+                    -- upgradeUnit.transportedBy = u.id
+                    -- Wargroove.updateUnit(upgradeUnit)
+                    -- Wargroove.updateUnit(u)
+                -- end
+            -- else
+                -- for j, l in ipairs(u.loadedUnits) do
+                    -- local loaded = Wargroove.getUnitById(l)
+                    -- if Upgrades.hasUpgrade(u.playerId, loaded.unitClassId) then
+                        -- loaded:setGroove(1, -1)
+                    -- else
+                        -- loaded:setGroove(0, -1)
+                        -- if Upgrades.getWorkingUpgrade(u.playerId, u.id) == loaded.unitClassId then
+                            -- loaded:setHealth(100, -1)
+                        -- else
+                            -- loaded:setHealth(1, -1)
+                        -- end
+                    -- end
+                    -- Wargroove.updateUnit(loaded)
+                    -- Wargroove.updateUnit(u)
+                -- end
+            -- end
         end
     end
 end

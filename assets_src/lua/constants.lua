@@ -44,4 +44,12 @@ Constants.buildData = {
     archer = {2, "archer"},
 }
 
+Constants.allLandUpgrades = {
+"archer_upgrade",
+"knight_upgrade",
+"ballista_upgrade",
+"trebuchet_upgrade", 
+"giant_upgrade"
+}
+
 return Constants
