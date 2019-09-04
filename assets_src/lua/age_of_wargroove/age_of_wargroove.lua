@@ -205,7 +205,7 @@ function AgeOfWargroove.reportDeadVillageTrigger(referenceTrigger)
     return trigger
 end
 
-local LevelOneRecruits = {"soldier", "dog", "spearman", "travelboat", "villager", "merman", "barracks_foundation", "city_foundation", "port_foundation", "water_city_foundation", "gold_camp"}
+local LevelOneRecruits = {"soldier", "dog", "spearman", "wagon", "travelboat", "villager", "merman", "barracks_foundation", "city_foundation", "port_foundation", "water_city_foundation", "gold_camp"}
 local LevelTwoRecruits = {"soldier", "dog", "spearman", "wagon", "archer", "mage", "knight", "turtle", "harpoonship", "balloon", "harpy", "travelboat", "villager", "merman", "barracks_foundation", "city_foundation", "port_foundation", "water_city_foundation", "hq_foundation", "tower_foundation", "gold_camp"}
 local LevelThreeRecruits = {"soldier", "dog", "spearman", "wagon", "archer", "mage", "knight", "trebuchet", "ballista", "giant", "turtle", "harpoonship", "warship", "balloon", "harpy", "witch", "dragon", "travelboat", "villager", "merman", "barracks_foundation", "city_foundation", "port_foundation", "water_city_foundation", "hq_foundation", "tower_foundation", "gold_camp"}
 local TechLevelCost = { 500, 1000, -1 }
