@@ -16,7 +16,7 @@ unitClasses:
     garrisonUnit: ""
     movement: land_building
     income: 0
-    cost: 750
+    cost: 500
     tags:
       - structure
       - foundation

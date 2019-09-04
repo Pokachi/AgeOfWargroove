@@ -1,0 +1,11 @@
+---
+
+modifyingUnitClasses:
+  - id: knight
+    replace:
+        tags:
+            - knight
+            - type.ground.heavy
+            - canLevel
+        grooveId: exp  
+...

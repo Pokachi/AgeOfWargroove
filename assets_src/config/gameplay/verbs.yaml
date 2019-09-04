@@ -153,4 +153,11 @@ verbs:
     scriptName: verbs/wait_villager
     targetted: false
     aiUses: true
+  - id: groove_dummy
+    icon: ui/icons/grooves/unit_action_icon_inspire.png
+    name: groove_name_dummy
+    targetColour: target
+    targetted: true                                     # This verb targets some position on the map
+    scriptName: verbs/groove_dummy            # The Lua script to run when this verb is used
+    aiUses: false
 ...

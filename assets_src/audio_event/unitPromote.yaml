@@ -1,0 +1,7 @@
+---
+actions:
+  - type: play
+    clips: [ sfx/promote.ogg ]
+    group: sfx
+    volume: [ 0.4, 0.5 ]
+...

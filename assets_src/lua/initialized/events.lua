@@ -5,6 +5,7 @@ local Resumable = require("wargroove/resumable")
 local AOW = require("age_of_wargroove/age_of_wargroove")
 local Upgrades = require "age_of_wargroove/upgrades"
 local AI = require "age_of_wargroove/ai"
+local Leveling = require("age_of_wargroove/leveling")
 
 local Events = {}
 
@@ -172,6 +173,7 @@ function Events.populateTriggerList()
     --AOW specific triggers
     local referenceTrigger = Events.getTrigger("$trigger_default_defeat_hq")
     Events.addTriggerToList(AOW.spawnGlobalStateSoldier())
+    Events.addTriggerToList(AOW.drawMiningCampIndicator(referenceTrigger))
     Events.addTriggerToList(AOW.drawTechLevelEffect(referenceTrigger))
     Events.addTriggerToList(AOW.generateGoldPerTurnFromPosTrigger(referenceTrigger))
     Events.addTriggerToList(AOW.getReportDeadMineCampTrigger())
@@ -187,6 +189,7 @@ function Events.populateTriggerList()
     Events.addTriggerToList(AOW.modifyDDoorGroove())
     Events.addTriggerToList(Upgrades.modifyUpgradeGroove(referenceTrigger))
     Events.addTriggerToList(Upgrades.modifyUpgradeIndicators(referenceTrigger))
+    Events.addTriggerToList(Leveling.onLoadTrigger(referenceTrigger))
     
     local Actions = require("triggers/actions")
     local Conditions = require("triggers/conditions")

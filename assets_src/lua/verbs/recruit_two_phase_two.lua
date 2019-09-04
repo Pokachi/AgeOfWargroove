@@ -10,7 +10,7 @@ function RecruitTwoPhaseTwo:getMaximumRange(unit, endPos)
 end
 
 function RecruitTwoPhaseTwo:canExecuteAnywhere(unit)
-    return AOW.getPopulationSizeForUnit(unit.unitClassId) + AOW.getCurrentPopulation(unit.playerId) <= AOW.getPopulationCap(unit.playerId) and #unit.loadedUnits > 0
+    return #unit.loadedUnits > 0
 end
 
 function RecruitTwoPhaseTwo:getTargetType()

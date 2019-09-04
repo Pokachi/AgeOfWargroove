@@ -2,6 +2,7 @@ local OriginalCombat = require "wargroove/combat"
 local Wargroove = require "wargroove/wargroove"
 local Equipment = require "age_of_wargroove/equipment"
 local Upgrades = require "age_of_wargroove/upgrades"
+local Leveling = require "age_of_wargroove/leveling"
 
 local Combat = {}
 
@@ -18,6 +19,7 @@ function Combat:init()
     OriginalCombat.getDamage = Combat.getDamage
     OriginalCombat.solveDamage = Combat.solveDamage
     OriginalCombat.getBestWeapon = Combat.getBestWeapon
+    OriginalCombat.solveCombat = Combat.solveCombat
 end
 
 function Combat:getBestWeapon(attacker, defender, delta, moved, facing)
@@ -72,9 +74,13 @@ function Combat:getDamage(attacker, defender, solveType, isCounter, attackerPos,
         end
     end
 
+    local attackerRankOffMult = Leveling.getOffMult(attacker)
+    local attackerRankDefMult = Leveling.getDefMult(attacker)
+    local defenderRankOffMult = Leveling.getOffMult(defender)    
+    local defenderRankDefMult = Leveling.getDefMult(defender)
     local attackerHealth = isGroove and 100 or attacker.health
-    local attackerEffectiveness = (attackerHealth * 0.01) * (damageAt100Health - damageAt0Health) + damageAt0Health
-    local defenderEffectiveness = (defender.health * 0.01) * (damageAt100Health - damageAt0Health) + damageAt0Health
+    local attackerEffectiveness = (attackerHealth * 0.01) * (damageAt100Health - damageAt0Health) * (attackerRankOffMult * defenderRankDefMult) + damageAt0Health
+    local defenderEffectiveness = (defender.health * 0.01) * (damageAt100Health - damageAt0Health) * (defenderRankOffMult * attackerRankDefMult) + damageAt0Health
 
     -- For structures, check if there's a garrison; if so, attack as if it was that instead
     local effectiveAttacker
@@ -179,6 +185,78 @@ function Combat:solveDamage(weaponDamage, attackerEffectiveness, defenderEffecti
     local damage = attackerEffectiveness * offence * (1.0 - defence) * multiplier
 
     return math.max(math.floor(100 * damage + 0.5), 1)
+end
+
+function Combat:solveCombat(attackerId, defenderId, attackerPath, solveType)
+	local attacker = Wargroove.getUnitById(attackerId)
+	assert(attacker ~= nil)
+	local defender = Wargroove.getUnitById(defenderId)
+	assert(defender ~= nil)
+
+	local results = {
+		attackerHealth = attacker.health,
+		defenderHealth = defender.health,
+		attackerAttacked = false,
+		defenderAttacked = false,
+		hasCounter = false,
+		hasAttackerCrit = false
+	}
+
+	local e0 = self:getEndPosition(attackerPath, attacker.pos)
+	Wargroove.pushUnitPos(attacker, e0)
+
+    -- Attack
+	local attackResult
+	attackResult, results.hasAttackerCrit = self:solveRound(attacker, defender, solveType, false, attacker.pos, defender.pos, attackerPath)
+	if attackResult ~= nil then
+		results.defenderHealth = attackResult
+		results.attackerAttacked = true
+		if results.defenderHealth < 1 and solveType == "random" then
+			results.defenderHealth = 0
+		end
+	end
+
+    -- Counter
+	if results.defenderHealth > 0 then
+		local damagedDefender = {
+			id = defender.id,
+			pos = defender.pos,
+			startPos = defender.startPos,
+			playerId = defender.playerId,
+			health = results.defenderHealth,
+			unitClass = defender.unitClass,
+			unitClassId = defender.unitClassId,
+			garrisonClassId = defender.garrisonClassId,
+			state = defender.state
+		}
+		local defenderResult
+		defenderResult, results.hasDefenderCrit = self:solveRound(damagedDefender, attacker, solveType, true, defender.pos, attacker.pos, {defender.pos})
+		if defenderResult ~= nil then
+			results.attackerHealth = defenderResult
+			results.defenderAttacked = true
+			results.hasCounter = true
+			if results.attackerHealth < 1 and solveType == "random" then
+				results.attackerHealth = 0
+			end
+		end
+	end
+    
+    -- Experience distribution
+    if solveType == "random" then
+        local attEcoDamage = Leveling.ecoDamage(defender, defender.health, results.defenderHealth)
+        local attExp = Leveling.getExperience(attacker) or 0        
+        Leveling.setExperience(attacker, attEcoDamage + tonumber(attExp))
+        
+        if results.defenderHealth > 0 then
+            local defEcoDamage = Leveling.ecoDamage(attacker, attacker.health, results.attackerHealth)
+            local defExp = Leveling.getExperience(defender) or 0            
+            Leveling.setExperience(defender, defEcoDamage + tonumber(defExp))
+        end
+    end
+    
+	Wargroove.popUnitPos()
+	
+	return results
 end
 
 return Combat

@@ -1,0 +1,12 @@
+---
+
+modifyingUnitClasses:
+  - id: mage
+    replace:
+        tags:
+            - mage
+            - type.ground.light
+            - spellcaster
+            - canLevel
+        grooveId: exp 
+...
