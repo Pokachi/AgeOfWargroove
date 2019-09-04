@@ -225,7 +225,7 @@ function Actions.drawMiningCampIndicator(context)
     local goldPoses = AOW.getRecordedGoldPos()
     for i, goldPos in ipairs(goldPoses) do
         local goldCamp = Wargroove.getUnitAt({ x = goldPos.x, y = goldPos.y })
-        if #goldCamp.loadedUnits > 0 then
+        if goldCamp ~= nil and #goldCamp.loadedUnits > 0 then
             local goldUnit = Wargroove.getUnitById(goldCamp.loadedUnits[1])
             if (goldUnit.unitClassId == "gem" or goldUnit.unitClassId == "gold") then
                 if (goldUnit.health > 0 and goldUnit.health < 20 and Wargroove.getUnitState(goldCamp, "lowGoldEffectDrawn") == nil) or gold_animation_initialized == false then

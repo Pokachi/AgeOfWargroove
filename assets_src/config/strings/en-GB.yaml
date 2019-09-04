@@ -49,19 +49,20 @@ en-GB:
     unit_description_water_city_foundation: Foundation for a water village. Use a villager to complete building it.
     unit_description_tower: Used to recruit new air units
     unit_description_tower_foundation: Foundation for a tower. Use a villager to complete building it.
+    unit_description_gold: Vaulable resources. Can be mined by constructing a mining camp on top of it and staff it with villagers
     unit_description_gem: Rare Vaulable resources. Can be mined by constructing a mining camp on top of it and staff it with villagers
     unit_description_gold_camp: Mining camp for gold. Garrison with villagers to start mining 50 gold per villager per turn
     unit_description_shop: Shop selling 5 random artifacts. restocks every 5 turns.
-    unit_description_short_sword: Well forged short sword. Increases the wielder's overall damage by 2%
-    unit_description_rare_sword: A sword of unknown origin. Increases the wielder's overall damage by 2%, min and max damage by 3%
-    unit_description_axe: A double bladed battle axe. Increases the wielder's maximal damage by 3%
-    unit_description_dagger: Small and nimble dagger. Increases the wielder's minimal damage by 3%
-    unit_description_shield: Small shield made of pure metal. Lower incoming damage by 2%
-    unit_description_rare_shield: Shield inbused with essense of Life. Lower incoming damage by 2, min and max damage by 3%
-    unit_description_armor: Full body plated armor. Lower incoming minimal damage by 3%
-    unit_description_helmet: Great helm covering the entire head. Lower incoming maximal damage by 3%
-    unit_description_health_pot: Filled with weird red goo, increases hp by 25 (points, not percentage)
-    unit_description_groove_pot: Filled with weird blue goo, increases groove by 25 (points, not percentage)
+    unit_description_short_sword: Well forged short sword. Increases the wielder's overall damage by 4%
+    unit_description_rare_sword: A sword of unknown origin. Increases the wielder's overall damage by 4%, min and max damage by 5%
+    unit_description_axe: A double bladed battle axe. Increases the wielder's maximal damage by 5%
+    unit_description_dagger: Small and nimble dagger. Increases the wielder's minimal damage by 5%
+    unit_description_shield: Small shield made of pure metal. Lower incoming damage by 4%
+    unit_description_rare_shield: Shield inbused with essense of Life. Lower incoming damage by 4%, min and max damage by 5%
+    unit_description_armor: Full body plated armor. Lower incoming minimal damage by 5%
+    unit_description_helmet: Great helm covering the entire head. Lower incoming maximal damage by 5%
+    unit_description_health_pot: Filled with weird red goo, increases hp by 25. Cannot be used after moving, does not consume turn.
+    unit_description_groove_pot: Filled with weird blue goo, increases groove by 25. Cannot be used after moving, does not consume turn.
     unit_description_bow: A bow used by skilled hunter. Allows the wielder to use ranged attack at half the damage
     unit_description_dimensional_door: A relic from the anicent. Allows the wielder to teleport to a tile beside HQ. 5 turn cooldown
 
