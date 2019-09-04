@@ -16,7 +16,7 @@ unitClasses:
     garrisonUnit: ""
     movement: walking
     income: 0
-    cost: 450
+    cost: 1000
     tags:
       - equipment
 

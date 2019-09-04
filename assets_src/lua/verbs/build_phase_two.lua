@@ -28,7 +28,7 @@ function Build:canExecuteWithTarget(unit, endPos, targetPos, strParam)
     return false
 end
 
-function Build:onPostUpdateUnit(unit, targetPos, strParam, path)
+function Build:execute(unit, targetPos, strParam, path)
     local u = Wargroove.getUnitAt(targetPos)
     local turnsBuilding = tonumber(Wargroove.getUnitState(u, "turnsBuilding"))
     

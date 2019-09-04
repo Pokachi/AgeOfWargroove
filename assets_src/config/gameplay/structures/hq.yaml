@@ -7,11 +7,14 @@ modifyingUnitClasses:
         regeneration: 0
         canBeCaptured: false
         canReinforce: false
-        cost: 750
+        cost: 500
         verbs:
           - recruit_two
           - tech_up
         recruitTags: [type.ground.villager]
         loadCapacity: 2
+        tags:
+            - structure
+            - salvageable
 
 ...

@@ -16,10 +16,11 @@ unitClasses:
     garrisonUnit: ""
     movement: land_building
     income: 0
-    cost: 750
+    cost: 500
     tags:
       - structure
       - foundation
+      - salvageable
       
 units:
   - class: hq_foundation
@@ -27,7 +28,7 @@ units:
     name: structure_name_hq
     mapAnimation: [units/structures/foundation/map_foundation]
     smallPortrait: portraits/small/portrait_structure_small.png
-    mediumPortrait: portraits/medium/red_hq.png
+    mediumPortrait: units/structures/foundation/portrait_hq_foundation_medium.png
     grabPos: [29, 10]
     hasBattleScreen: false
     sounds:

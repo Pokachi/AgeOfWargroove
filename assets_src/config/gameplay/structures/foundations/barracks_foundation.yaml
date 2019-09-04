@@ -20,6 +20,7 @@ unitClasses:
     tags:
       - structure
       - foundation
+      - salvageable
       
 units:
   - class: barracks_foundation
@@ -27,7 +28,7 @@ units:
     name: structure_name_barracks
     mapAnimation: [units/structures/foundation/map_foundation]
     smallPortrait: portraits/small/portrait_structure_small.png
-    mediumPortrait: portraits/medium/barracks.png
+    mediumPortrait: units/structures/foundation/portrait_barracks_foundation_medium.png
     grabPos: [11, 7]
     hasBattleScreen: false
     sounds:

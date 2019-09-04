@@ -16,5 +16,6 @@ modifyingUnitClasses:
             - repair
             - wait_villager
             - build_phase_two
+            - salvage
 
 ...

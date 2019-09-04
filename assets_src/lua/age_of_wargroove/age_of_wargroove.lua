@@ -95,6 +95,20 @@ function AgeOfWargroove.drawTechLevelEffect(referenceTrigger)
 
 end
 
+function AgeOfWargroove.drawMiningCampIndicator(referenceTrigger)
+    local trigger = {}
+    trigger.id =  "drawMiningCampIndicator"
+    trigger.recurring = "repeat"
+    trigger.players = referenceTrigger.players
+    trigger.conditions = {}
+    trigger.actions = {}
+    
+    table.insert(trigger.actions, { id = "draw_mining_camp_indicator", parameters = {  }  })
+    
+    return trigger
+
+end
+
 function AgeOfWargroove.getTechLevel(playerId)
     state.techLevel={}
     local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
@@ -181,7 +195,7 @@ function AgeOfWargroove.reportDeadVillageTrigger(referenceTrigger)
     trigger.players = referenceTrigger.players
     trigger.conditions = {}
     
-    table.insert(trigger.conditions, { id = "unit_killed", parameters = { "*unit", "current", "*structure", "any", "-1" } })
+    table.insert(trigger.conditions, { id = "unit_lost", parameters = { "*structure", "any", "-1" } })
     table.insert(trigger.conditions, { id = "player_turn", parameters = { "current" } })
     
     trigger.actions = {}
@@ -345,6 +359,17 @@ function AgeOfWargroove.getGoldCount(targetPos)
         end
     end
     return 0
+end
+
+function AgeOfWargroove.getRecordedGoldPos()
+    state.goldPos={}
+    local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
+    local goldPosString = Wargroove.getUnitState(globalStateUnit, "goldPos")
+    if goldPosString ~= nil then
+        state.goldPos = (loadstring or load)("return "..goldPosString)()
+    end
+    
+    return state.goldPos
 end
 
 function AgeOfWargroove.modifyDDoorGroove()

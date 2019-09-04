@@ -6,8 +6,8 @@ local Constants = require "constants"
 
 local Actions = {}
 
-local pop_animation_initalized = false
-local tech_animation_initalized = false
+local pop_animation_initalized = { false, false, false, false, false, false, false, false }
+local tech_animation_initalized = { false, false, false, false, false, false, false, false }
 local gold_animation_initialized = false
 
 -- This is called by the game when the map is loaded.
@@ -22,6 +22,7 @@ function Actions.populate(dst)
     dst["set_tech_level"] = Actions.setTechLevel
     dst["spawn_global_state_unit"] = Actions.spawnGlobalStateUnit
     dst["draw_tech_level_effect"] = Actions.drawTechLevelEffect
+    dst["draw_mining_camp_indicator"] = Actions.drawMiningCampIndicator
     dst["set_init_pop_cap"] = Actions.setInitialPopulationCap
     dst["modify_population_cap"] = Actions.modifyCurrentPopulation
     dst["report_dead_village"] = Actions.reportDeadVillage
@@ -63,14 +64,14 @@ function Actions.modifyCurrentPopulation(context)
         if u.unitClassId == "hq" or u.unitClassId == "city" or u.unitClassId == "water_city" then
         
             local warningEffectId = Wargroove.getUnitState(u, "warningEffect")
-            if warningEffectId ~= nil and warningEffectId ~= "" and pop_animation_initalized then
+            if warningEffectId ~= nil and warningEffectId ~= "" and pop_animation_initalized[playerId + 1] then
                 Wargroove.deleteUnitEffect(warningEffectId, "")
                 Wargroove.setUnitState(u, "warningEffect", "")
                 Wargroove.updateUnit(u)
             end
             
             -- draw indicator
-            if popCap - currentPop < 4 and popCap ~= currentPop then
+            if popCap - currentPop < 4 and popCap - currentPop > 0 then
                 local effectId = Wargroove.spawnUnitEffect(u.id, "units/fx/warning", "warn", "", true)
                 Wargroove.setUnitState(u, "warningEffect", effectId)
                 Wargroove.updateUnit(u)
@@ -101,7 +102,7 @@ function Actions.modifyCurrentPopulation(context)
                 
         end
     end
-    pop_animation_initalized = true
+    pop_animation_initalized[playerId + 1] = true
 end
 
 function Actions.modifyDimensionalDoorGroove(context)
@@ -173,8 +174,8 @@ function Actions.drawTechLevelEffect(context)
         for i, u in ipairs(allUnits) do
             if u.unitClassId == "hq" then
                 local previousLevel = tonumber(Wargroove.getUnitState(u, "techEffectLevelDrawn"))
-                if tech_animation_initalized == false or previousLevel == nil or techlevel > previousLevel then
-                    if previousLevel ~= nil then
+                if tech_animation_initalized[playerId + 1] == false or previousLevel == nil or techlevel > previousLevel then
+                    if tech_animation_initalized[playerId + 1] == true and previousLevel ~= nil then
                         Wargroove.deleteUnitEffect(Wargroove.getUnitState(u, "techEffect"), "")
                     end
                     local effectId = Wargroove.spawnUnitEffect(u.id, "units/fx/tech_level", effectToDraw, "", true)
@@ -185,7 +186,7 @@ function Actions.drawTechLevelEffect(context)
             end
         end
     end
-    tech_animation_initalized = true
+    tech_animation_initalized[playerId + 1] = true
 end
 
 function Actions.spawnGlobalStateUnit(context)
@@ -227,6 +228,43 @@ function Actions.removeGenerateGoldPerTurnFromPos(context)
 
 end
 
+function Actions.drawMiningCampIndicator(context)
+    local goldPoses = AOW.getRecordedGoldPos()
+    for i, goldPos in ipairs(goldPoses) do
+        local goldCamp = Wargroove.getUnitAt({ x = goldPos.x, y = goldPos.y })
+        if goldCamp ~= nil and #goldCamp.loadedUnits > 0 then
+            local goldUnit = Wargroove.getUnitById(goldCamp.loadedUnits[1])
+            if (goldUnit.unitClassId == "gem" or goldUnit.unitClassId == "gold") then
+                if (goldUnit.health > 0 and goldUnit.health < 20 and Wargroove.getUnitState(goldCamp, "lowGoldEffectDrawn") == nil) or gold_animation_initialized == false then
+                    local effectId = Wargroove.spawnUnitEffect(goldCamp.id, "units/fx/warning", "warn", "", true)
+                    Wargroove.setUnitState(goldCamp, "lowGoldEffect", effectId)
+                    Wargroove.setUnitState(goldCamp, "lowGoldEffectDrawn", "warn")
+                    Wargroove.updateUnit(goldCamp)
+                end
+            else
+                if gold_animation_initialized and Wargroove.getUnitState(goldCamp, "lowGoldEffectDrawn") == "warn" then
+                    Wargroove.deleteUnitEffect(Wargroove.getUnitState(goldCamp, "lowGoldEffect"), "")
+                end
+                
+                if gold_animation_initialized == false or Wargroove.getUnitState(goldCamp, "lowGoldEffectDrawn") == "warn" then
+                    Wargroove.spawnUnitEffect(goldCamp.id, "units/fx/warning", "critical", "", true)
+                    Wargroove.setUnitState(goldCamp, "lowGoldEffect", effectId)
+                    Wargroove.setUnitState(goldCamp, "lowGoldEffectDrawn", "critical")
+                    Wargroove.updateUnit(goldCamp)
+                end
+            end
+        else
+            if gold_animation_initialized == false then
+                Wargroove.spawnUnitEffect(goldCamp.id, "units/fx/warning", "critical", "", true)
+                Wargroove.setUnitState(goldCamp, "lowGoldEffect", effectId)
+                Wargroove.setUnitState(goldCamp, "lowGoldEffectDrawn", "critical")
+                Wargroove.updateUnit(goldCamp)
+            end        
+        end
+    end
+    gold_animation_initialized = true
+end
+
 function Actions.modifyGoldAtPos(context)
     local posX = context:getInteger(0)
     local posY = context:getInteger(1)
@@ -250,30 +288,8 @@ function Actions.modifyGoldAtPos(context)
     
     goldUnit:setHealth(goldHp, -1)
     Wargroove.updateUnit(goldUnit)
-    if goldUnit.health > 0 and goldUnit.health < 20 then
-        if gold_animation_initialized == false or Wargroove.getUnitState(goldCamp, "lowGoldEffectDrawn") == nil then
-            local effectId = Wargroove.spawnUnitEffect(goldCamp.id, "units/fx/warning", "warn", "", true)
-            Wargroove.setUnitState(goldCamp, "lowGoldEffect", effectId)
-            Wargroove.setUnitState(goldCamp, "lowGoldEffectDrawn", "warn")
-            Wargroove.updateUnit(goldCamp)
-        end
-    end
     
-    if goldUnit.health == 0 then
-        
-        if gold_animation_initialized ~= false and Wargroove.getUnitState(goldCamp, "lowGoldEffectDrawn") == "warn" then
-            Wargroove.deleteUnitEffect(Wargroove.getUnitState(goldCamp, "lowGoldEffect"), "")
-        end
-        
-        if gold_animation_initialized == false or Wargroove.getUnitState(goldCamp, "lowGoldEffectDrawn") == "warn" then
-            Wargroove.spawnUnitEffect(goldCamp.id, "units/fx/warning", "critical", "", true)
-            Wargroove.setUnitState(goldCamp, "lowGoldEffect", effectId)
-            Wargroove.setUnitState(goldCamp, "lowGoldEffectDrawn", "critical")
-            Wargroove.updateUnit(goldCamp)
-        end
-        
-        gold_animation_initialized = true
-        
+    if goldUnit.health <= 0 then
         table.remove(goldCamp.loadedUnits, 1)
         Wargroove.updateUnit(goldCamp)
         AOW.removeGoldGenerationFromPos(pos)
