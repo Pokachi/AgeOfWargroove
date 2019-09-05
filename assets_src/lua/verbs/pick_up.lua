@@ -1,5 +1,6 @@
 local Wargroove = require "wargroove/wargroove"
 local Verb = require "wargroove/verb"
+local AI = require "age_of_wargroove/ai"
 
 local PickUp = Verb:new()
 
@@ -53,5 +54,12 @@ function PickUp:onPostUpdateUnit(unit, targetPos, strParam, path)
     Wargroove.updateUnit(equipment)
 end
 
+function PickUp:generateOrders(unitId, canMove)
+    return AI.pickUpOrders(unitId, canMove)
+end
+
+function PickUp:getScore(unitId, order)
+    return AI.pickUpScore(unitId, order)
+end
 
 return PickUp
