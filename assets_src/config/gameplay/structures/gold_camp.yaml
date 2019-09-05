@@ -23,6 +23,7 @@ unitClasses:
       - salvageable
     verbs:
       - unload
+      - unload_two
       - wait
       
 units:

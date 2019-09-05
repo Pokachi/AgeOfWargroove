@@ -1,6 +1,7 @@
 local Wargroove = require "wargroove/wargroove"
 local Verb = require "wargroove/verb"
 local AOW = require "age_of_wargroove/age_of_wargroove"
+local AI = require "age_of_wargroove/ai"
 local Constants = require "constants"
 
 local Build = Verb:new()
@@ -182,6 +183,36 @@ function Build:execute(unit, targetPos, strParam, path)
     Wargroove.unsetFacingOverride(unit.id)
 
     strParam = ""
+end
+
+function Build:generateOrders(unitId, canMove)
+    local unit = Wargroove.getUnitById(unitId)
+    local orders = {}
+    for i,s in ipairs(Build:getRecruitableTargets(unit)) do
+        if s == "gold_camp" then
+            local aiOrders = AI.placeMineOrders(unitId, canMove)
+            for i,o in ipairs(aiOrders) do
+                table.insert(orders,o)
+            end
+        else
+            local aiOrders = AI.placeStructureOrders(unitId, canMove, s)
+            for i,o in ipairs(aiOrders) do
+                table.insert(orders,o)
+            end
+        end
+    end
+    return orders
+end
+
+function Build:getScore(unitId, order)
+    if order.strParam == "" then
+        return 0
+    end
+    if order.strParam == "gold_camp" then
+        return AI.placeMineScore(unitId, order)
+    else
+        return AI.placeStructureScore(unitId, order)
+    end
 end
 
 return Build

@@ -1,6 +1,7 @@
 local Wargroove = require "wargroove/wargroove"
 local Verb = require "wargroove/verb"
 local AOW = require "age_of_wargroove/age_of_wargroove"
+local AI = require "age_of_wargroove/ai"
 local Constants = require "constants"
 
 local TechUp = Verb:new()
@@ -40,4 +41,13 @@ function TechUp:execute(unit, targetPos, strParam, path)
     
 end
 
+function TechUp:generateOrders(unitId, canMove)
+    local unit = Wargroove.getUnitById(unitId)
+    return AI.techUpOrders(unitId, canMove, TechUp:getCostAt(unit, unit.pos, unit.pos))
+end
+
+function TechUp:getScore(unitId, order)
+    local unit = Wargroove.getUnitById(unitId)
+    return AI.techUpScore(unitId, canMove)
+end
 return TechUp
