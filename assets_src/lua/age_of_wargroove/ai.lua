@@ -605,4 +605,21 @@ end
 function AI.buildTwoScore(unitId, order)
     return { score = 85, healthDelta = 0, introspection = {}}
 end
+
+function AI.trainOrders(unitId, canMove)
+    local orders = {}
+    local unit = Wargroove.getUnitById(unitId)
+    local unitClass = Wargroove.getUnitClass(unit.unitClassId)
+    local placePositions = Wargroove.getTargetsInRange(unit.pos, 1, "empty")
+
+    for i, targetPos in pairs(placePositions) do
+        orders[#orders+1] = {targetPosition = targetPos, strParam = "", movePosition = unit.pos, endPosition = unit.pos}
+    end
+    return orders
+end
+
+function AI.trainScore(unitId, order)
+    return { score = 30, healthDelta = 0, introspection = {}}
+end
+
 return AI
