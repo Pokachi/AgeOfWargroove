@@ -17,33 +17,33 @@ local availableEquipments = {
 }
 
 local attackerRandomMinModifier = {
-    dagger = 0.03,
-    rare_sword = 0.03
+    dagger = 0.05,
+    rare_sword = 0.05
 }
 
 local attackerRandomMaxModifier = {
-    axe = 0.03,
-    rare_sword = 0.03
+    axe = 0.05,
+    rare_sword = 0.05
 }
 
 local attackerDamageModifier = {
-    short_sword = 0.02,
-    rare_sword = 0.02
+    short_sword = 0.04,
+    rare_sword = 0.04
 }
 
 local defenderRandomMinModifier = {
-    armor = 0.03,
-    rare_shield = 0.03
+    armor = 0.05,
+    rare_shield = 0.05
 }
 
 local defenderRandomMaxModifier = {
-    helmet = 0.03,
-    rare_shield = 0.03
+    helmet = 0.05,
+    rare_shield = 0.05
 }
 
 local defenderDamageModifier = {
-    shield = 0.02,
-    rare_shield = 0.02
+    shield = 0.04,
+    rare_shield = 0.04
 }
 
 function Equipment.getAttackerRandomMinModifier(unitClass)
