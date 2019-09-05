@@ -1,6 +1,7 @@
 local Wargroove = require "wargroove/wargroove"
 local Verb = require "wargroove/verb"
 local AOW = require "age_of_wargroove/age_of_wargroove"
+local AI = require "age_of_wargroove/ai"
 local Constants = require "constants"
 
 local Build = Verb:new()
@@ -51,12 +52,15 @@ function Build:execute(unit, targetPos, strParam, path)
 
     u:setHealth(newHp, -1)
 
-    if (u.unitClassId == "city" or u.unitClassId == "water_city") then
-        AOW.setPopulationCap(unit.playerId, AOW.getPopulationCap(unit.playerId) + Constants.populationPerVillage)
-    elseif (u.unitClassId == "hq") then
-        AOW.setPopulationCap(unit.playerId, AOW.getPopulationCap(unit.playerId) + Constants.populationPerHQ)
-    end
     Wargroove.updateUnit(u)
+end
+
+function Build:generateOrders(unitId, canMove)
+    return AI.buildTwoOrders(unitId, canMove)
+end
+
+function Build:getScore(unitId, order)
+    return AI.buildTwoScore(unitId, order)
 end
 
 return Build

@@ -1,0 +1,6 @@
+---
+music:
+  - id: cyberwave_cinematic
+    name: music_name_cyberwave_cinematic
+    audioEvent: music/cyberwave_cinematic
+...

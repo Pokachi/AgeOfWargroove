@@ -1,6 +1,7 @@
 local AOW = require "age_of_wargroove/age_of_wargroove"
 local Events = require "initialized/events"
 local Wargroove = require "wargroove/wargroove"
+local AI = require "age_of_wargroove/ai"
 local Constants = require "constants"
 
 local Actions = {}
@@ -25,17 +26,19 @@ function Actions.populate(dst)
     dst["set_init_pop_cap"] = Actions.setInitialPopulationCap
     dst["modify_population_cap"] = Actions.modifyCurrentPopulation
     dst["report_dead_village"] = Actions.reportDeadVillage
+    dst["modify_ai_globals"] = Actions.modifyAIGlobals
+    dst["setup_ai_heatmap"] = Actions.setupAIHeatMap
     dst["modify_dimensional_door_groove"] = Actions.modifyDimensionalDoorGroove
 end
 
-function Actions.reportDeadVillage(context)
-    for i, u in ipairs(context.deadUnits) do
-        if u.unitClassId == "city" or u.unitClassId == "water_city" then
-            AOW.setPopulationCap(u.playerId, AOW.getPopulationCap(u.playerId) - Constants.populationPerVillage)
-        elseif u.unitClassId == "hq" then
-            AOW.setPopulationCap(u.playerId, AOW.getPopulationCap(u.playerId) - Constants.populationPerHQ)
-        end
-    end
+function Actions.modifyAIGlobals(context)
+    local playerId = context:getPlayerId(0)
+    AI.updateAIGlobals(playerId)
+end
+
+function Actions.setupAIHeatMap(context)
+    local playerId = context:getPlayerId(0)
+    AI.setupAIHeatMap(playerId)
 end
 
 function Actions.modifyCurrentPopulation(context)
@@ -107,24 +110,6 @@ function Actions.modifyDimensionalDoorGroove(context)
     end
 end
 
-function Actions.setInitialPopulationCap(context)
-    local playerId = context:getPlayerId(0)
-    
-    local allUnits = Wargroove.getAllUnitsForPlayer(playerId, true)
-    
-    local popCap = 0;
-    
-    for i, u in ipairs(allUnits) do
-        if u.unitClassId == "hq" then
-            popCap = popCap + Constants.populationPerHQ
-        elseif u.unitClassId == "city" or u.unitClassId == "water_city" then
-            popCap = popCap + Constants.populationPerVillage
-        end
-    end
-    
-    AOW.setPopulationCap(playerId, popCap)
-    
-end
 
 function Actions.generateGoldPerTurnFromPosAction(context)
     local playerId = context:getPlayerId(0)

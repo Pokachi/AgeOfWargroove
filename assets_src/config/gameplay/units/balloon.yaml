@@ -3,6 +3,6 @@
 modifyingUnitClasses:
   - id: balloon
     replace:
-        transportTags: [ type.ground.light, type.ground.heavy, type.amphibious, type.ground.villager ]
+        transportTags: [ type.ground.light, type.ground.heavy, type.amphibious, type.ground.villager, type.ground.healer ]
 
 ...

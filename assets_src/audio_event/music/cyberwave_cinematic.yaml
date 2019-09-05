@@ -1,0 +1,7 @@
+---
+actions:
+  - type: play
+    clips: [ music/cyberwavecinematic.ogg ]
+    group: music
+    loop: true
+...

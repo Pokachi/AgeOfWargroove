@@ -109,11 +109,13 @@ verbs:
     name: ui_unit_verbs_drink_h_pot
     scriptName: verbs/drink_h_pot
     targetted: false
+    aiUses: true
   - id: drink_g_pot
     icon: ui/icons/unit_action_icon_drink_pot.png
     name: ui_unit_verbs_drink_g_pot
     scriptName: verbs/drink_g_pot
     targetted: false
+    aiUses: true
   - id: dimensional_door
     icon: ui/icons/unit_action_icon_dimensional_door.png
     name: ui_unit_verbs_dimensional_door
@@ -122,5 +124,23 @@ verbs:
     scriptName: verbs/dimensional_door
     targetted: true
     directTarget: true
+    aiUses: true
+  - id: unload_two
+    icon: ui/icons/unit_action_icon_drop.png
+    name: ui_unit_verbs_unload
+    preExecute: true
+    scriptName: verbs/unload_two
+    targetColour: target
+    targetDisplayColour: attack_target
+    targetDisplayOutlineColour: attack_target_outline
+    targetOutlineColour: target_outline
+    aiUses: true
+  - id: wait_villager
+    icon: ui/icons/unit_action_icon_wait.png
+    name: ui_unit_verbs_wait
+    targetColour: target
+    targetOutlineColour: target_outline
+    scriptName: verbs/wait_villager
+    targetted: false
     aiUses: true
 ...

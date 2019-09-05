@@ -1,0 +1,88 @@
+---
+
+unitClasses:
+  - id: priest
+    name: unit_class_name_priest
+    cost: 300
+    movement: walking
+    moveRange: 3
+    classIconSpritesheet: ui_AgeOfWarGrooveMod
+    damageMultiplier: 1
+    aiPriority: 1.5
+    weapons: []
+    tags:
+      - priest
+      - type.ground.healer
+    verbs:
+      - load
+      - spell_heal
+    grooveId: indication_progress
+    battleUnitCount: 4
+
+
+units:
+  - class: priest
+    faction: cherrystone
+    name: unit_name_priest
+    mapAnimation: units/units/priest/map_priest_cherrystone
+    hasBattleAnimation: false
+    smallPortrait: units/units/priest/portrait_priest_cherrystone_small.png
+    mediumPortrait: units/units/priest/portrait_priest_cherrystone_medium.png
+    mapSpeed: 3.0
+    grabPos: [13, 14]
+    sounds:
+      death: undeadDieCrumble
+      deathMap: unitDie
+      run: infantryMediumEntry2
+      runMap: infantryMediumMapEntry2
+      hit: hitOrganic
+      hitMap: hitOrganic
+  - class: priest
+    faction: felheim
+    name: unit_name_priest
+    mapAnimation: units/units/priest/map_priest_cherrystone
+    hasBattleAnimation: false
+    smallPortrait: units/units/priest/portrait_priest_cherrystone_small.png
+    mediumPortrait: units/units/priest/portrait_priest_cherrystone_medium.png
+    mapSpeed: 3.0
+    grabPos: [13, 14]
+    sounds:
+      death: undeadDieCrumble
+      deathMap: unitDie
+      run: infantryMediumEntry2
+      runMap: infantryMediumMapEntry2
+      hit: hitOrganic
+      hitMap: hitOrganic
+  - class: priest
+    faction: floran
+    name: unit_name_priest
+    mapAnimation: units/units/priest/map_priest_cherrystone
+    hasBattleAnimation: false
+    smallPortrait: units/units/priest/portrait_priest_cherrystone_small.png
+    mediumPortrait: units/units/priest/portrait_priest_cherrystone_medium.png
+    mapSpeed: 3.0
+    grabPos: [13, 14]
+    sounds:
+      death: undeadDieCrumble
+      deathMap: unitDie
+      run: infantryMediumEntry2
+      runMap: infantryMediumMapEntry2
+      hit: hitOrganic
+      hitMap: hitOrganic
+  - class: priest
+    faction: heavensong
+    name: unit_name_priest
+    mapAnimation: units/units/priest/map_priest_cherrystone
+    hasBattleAnimation: false
+    smallPortrait: units/units/priest/portrait_priest_cherrystone_small.png
+    mediumPortrait: units/units/priest/portrait_priest_cherrystone_medium.png
+    mapSpeed: 3.0
+    grabPos: [13, 14]
+    sounds:
+      death: undeadDieCrumble
+      deathMap: unitDie
+      run: infantryMediumEntry2
+      runMap: infantryMediumMapEntry2
+      hit: hitOrganic
+      hitMap: hitOrganic
+...

@@ -1,0 +1,60 @@
+---
+packs:
+- name: mod
+  matches:
+  - ~:configFile:mod
+  
+- name: maps
+  matches:
+  - ~:binaryFile:campaigns
+  - ~:binaryFile:maps
+  
+- name: modPalette
+  matches:
+  - ~:texture:palettes
+  
+- name: modAssets
+  matches:
+  - ~:audioClip:music
+  - ~:audioClip:sfx
+  - ~:binaryFile:movie
+  - ~:binaryFile:campaigns
+  - ~:binaryFile:maps
+  - ~:configFile:gameplay
+  - ~:configFile:tilesets
+  - ~:binaryFile:lua
+  - ~:configFile
+  - ~:textFile
+  - ~:audioEvent
+  - ~:sprite:ui/codex/content
+  - ~:spriteSheet:ui/codex/content
+  - ~:animation:ui/codex/content
+  - ~:texture:ui/codex/content
+  - ~:sprite:ui/gallery/content
+  - ~:spriteSheet:ui/gallery/content
+  - ~:animation:ui/gallery/content
+  - ~:texture:ui/gallery/content
+  - ~:binaryFile:misc/gallery_dummy
+  - ~:font
+  - ~:sprite:ui
+  - ~:spriteSheet:ui_background
+  - ~:spriteSheet:splash
+  - ~:spriteSheet:ui
+  - ~:animation:ui
+  - ~:texture:ui_background
+  - ~:texture:fontTex
+  - ~:texture:splash
+  - ~:texture:ui
+  - ~:binaryFile:text
+  - ~:binaryFile:misc
+  - ~:sprite
+  - ~:spriteSheet
+  - ~:animation
+  - ~:texture
+  - ~:binaryFile:masks
+  - ~:materialDefinition
+  - ~:shader
+
+exclude:
+- ~:texture:palettes
+...

@@ -1,8 +1,8 @@
 ---
 
 unitClasses:
-  - id: gold_camp
-    name: structure_name_gold_camp
+  - id: church
+    name: structure_name_church
     aiPriority: 4.0
     moveRange: 0
     isStructure: true
@@ -10,29 +10,31 @@ unitClasses:
     canBeReinforced: false
     canBeCaptured: true
     isNeutraliseable: false
-    damageMultiplier: 1.3
+    damageMultiplier: 1
     battleUnitCount: 1
     hostileNeutral: false
     garrisonUnit: ""
     movement: land_building
+    recruitTags: [type.ground.healer]
     income: 0
-    loadCapacity: 4
-    cost: 100
+    loadCapacity: 1
+    cost: 250
+    grooveId: indication_progress
     tags:
       - structure
       - salvageable
     verbs:
-      - unload
-      - unload_two
-      - wait
+      - recruit_two
+      - recruit_two_phase_two
+      - cancel_recruit
       
 units:
-  - class: gold_camp
+  - class: church
     faction: neutral
-    name: structure_name_gold_camp
-    mapAnimation: [units/structures/gold_camp/map_gold_camp]
+    name: structure_name_church
+    mapAnimation: [units/structures/church/map_church]
     smallPortrait: portraits/small/portrait_structure_small.png
-    mediumPortrait: units/structures/gold_camp/portrait_gold_camp_medium.png
+    mediumPortrait: units/structures/church/portrait_church_medium.png
     grabPos: [12, 5]
     hasBattleScreen: false
     sounds:

@@ -3,6 +3,7 @@ local Verb = require "wargroove/verb"
 local AOW = require "age_of_wargroove/age_of_wargroove"
 local Constants = require "constants"
 local Equipment = require "age_of_wargroove/equipment"
+local AI = require "age_of_wargroove/ai"
 local Inspect = require "inspect"
 
 local BuyArtifacts = Verb:new()
@@ -128,6 +129,15 @@ function BuyArtifacts:execute(unit, targetPos, strParam, path)
     Wargroove.updateUnit(newUnit)
 
     strParam = ""
+end
+
+function BuyArtifacts:generateOrders(unitId, canMove)
+    local shop = Wargroove.getUnitById(unitId)
+    return AI.buyArtifactsOrders(unitId, canMove, self:getAndUpdateStock(shop))
+end
+
+function BuyArtifacts:getScore(unitId, order)
+    return AI.buyArtifactsScore(unitId, canMove)
 end
 
 return BuyArtifacts
