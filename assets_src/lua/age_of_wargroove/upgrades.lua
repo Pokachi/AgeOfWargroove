@@ -41,7 +41,7 @@ function Upgrades.getUpgradeDamageModifier(unit, defender)
         end
         if unitClassId == "trebuchet" and defender.unitClass.weapons[1] ~= nil then
             local weapon = Wargroove.getWeapon(defender.unitClass.weapons[1], defender.unitClassId)
-            if weapon.rangeMin == 1 and weapon.rangeMax == 1 then
+            if weapon.minRange == 1 and weapon.maxRange == 1 then
                 return 0.1
             end
             return 0
@@ -55,9 +55,9 @@ function Upgrades.getUpgradeDefenseModifier(unit, attacker)
     local playerId = unit.playerId
     local upgrade = unitClassId .. "_upgrade"
     if Upgrades.hasUpgrade(playerId, upgrade) then
-        if unitClassId == "knight" then
-            local weapon = Wargroove.getWeapon(attacker.unitClass.weapons[1], attacker.unitClassId)
-            if weapon.rangeMin > 1 or weapon.rangeMax > 1 then
+        if unitClassId == "knight" and attacker.unitClass.weapons[1] ~= nil then
+            local weapon = Wargroove.getWeapon(attacker.unitClass.weapons[1].id, attacker.unitClassId)
+            if weapon.minRange  > 1 or weapon.maxRange > 1 then
                 return 0.1
             end
             return 0
@@ -72,7 +72,7 @@ function Upgrades.getUpgradeTerrainDefenseModifier(unit)
     local upgrade = unitClassId .. "_upgrade"
     if Upgrades.hasUpgrade(playerId, upgrade) then
         if unitClassId == "giant" then
-            return Wargroove.getTerrainDefenceAt(unit.pos)
+            return math.floor(Wargroove.getTerrainDefenceAt(unit.pos)* 0.5 + 0.5)
         end
     end
     return 0

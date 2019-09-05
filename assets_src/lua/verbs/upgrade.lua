@@ -19,7 +19,7 @@ end
 function UpgradeLand:canExecuteAnywhere(unit)
 
     if unit ~= nil and unit.unitClassId == "blacksmith" then
-        return Upgrades.getWorkingUpgrade(unit.playerId, unit.id) == nil
+        return Upgrades.getWorkingUpgrade(unit.playerId, unit.id) == nil and Upgrades.getLandUpgrades(unit.playerId)[1] ~= nil
     end
     
     return false
