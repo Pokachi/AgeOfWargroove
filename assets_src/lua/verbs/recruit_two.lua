@@ -1,6 +1,7 @@
 local Wargroove = require "wargroove/wargroove"
 local Verb = require "wargroove/verb"
 local AOW = require "age_of_wargroove/age_of_wargroove"
+local AI = require "age_of_wargroove/ai"
 local Constants = require "constants"
 
 local RecruitTwo = Verb:new()
@@ -141,6 +142,33 @@ function RecruitTwo:execute(unit, targetPos, strParam, path)
     end
 
     strParam = ""
+end
+
+function RecruitTwo:generateOrders(unitId, canMove)
+    local unit = Wargroove.getUnitById(unitId)
+    local orders = {}
+    if unit.unitClass.id == "hq" then
+        if (not Wargroove.canPlayerRecruit(unit.playerId, "villager")) then
+            return orders
+        end
+        return AI.buildVillagerOrders(unitId, canMove)
+    end
+    RecruitTwo.classToRecruit = Wargroove.getBestUnitToRecruit(RecruitTwo.getRecruitableTargets(self, unit))
+    if (not Wargroove.canPlayerRecruit(unit.playerId, RecruitTwo.classToRecruit)) then
+        return orders
+    end
+    return AI.buildUnitOrders(unitId, canMove, RecruitTwo.classToRecruit)
+end
+
+function RecruitTwo:getScore(unitId, order)
+    if order.strParam == "" then
+        return 0
+    end
+    if order.strParam == "villager" then
+        return AI.buildVillagerScore(unitId, order)
+    else
+        return AI.buildUnitScore(unitId, order)
+    end
 end
 
 return RecruitTwo
