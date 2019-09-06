@@ -186,6 +186,7 @@ function Events.populateTriggerList()
     Events.addTriggerToList(AI.setupAIHeatMapTrigger(referenceTrigger))
     Events.addTriggerToList(AI.modifyAIGlobalsAlwaysTrigger(referenceTrigger))
     Events.addTriggerToList(AOW.modifyDDoorGroove())
+    Events.addTriggerToList(Leveling.onLoadTrigger(referenceTrigger))
     
     local Actions = require("triggers/actions")
     local Conditions = require("triggers/conditions")
