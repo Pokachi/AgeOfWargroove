@@ -1,5 +1,6 @@
 local AOW = require "age_of_wargroove/age_of_wargroove"
 local Events = require "initialized/events"
+local Leveling = require "age_of_wargroove/leveling"
 local Wargroove = require "wargroove/wargroove"
 local AI = require "age_of_wargroove/ai"
 local Constants = require "constants"
@@ -29,6 +30,11 @@ function Actions.populate(dst)
     dst["modify_ai_globals"] = Actions.modifyAIGlobals
     dst["setup_ai_heatmap"] = Actions.setupAIHeatMap
     dst["modify_dimensional_door_groove"] = Actions.modifyDimensionalDoorGroove
+    dst["redraw_unit_ranks"] = Actions.redrawUnitRanks
+    
+    -- Editor
+    dst["modify_experience"] = Actions.modifyExperience
+    dst["modify_rank"] = Actions.modifyRank
 end
 
 function Actions.modifyAIGlobals(context)
@@ -296,5 +302,49 @@ function Actions.modifyGoldAtPos(context)
     end
     
 end
+
+function Actions.redrawUnitRanks(context)
+    local units = context:gatherUnits(2, 0, 1)
+    
+    for i, unit in ipairs(units) do
+        Leveling.redraw(unit)
+    end
+    
+    coroutine.yield()
+end
+
+-- Editor actions
+function Actions.modifyExperience(context)
+    -- "Modify Experience of {0} at {1} for {2}: {3} to {4} {5}"
+    local operation = context:getOperation(3)
+    local value = context:getInteger(4)
+    local units = context:gatherUnits(2, 0, 1)
+    local silent = context:getBoolean(5)
+
+    for i, unit in ipairs(units) do
+        local oldValue = Leveling.getExperience(unit) or 0
+        local newValue = operation(tonumber(oldValue), value)
+        Leveling.setExperience(unit, newValue, silent)
+    end
+
+    coroutine.yield()
+end
+
+function Actions.modifyRank(context)
+    -- "Modify Rank of {0} at {1} for {2}: {3} to {4} {5}"
+    local operation = context:getOperation(3)
+    local value = context:getInteger(4)
+    local units = context:gatherUnits(2, 0, 1)
+    local silent = context:getBoolean(5)
+
+    for i, unit in ipairs(units) do
+        local oldValue = Leveling.getRank(unit) or 0
+        local newValue = operation(tonumber(oldValue), value)
+        Leveling.setRank(unit, newValue, silent)
+    end
+
+    coroutine.yield()
+end
+
 
 return Actions

@@ -1,0 +1,12 @@
+---
+
+modifyingUnitClasses:
+  - id: dog
+    replace:
+        tags:
+            - dog
+            - type.ground.light
+            - animal
+            - canLevel
+        grooveId: exp
+...

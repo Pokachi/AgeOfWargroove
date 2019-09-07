@@ -1,8 +1,6 @@
 local Wargroove = require "wargroove/wargroove"
 local Verb = require "wargroove/verb"
-local AOW = require "age_of_wargroove/age_of_wargroove"
 local Constants = require "constants"
-local inspect = require "inspect"
 
 local Salvage = Verb:new()
 
