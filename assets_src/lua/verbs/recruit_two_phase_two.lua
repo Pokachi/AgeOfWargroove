@@ -1,6 +1,7 @@
 local Wargroove = require "wargroove/wargroove"
 local Verb = require "wargroove/verb"
 local AOW = require "age_of_wargroove/age_of_wargroove"
+local AI = require "age_of_wargroove/ai"
 local Constants = require "constants"
 
 local RecruitTwoPhaseTwo = Verb:new()
@@ -70,6 +71,14 @@ function RecruitTwoPhaseTwo:execute(unit, targetPos, strParam, path)
         local groove = unit.groove + math.floor(100 / AOW.getTurnRequirement(targetUnit.unitClassId))
         unit:setGroove(groove)
     end
+end
+
+function RecruitTwoPhaseTwo:generateOrders(unitid, canMove)
+    return AI.trainOrders(unitid, canMove)
+end
+
+function RecruitTwoPhaseTwo:getScore(unitid, order)
+    return AI.trainScore(unitid, order)
 end
 
 return RecruitTwoPhaseTwo
