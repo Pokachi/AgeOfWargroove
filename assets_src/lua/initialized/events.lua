@@ -189,6 +189,7 @@ function Events.populateTriggerList()
     Events.addTriggerToList(AOW.modifyDDoorGroove())
     Events.addTriggerToList(Upgrades.modifyUpgradeGroove(referenceTrigger))
     Events.addTriggerToList(Upgrades.modifyUpgradeIndicators(referenceTrigger))
+    Events.addTriggerToList(Upgrades.reportDeadUpgradeTrigger(referenceTrigger))
     Events.addTriggerToList(Leveling.onLoadTrigger(referenceTrigger))
     
     local Actions = require("triggers/actions")

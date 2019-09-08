@@ -22,6 +22,16 @@ function UpgradeLand:canExecuteAnywhere(unit)
         return Upgrades.getWorkingUpgrade(unit.playerId, unit.id) == nil and Upgrades.getLandUpgrades(unit.playerId)[1] ~= nil
     end
     
+    if unit ~= nil and unit.unitClassId == "enchanting_tower" then
+        return Upgrades.getWorkingUpgrade(unit.playerId, unit.id) == nil and Upgrades.getAirUpgrades(unit.playerId)[1] ~= nil
+    end
+    if unit ~= nil and unit.unitClassId == "harbor" then
+        return Upgrades.getWorkingUpgrade(unit.playerId, unit.id) == nil and Upgrades.getSeaUpgrades(unit.playerId)[1] ~= nil
+    end
+    if unit ~= nil and unit.unitClassId == "monastery" then
+        return Upgrades.getWorkingUpgrade(unit.playerId, unit.id) == nil and Upgrades.getPriestUpgrades(unit.playerId)[1] ~= nil
+    end
+    
     return false
 end
 

@@ -66,6 +66,11 @@ verbs:
     name: ui_unit_verbs_cancel_recruit
     scriptName: verbs/cancel_recruit
     targetted: false
+  - id: cancel_upgrade
+    icon: ui/icons/unit_action_icon_cancel.png
+    name: ui_unit_verbs_cancel_upgrade
+    scriptName: verbs/cancel_upgrade
+    targetted: false
   - id: mine
     icon: ui/icons/unit_action_icon_mine.png
     name: ui_unit_verbs_mine

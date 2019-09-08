@@ -15,6 +15,7 @@ en-GB:
     ui_unit_verbs_buy_artifacts: Buy Artifacts
     ui_unit_verbs_train: Train
     ui_unit_verbs_cancel_recruit: Cancel Recruitment
+    ui_unit_verbs_cancel_upgrade: Cancel Upgrade
     ui_unit_verbs_upgrade_land: Upgrade
     groove_name_dimensional_door: Dimensional Door
     groove_description_dimensional_door: A relic from the anicent. Allows the wielder to teleport to a tile beside HQ. 5 turn cooldown

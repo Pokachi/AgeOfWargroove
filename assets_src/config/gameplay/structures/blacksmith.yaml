@@ -25,6 +25,7 @@ unitClasses:
     verbs:
       - upgrade_land
       - wait
+      - cancel_upgrade
       
 units:
   - class: blacksmith

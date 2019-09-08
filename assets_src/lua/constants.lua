@@ -56,4 +56,13 @@ Constants.allLandUpgrades = {
 "giant_upgrade"
 }
 
+Constants.allSeaUpgrades = {
+}
+
+Constants.allAirUpgrades = {
+}
+
+Constants.allPriestUpgrades = {
+}
+
 return Constants

@@ -7,12 +7,21 @@ local inspect = require "inspect"
 local Upgrades = {}
 
 local landUpgradesTable = {}
-
 local landUpgradesWorkingTable = {}
+
+local seaUpgradesTable = {}
+local seaUpgradesWorkingTable = {}
+
+local airUpgradesTable = {}
+local airUpgradesWorkingTable = {}
+
+local priestUpgradesTable = {}
+local priestUpgradesWorkingTable = {}
 
 local activeUpgrades = {}
 
 
+-- Sets an active upgrade for any building for a given player
 function Upgrades.addActiveUpgrade(playerId, upgrade)
     local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
     local activeUpgradesString = Wargroove.getUnitState(globalStateUnit, "activeUpgrades")
@@ -31,50 +40,18 @@ end
 function Upgrades.getUpgradeDamageModifier(unit, defender)
     local unitClassId = unit.unitClassId
     local playerId = unit.playerId
-    local upgrade = unitClassId .. "_upgrade"
-    if Upgrades.hasUpgrade(playerId, upgrade) then
-        if unitClassId == "archer" then
-            return 0.05
-        end
-        if unitClassId == "balista" then
-            return 0.07
-        end
-        if unitClassId == "trebuchet" and defender.unitClass.weapons[1] ~= nil then
-            local weapon = Wargroove.getWeapon(defender.unitClass.weapons[1], defender.unitClassId)
-            if weapon.minRange == 1 and weapon.maxRange == 1 then
-                return 0.1
-            end
-            return 0
-        end
-    end
     return 0
 end
 
 function Upgrades.getUpgradeDefenseModifier(unit, attacker)
     local unitClassId = unit.unitClass.id
     local playerId = unit.playerId
-    local upgrade = unitClassId .. "_upgrade"
-    if Upgrades.hasUpgrade(playerId, upgrade) then
-        if unitClassId == "knight" and attacker.unitClass.weapons[1] ~= nil then
-            local weapon = Wargroove.getWeapon(attacker.unitClass.weapons[1].id, attacker.unitClassId)
-            if weapon.minRange  > 1 or weapon.maxRange > 1 then
-                return 0.1
-            end
-            return 0
-        end
-    end
     return 0
 end
 
 function Upgrades.getUpgradeTerrainDefenseModifier(unit)
     local unitClassId = unit.unitClass.id
     local playerId = unit.playerId
-    local upgrade = unitClassId .. "_upgrade"
-    if Upgrades.hasUpgrade(playerId, upgrade) then
-        if unitClassId == "giant" then
-            return math.floor(Wargroove.getTerrainDefenceAt(unit.pos)* 0.5 + 0.5)
-        end
-    end
     return 0
 end
 
@@ -88,7 +65,7 @@ function Upgrades.hasUpgrade(playerId, upgrade)
     end
     return false
 end
-
+-- Gets all active upgrades for every building for a given player
 function Upgrades.getActiveUpgrades(playerId)
     local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
     local activeUpgradesString = Wargroove.getUnitState(globalStateUnit, "activeUpgrades")
@@ -98,6 +75,149 @@ function Upgrades.getActiveUpgrades(playerId)
     return activeUpgrades
 end
 
+-- Get all the priest based upgrades that player has NOT researched yet
+function Upgrades.getPriestUpgrades(playerId)
+    local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
+    local upgradesString = Wargroove.getUnitState(globalStateUnit, "priestUpgrades")
+    if upgradesString ~= nil then
+        priestUpgradesTable = (loadstring or load)("return "..upgradesString)()
+    end
+    if priestUpgradesTable[playerId] == nil then
+        priestUpgradesTable[playerId] = Constants.allPriestUpgrades
+        Wargroove.setUnitState(globalStateUnit, "priestUpgrades", inspect(priestUpgradesTable))
+        Wargroove.updateUnit(globalStateUnit)
+        return Constants.allPriestUpgrades
+    end
+    
+    return priestUpgradesTable[playerId]
+end
+-- Remove a priest upgrades that player has NOT researched yet from the list (used by setWorkingUpgrade)
+function Upgrades.removePriestUpgrade(playerId, index)
+    local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
+    local upgradesString = Wargroove.getUnitState(globalStateUnit, "priestUpgrades")
+    if upgradesString ~= nil then
+        priestUpgradesTable = (loadstring or load)("return "..upgradesString)()
+    end
+    if priestUpgradesTable[playerId] == nil then
+        priestUpgradesTable[playerId] = Constants.allPriestUpgrades
+    end
+    table.remove(priestUpgradesTable[playerId], index)
+    Wargroove.setUnitState(globalStateUnit, "priestUpgrades", inspect(priestUpgradesTable))
+    Wargroove.updateUnit(globalStateUnit)
+    
+end
+-- Add a priest upgrade that player has NOT researched yet to the list (Could be used by a cancel verb)
+function Upgrades.addPriestUpgrade(playerId, upgrade)
+    local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
+    local upgradesString = Wargroove.getUnitState(globalStateUnit, "priestUpgrades")
+    if upgradesString ~= nil then
+        priestUpgradesTable = (loadstring or load)("return "..upgradesString)()
+    end
+    if priestUpgradesTable[playerId] == nil then
+        priestUpgradesTable[playerId] = Constants.allPriestUpgrades
+    else
+        table.insert(priestUpgradesTable[playerId], upgrade)
+    end
+    Wargroove.setUnitState(globalStateUnit, "priestUpgrades", inspect(priestUpgradesTable))
+    Wargroove.updateUnit(globalStateUnit)
+    
+end
+
+-- Get all the air based upgrades that player has NOT researched yet
+function Upgrades.getAirUpgrades(playerId)
+    local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
+    local upgradesString = Wargroove.getUnitState(globalStateUnit, "airUpgrades")
+    if upgradesString ~= nil then
+        priestUpgradesTable = (loadstring or load)("return "..upgradesString)()
+    end
+    if priestUpgradesTable[playerId] == nil then
+        priestUpgradesTable[playerId] = Constants.allPriestUpgrades
+        Wargroove.setUnitState(globalStateUnit, "airUpgrades", inspect(priestUpgradesTable))
+        Wargroove.updateUnit(globalStateUnit)
+        return Constants.allPriestUpgrades
+    end
+    
+    return airUpgradesTable[playerId]
+end
+-- Remove an air based upgrade that player has NOT researched yet from the list (used by setWorkingUpgrade)
+function Upgrades.removeAirUpgrade(playerId, index)
+    local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
+    local upgradesString = Wargroove.getUnitState(globalStateUnit, "airUpgrades")
+    if upgradesString ~= nil then
+        airUpgradesTable = (loadstring or load)("return "..upgradesString)()
+    end
+    if airUpgradesTable[playerId] == nil then
+        airUpgradesTable[playerId] = Constants.allAirUpgrades
+    end
+    table.remove(airUpgradesTable[playerId], index)
+    Wargroove.setUnitState(globalStateUnit, "airUpgrades", inspect(airUpgradesTable))
+    Wargroove.updateUnit(globalStateUnit)
+    
+end
+-- Add a air upgrade that player has NOT researched yet to the list (Could be used by a cancel verb)
+function Upgrades.addAirUpgrade(playerId, upgrade)
+    local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
+    local upgradesString = Wargroove.getUnitState(globalStateUnit, "airUpgrades")
+    if upgradesString ~= nil then
+        airUpgradesTable = (loadstring or load)("return "..upgradesString)()
+    end
+    if airUpgradesTable[playerId] == nil then
+        airUpgradesTable[playerId] = Constants.allAirUpgrades
+    else
+        table.insert(airUpgradesTable[playerId], upgrade)
+    end
+    Wargroove.setUnitState(globalStateUnit, "airUpgrades", inspect(airUpgradesTable))
+    Wargroove.updateUnit(globalStateUnit)
+    
+end
+-- Get all the sea based upgrades that player has NOT researched yet
+function Upgrades.getSeaUpgrades(playerId)
+    local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
+    local upgradesString = Wargroove.getUnitState(globalStateUnit, "seaUpgrades")
+    if upgradesString ~= nil then
+        seaUpgradesTable = (loadstring or load)("return "..upgradesString)()
+    end
+    if seaUpgradesTable[playerId] == nil then
+        seaUpgradesTable[playerId] = Constants.allSeaUpgrades
+        Wargroove.setUnitState(globalStateUnit, "seaUpgrades", inspect(seaUpgradesTable))
+        Wargroove.updateUnit(globalStateUnit)
+        return Constants.allSeaUpgrades
+    end
+    
+    return seaUpgradesTable[playerId]
+end
+-- Remove a sea based upgrade that player has NOT researched yet from the list (used by setWorkingUpgrade)
+function Upgrades.removeSeaUpgrade(playerId, index)
+    local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
+    local upgradesString = Wargroove.getUnitState(globalStateUnit, "seaUpgrades")
+    if upgradesString ~= nil then
+        seaUpgradesTable = (loadstring or load)("return "..upgradesString)()
+    end
+    if seaUpgradesTable[playerId] == nil then
+        seaUpgradesTable[playerId] = Constants.allSeaUpgrades
+    end
+    table.remove(seaUpgradesTable[playerId], index)
+    Wargroove.setUnitState(globalStateUnit, "seaUpgrades", inspect(seaUpgradesTable))
+    Wargroove.updateUnit(globalStateUnit)
+    
+end
+-- Add a sea upgrade that player has NOT researched yet to the list (Could be used by a cancel verb)
+function Upgrades.addSeaUpgrade(playerId, upgrade)
+    local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
+    local upgradesString = Wargroove.getUnitState(globalStateUnit, "seaUpgrades")
+    if upgradesString ~= nil then
+        seaUpgradesTable = (loadstring or load)("return "..upgradesString)()
+    end
+    if seaUpgradesTable[playerId] == nil then
+        seaUpgradesTable[playerId] = Constants.allSeaUpgrades
+    else
+        table.insert(seaUpgradesTable[playerId], upgrade)
+    end
+    Wargroove.setUnitState(globalStateUnit, "seaUpgrades", inspect(seaUpgradesTable))
+    Wargroove.updateUnit(globalStateUnit)
+    
+end
+-- Get all the land (blacksmith) based upgrades that player has NOT researched yet
 function Upgrades.getLandUpgrades(playerId)
     local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
     local landUpgradesString = Wargroove.getUnitState(globalStateUnit, "landUpgrades")
@@ -113,7 +233,7 @@ function Upgrades.getLandUpgrades(playerId)
     
     return landUpgradesTable[playerId]
 end
-
+-- Remove a land based upgrade that player has NOT researched yet from the list (used by setWorkingUpgrade)
 function Upgrades.removeLandUpgrade(playerId, index)
     local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
     local landUpgradesString = Wargroove.getUnitState(globalStateUnit, "landUpgrades")
@@ -128,7 +248,7 @@ function Upgrades.removeLandUpgrade(playerId, index)
     Wargroove.updateUnit(globalStateUnit)
     
 end
-
+-- Add a land based upgrade that player has NOT researched yet to the list (Could be used by a cancel verb)
 function Upgrades.addLandUpgrade(playerId, upgrade)
     local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
     local landUpgradesString = Wargroove.getUnitState(globalStateUnit, "landUpgrades")
@@ -144,8 +264,8 @@ function Upgrades.addLandUpgrade(playerId, upgrade)
     Wargroove.updateUnit(globalStateUnit)
     
 end
-
-function Upgrades.setWorkingUpgrade(playerId, blacksmithId, upgrade)
+-- Sets the upgrade that a structure is working on
+function Upgrades.setWorkingUpgrade(playerId, structureId, upgrade)
     local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
     local landUpgradesWorkingString = Wargroove.getUnitState(globalStateUnit, "landWorkingUpgrades")
     if landUpgradesWorkingString ~= nil then
@@ -154,7 +274,7 @@ function Upgrades.setWorkingUpgrade(playerId, blacksmithId, upgrade)
     if landUpgradesWorkingTable[playerId] == nil then
         landUpgradesWorkingTable[playerId] = {}
     end
-    landUpgradesWorkingTable[playerId][blacksmithId] = upgrade
+    landUpgradesWorkingTable[playerId][structureId] = upgrade
     for i, up in ipairs(landUpgradesTable[playerId]) do
         if upgrade == up then
             Upgrades.removeLandUpgrade(playerId, i)
@@ -164,8 +284,8 @@ function Upgrades.setWorkingUpgrade(playerId, blacksmithId, upgrade)
     Wargroove.setUnitState(globalStateUnit, "landWorkingUpgrades", inspect(landUpgradesWorkingTable))
     Wargroove.updateUnit(globalStateUnit)
 end
-
-function Upgrades.getWorkingUpgrade(playerId, blacksmithId)
+-- Gets the upgrade that a structure is working on
+function Upgrades.getWorkingUpgrade(playerId, structureId)
     local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
     local landUpgradesWorkingString = Wargroove.getUnitState(globalStateUnit, "landWorkingUpgrades")
     if landUpgradesWorkingString ~= nil then
@@ -174,7 +294,7 @@ function Upgrades.getWorkingUpgrade(playerId, blacksmithId)
     if landUpgradesWorkingTable[playerId] == nil then
         landUpgradesWorkingTable[playerId] = {}
     end
-    return landUpgradesWorkingTable[playerId][blacksmithId]
+    return landUpgradesWorkingTable[playerId][structureId]
 end
 
 function Upgrades.modifyUpgradeGroove(referenceTrigger)
@@ -204,6 +324,23 @@ function Upgrades.modifyUpgradeIndicators(referenceTrigger)
     
     trigger.actions = {}
     table.insert(trigger.actions, { id = "modify_upgrade_indicator", parameters = { "current" } })
+    
+    return trigger
+end
+
+function Upgrades.reportDeadUpgradeTrigger(referenceTrigger)
+    local trigger = {}
+    trigger.id =  "reportDeadBlacksmith"
+    trigger.recurring = "repeat"
+    trigger.players = referenceTrigger.players
+    trigger.conditions = {}
+    
+    table.insert(trigger.conditions, { id = "unit_killed", parameters = { "*unit", "current", "blacksmith", "any", "-1" } })
+    table.insert(trigger.conditions, { id = "player_turn", parameters = { "current" } })
+    
+    trigger.actions = {}
+    
+    table.insert(trigger.actions, { id = "upgrade_death_cancel_upgrade", parameters = {"current"} })
     
     return trigger
 end
