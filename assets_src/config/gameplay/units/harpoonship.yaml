@@ -1,0 +1,11 @@
+---
+
+modifyingUnitClasses:
+  - id: harpoonship
+    replace:
+        tags:
+            - harpoonship
+            - type.sea
+            - canLevel
+        grooveId: exp  
+...

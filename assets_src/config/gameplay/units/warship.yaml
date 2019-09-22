@@ -1,0 +1,11 @@
+---
+
+modifyingUnitClasses:
+  - id: warship
+    replace:
+        tags:
+            - warship
+            - type.sea
+            - canLevel
+        grooveId: exp  
+...

@@ -1,31 +1,41 @@
 ---
 
 unitClasses:
-  - id: shop
-    name: structure_name_shop
-    aiPriority: 0.0
+  - id: blacksmith
+    name: structure_name_blacksmith
+    aiPriority: 4.0
     moveRange: 0
     isStructure: true
     canReinforce: false
     canBeReinforced: false
-    canBeCaptured: false
-    isNeutraliseable: true
-    damageMultiplier: 0
-    hostileNeutral: true
+    canBeCaptured: true
+    isNeutraliseable: false
+    damageMultiplier: 1.0
+    battleUnitCount: 1
+    hostileNeutral: false
+    garrisonUnit: ""
     movement: land_building
     income: 0
+    loadCapacity: 10
     cost: 300
+    grooveId: blacksmith
     tags:
       - structure
+      - salvageable
+    verbs:
+      - upgrade_land
+      - wait
+      - cancel_upgrade
       
 units:
-  - class: shop
+  - class: blacksmith
     faction: neutral
-    name: structure_name_gold
-    mapAnimation: units/structures/shop/map_shop
+    name: structure_name_blacksmith
+    mapAnimation: [units/structures/blacksmith/blacksmith]
     smallPortrait: portraits/small/portrait_structure_small.png
-    mediumPortrait: units/structures/shop/portrait_shop_medium.png
+    mediumPortrait: units/structures/blacksmith/portrait_blacksmith_medium.png
     grabPos: [12, 5]
+    hasBattleScreen: false
     sounds:
       hit: hitWood
       hitMap: hitStone

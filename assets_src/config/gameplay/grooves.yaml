@@ -7,6 +7,18 @@ grooves:
     maxCharge: 5
     chargePerUse: 5
     verb: dimensional_door
+  - id: blacksmith
+    name: groove_name_blacksmith
+    description: groove_description_blacksmith
+    maxCharge: 5
+    chargePerUse: 5
+    verb: groove_dummy
+  - id: upgraded_indicator
+    name: groove_name_upgraded_indicator
+    description: groove_description_upgraded_indicator
+    maxCharge: 5
+    chargePerUse: 5
+    verb: groove_dummy
   - id: indicate_population
     name: groove_name_indicate_population
     description: groove_description_indicate_population
@@ -19,5 +31,16 @@ grooves:
     maxCharge: 100
     chargePerUse: 0
     verb: wait
-
+  - id: exp
+    name: groove_name_dummy
+    description: groove_description_dummy
+    maxCharge: 100
+    chargePerUse: 100
+    chargeBy:
+      endOfTurn: 0
+      attack: 0
+      counter: 0
+      kill: 0
+    verb: groove_dummy
+    
 ...

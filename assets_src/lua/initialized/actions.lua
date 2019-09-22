@@ -1,8 +1,13 @@
 local AOW = require "age_of_wargroove/age_of_wargroove"
+local Upgrades = require "age_of_wargroove/upgrades"
 local Events = require "initialized/events"
+local Leveling = require "age_of_wargroove/leveling"
 local Wargroove = require "wargroove/wargroove"
 local AI = require "age_of_wargroove/ai"
 local Constants = require "constants"
+local Utils = require "utils"
+
+local inspect = require "inspect"
 
 local Actions = {}
 
@@ -29,6 +34,71 @@ function Actions.populate(dst)
     dst["modify_ai_globals"] = Actions.modifyAIGlobals
     dst["setup_ai_heatmap"] = Actions.setupAIHeatMap
     dst["modify_dimensional_door_groove"] = Actions.modifyDimensionalDoorGroove
+    dst["modify_upgrade_groove"] = Actions.modifyUpgradeGroove
+    dst["modify_upgrade_indicator"] = Actions.modifyUpgradeIndicators
+    dst["redraw_unit_ranks"] = Actions.redrawUnitRanks
+    dst["upgrade_death_cancel_upgrade"] = Actions.upgradeDeathCancelUpgrade
+    
+    -- Editor
+    dst["modify_experience"] = Actions.modifyExperience
+    dst["modify_rank"] = Actions.modifyRank
+end
+
+function Actions.upgradeDeathCancelUpgrade(context) 
+    for i, u in ipairs(context.deadUnits) do
+        if u.unitClassId == "blacksmith" then
+            local upgrade = Upgrades.getWorkingUpgrade(u.playerId, u.id)
+            Upgrades.addLandUpgrade(u.playerId, upgrade)
+            Upgrades.setWorkingUpgrade(u.playerId, u.id, nil)
+        elseif u.unitClassId == "enchanting_tower" then
+            local upgrade = Upgrades.getWorkingUpgrade(u.playerId, u.id)
+            Upgrades.addAirUpgrade(u.playerId, upgrade)
+            Upgrades.setWorkingUpgrade(u.playerId, u.id, nil)
+        elseif u.unitClassId == "harbor" then
+            local upgrade = Upgrades.getWorkingUpgrade(u.playerId, u.id)
+            Upgrades.addSeaUpgrade(u.playerId, upgrade)
+            Upgrades.setWorkingUpgrade(u.playerId, u.id, nil)
+        elseif u.unitClassId == "monastery" then
+            local upgrade = Upgrades.getWorkingUpgrade(u.playerId, u.id)
+            Upgrades.addPriestUpgrade(u.playerId, upgrade)
+            Upgrades.setWorkingUpgrade(u.playerId, u.id, nil)
+        end
+    end
+end
+
+function Actions.modifyUpgradeGroove(context)
+    local playerId = context:getPlayerId(0)
+    
+    local allUnits = Wargroove.getAllUnitsForPlayer(playerId, true)
+    for i, u in ipairs(allUnits) do
+        if u.unitClassId == "blacksmith" or u.unitClassId == "enchanting_tower" or u.unitClassId == "harbor" or u.unitClassId == "monastery" then
+            local upgrade = Upgrades.getWorkingUpgrade(playerId, u.id)
+            if upgrade ~= nil then
+                for k, l in ipairs(u.loadedUnits) do
+                    if l ~= nil then
+                        print(1)
+                        loaded = Wargroove.getUnitById(l)
+                        if loaded ~= nil and loaded.unitClassId == upgrade then
+                            print(2)
+                            if loaded.grooveCharge < loaded.unitClass.maxGroove then
+                                print(3)
+                                local newGrooveCharge = loaded.grooveCharge + 1
+                                loaded.grooveCharge = newGrooveCharge
+                                if newGrooveCharge >= loaded.unitClass.maxGroove then
+                                    Upgrades.addActiveUpgrade(playerId, upgrade)
+                                    Upgrades.setWorkingUpgrade(playerId, u.id, nil)
+                                    loaded.grooveCharge = loaded.unitClass.maxGroove
+                                end
+                                Wargroove.updateUnit(loaded)
+                                Wargroove.updateUnit(u)
+                                print(4)
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
 end
 
 function Actions.modifyAIGlobals(context)
@@ -47,6 +117,99 @@ function Actions.reportDeadVillage(context)
             AOW.setPopulationCap(u.playerId, AOW.getPopulationCap(u.playerId) - Constants.populationPerVillage)
         elseif u.unitClassId == "hq" then
             AOW.setPopulationCap(u.playerId, AOW.getPopulationCap(u.playerId) - Constants.populationPerHQ)
+        end
+    end
+end
+
+-- Modify this with new research sturcture classes
+function structureResearchesUpgrade(structure, upgrade)
+    if structure.unitClassId == "blacksmith" then
+        return Utils.tableContains(Constants.allLandUpgrades, upgrade)
+    end
+    if structure.unitClassId == "enchanting_tower" then
+        return Utils.tableContains(Constants.allAirUpgrades, upgrade)
+    end
+    if structure.unitClassId == "harbor" then
+        return Utils.tableContains(Constants.allSeaUpgrades, upgrade)
+    end
+    if structure.unitClassId == "monastery" then
+        return Utils.tableContains(Constants.allPriestUpgrades, upgrade)
+    end
+    return false
+end
+
+local allUpgrades = {}
+Utils.TableConcat(allUpgrades, Constants.allLandUpgrades)
+Utils.TableConcat(allUpgrades, Constants.allAirUpgrades)
+Utils.TableConcat(allUpgrades, Constants.allSeaUpgrades)
+Utils.TableConcat(allUpgrades, Constants.allPriestUpgrades)
+function manageUpgradeStructure(u)
+    local workingUpgrade = Upgrades.getWorkingUpgrade(u.playerId, u.id)
+    local unitState = Wargroove.getUnitState(u, "upgradeEffect")
+    if workingUpgrade ~= nil then
+        if unitState == nil or unitState == "" then
+            local effectId = Wargroove.spawnUnitEffect(u.id, "units/fx/upgrade", "upgrade", "", true)
+            Wargroove.setUnitState(u, "upgradeEffect", effectId)
+            Wargroove.updateUnit(u)
+        end
+    elseif unitState ~= nil and unitState ~= "" then
+        Wargroove.deleteUnitEffect(Wargroove.getUnitState(u, "upgradeEffect"), "")
+        Wargroove.setUnitState(u, "upgradeEffect", "")
+        Wargroove.updateUnit(u)
+    end
+    for j, up in ipairs(allUpgrades) do
+
+        local unitLoaded = false
+        local loaded = nil
+        for k, l in ipairs(u.loadedUnits) do
+            if l ~= nil then
+                loaded = Wargroove.getUnitById(l)
+                if loaded ~= nil and loaded.unitClassId == up then
+                    unitLoaded = true
+                    break
+                end
+            end
+        end
+        if Upgrades.hasUpgrade(u.playerId, up) and structureResearchesUpgrade(u, up) then
+            if (not unitLoaded) then
+                Wargroove.spawnUnit(-1, { x = -91, y = -12 }, up, true, "")
+                Wargroove.waitFrame()
+                local upgradeUnit = Wargroove.getUnitAt({ x = -91, y = -12 })
+                upgradeUnit.pos = { x = -99, y = -99 }
+                upgradeUnit.grooveCharge = 5
+                table.insert(u.loadedUnits, upgradeUnit.id)
+                upgradeUnit.inTransport = true
+                upgradeUnit.transportedBy = u.id
+                Wargroove.updateUnit(upgradeUnit)
+                Wargroove.updateUnit(u)
+            else
+                loaded.grooveCharge = 5
+                Wargroove.updateUnit(loaded)
+                Wargroove.updateUnit(u)
+            end
+        end
+        
+        if workingUpgrade == up and (not unitLoaded) then
+            Wargroove.spawnUnit(-1, { x = -91, y = -12 }, up, true, "")
+            Wargroove.waitFrame()
+            local upgradeUnit = Wargroove.getUnitAt({ x = -91, y = -12 })
+            upgradeUnit.pos = { x = -99, y = -99 }
+            upgradeUnit.grooveCharge = 0
+            table.insert(u.loadedUnits, upgradeUnit.id)
+            upgradeUnit.inTransport = true
+            upgradeUnit.transportedBy = u.id
+            Wargroove.updateUnit(upgradeUnit)
+            Wargroove.updateUnit(u)
+        end
+    end
+end
+function Actions.modifyUpgradeIndicators(context)
+    local playerId = context:getPlayerId(0)
+    
+    local allUnits = Wargroove.getAllUnitsForPlayer(playerId, true)
+    for i, u in ipairs(allUnits) do
+        if u ~= nil and (u.unitClassId == "blacksmith" or u.unitClassId == "enchanting_tower" or u.unitClassId == "harbor" or u.unitClassId == "monastery") then
+            manageUpgradeStructure(u)
         end
     end
 end
@@ -296,5 +459,49 @@ function Actions.modifyGoldAtPos(context)
     end
     
 end
+
+function Actions.redrawUnitRanks(context)
+    local units = context:gatherUnits(2, 0, 1)
+    
+    for i, unit in ipairs(units) do
+        Leveling.redraw(unit)
+    end
+    
+    coroutine.yield()
+end
+
+-- Editor actions
+function Actions.modifyExperience(context)
+    -- "Modify Experience of {0} at {1} for {2}: {3} to {4} {5}"
+    local operation = context:getOperation(3)
+    local value = context:getInteger(4)
+    local units = context:gatherUnits(2, 0, 1)
+    local silent = context:getBoolean(5)
+
+    for i, unit in ipairs(units) do
+        local oldValue = Leveling.getExperience(unit) or 0
+        local newValue = operation(tonumber(oldValue), value)
+        Leveling.setExperience(unit, newValue, silent)
+    end
+
+    coroutine.yield()
+end
+
+function Actions.modifyRank(context)
+    -- "Modify Rank of {0} at {1} for {2}: {3} to {4} {5}"
+    local operation = context:getOperation(3)
+    local value = context:getInteger(4)
+    local units = context:gatherUnits(2, 0, 1)
+    local silent = context:getBoolean(5)
+
+    for i, unit in ipairs(units) do
+        local oldValue = Leveling.getRank(unit) or 0
+        local newValue = operation(tonumber(oldValue), value)
+        Leveling.setRank(unit, newValue, silent)
+    end
+
+    coroutine.yield()
+end
+
 
 return Actions

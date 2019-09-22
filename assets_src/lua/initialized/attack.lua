@@ -11,7 +11,7 @@ end
 function Attack:getMaximumRange(unit, endPos)
     local maxRange = 0
     
-    Equipment.addBowForCommander(unit)
+    local hasBow = Equipment.addBowForCommander(unit)
 
     for i, weapon in ipairs(unit.unitClass.weapons) do
         if weapon.canMoveAndAttack or endPos == nil or (endPos.x == unit.pos.x and endPos.y == unit.pos.y) then

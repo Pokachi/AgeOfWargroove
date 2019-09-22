@@ -1,0 +1,21 @@
+---
+
+triggerActions:
+  - id: modify_experience
+    parameters:
+      - type: unit_class_star
+      - type: location_star
+      - type: player_neutral_star
+      - type: operation
+      - type: integer
+      - type: boolean
+  - id: modify_rank
+    parameters:
+      - type: unit_class_star
+      - type: location_star
+      - type: player_neutral_star
+      - type: operation
+      - type: integer
+      - type: boolean
+  
+...

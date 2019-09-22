@@ -15,6 +15,8 @@ en-GB:
     ui_unit_verbs_buy_artifacts: Buy Artifacts
     ui_unit_verbs_train: Train
     ui_unit_verbs_cancel_recruit: Cancel Recruitment
+    ui_unit_verbs_cancel_upgrade: Cancel Upgrade
+    ui_unit_verbs_upgrade_land: Upgrade
     groove_name_dimensional_door: Dimensional Door
     groove_description_dimensional_door: A relic from the anicent. Allows the wielder to teleport to a tile beside HQ. 5 turn cooldown
     groove_name_indicate_population: Population
@@ -25,6 +27,7 @@ en-GB:
     structure_name_gem: Gem
     structure_name_gold_camp: Mining Camp
     structure_name_shop: Shop
+    structure_name_blacksmith: Blacksmith
     equipment_name_short_sword: Short Sword
     equipment_name_rare_sword: Sword of Death
     equipment_name_axe: Battle Axe
@@ -53,6 +56,7 @@ en-GB:
     unit_description_gem: Rare Vaulable resources. Can be mined by constructing a mining camp on top of it and staff it with villagers
     unit_description_gold_camp: Mining camp for gold. Garrison with villagers to start mining 50 gold per villager per turn
     unit_description_shop: Shop selling 5 random artifacts. restocks every 5 turns.
+    unit_description_blacksmith: Upgrades tier 2 and tier 3 land units
     unit_description_short_sword: Well forged short sword. Increases the wielder's overall damage by 4%
     unit_description_rare_sword: A sword of unknown origin. Increases the wielder's overall damage by 4%, min and max damage by 5%
     unit_description_axe: A double bladed battle axe. Increases the wielder's maximal damage by 5%
@@ -66,6 +70,26 @@ en-GB:
     unit_description_bow: A bow used by skilled hunter. Allows the wielder to use ranged attack at half the damage
     unit_description_dimensional_door: A relic from the anicent. Allows the wielder to teleport to a tile beside HQ. 5 turn cooldown
 
+    trigger_action_name_modify_experience: "Unit: Modify Experience"
+    trigger_action_description_modify_experience: "Modifies selected units' experience by adding to it, subtracting from it or setting it to a specific value."
+    trigger_action_readable_modify_experience: "Modify experience of {0} at {1} for {2}: {3} {4} (silent = {5})."
+  
+    trigger_action_name_modify_rank: "Unit: Modify Rank"
+    trigger_action_description_modify_rank: "Modifies selected units' rank by adding to it, subtracting from it or setting it to a specific value."
+    trigger_action_readable_modify_rank: "Modify rank of {0} at {1} for {2}: {3} {4} (silent = {5})."
+  
+    trigger_condition_name_experience: "Unit: Experience"
+    trigger_condition_description_experience: "Triggers based on the experience of a certain unit."
+    trigger_condition_readable_experience: "Does {0} have {1} {2} of {3} at {4} with {5} {6} experience?"
+  
+    trigger_condition_name_rank: "Unit: Rank"
+    trigger_condition_description_rank: "Triggers based on the rank of a certain unit."
+    trigger_condition_readable_rank: "Does {0} have {1} {2} of {3} at {4} with {5} rank {6}?"
+  
+    trigger_condition_name_on_load: "When: During Loading"
+    trigger_condition_description_on_load: "Triggers at the start of a reload back into the game."
+    trigger_condition_readable_on_load: "Do you load back into the game?"
+    
     codex_rules_gold_mines: Gold Mines
     codex_rules_gold_mines_title: Gold Mines
     codex_rules_gold_mines_text: "> Mines take x1.3 damage\n> Mines have a finite amount of gold that can be mined from them.\n> When a gold mine is almost empty, a yellow warning will appear over the mine.\n> When a gold mine is completely empty, a red exclamation mark will appear, signaling that gold can no longer be gained from that gold mine.\n> Gold mines have a max of 4000 gold.\n> Gem mines have a max of 3000 gold.\n> You can see what percentage of gold is left based on the gold pile's health percentage"
@@ -89,6 +113,10 @@ en-GB:
     codex_rules_shop: Shops
     codex_rules_shop_title: Buying Artifacts
     codex_rules_shop_text: "> Artifacts can be bought by Commanders (and only Commanders) at shops.\n> Shops sell five random artifacts and restock every 5 turns"
+    
+    codex_rules_blacksmith: Blacksmiths
+    codex_rules_blacksmith_title: Blacksmiths
+    codex_rules_blacksmith_text: "> Blacksmiths can upgrade land units over the course of multiple turns.\n> Requires Tech level II or higher"
 
     codex_rules_repair: Repairing
     codex_rules_repair_title: Repairing Structures

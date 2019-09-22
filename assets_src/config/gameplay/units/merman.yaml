@@ -1,0 +1,11 @@
+---
+
+modifyingUnitClasses:
+  - id: merman
+    replace:
+        tags:
+            - merman
+            - type.amphibious
+            - canLevel
+        grooveId: exp  
+...

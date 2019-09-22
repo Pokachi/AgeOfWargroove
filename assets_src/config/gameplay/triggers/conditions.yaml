@@ -1,0 +1,24 @@
+---
+
+triggerConditions:
+  - id: experience
+    parameters:
+      - type: player_neutral_star
+      - type: operator
+      - type: integer
+      - type: unit_class_star
+      - type: location_star
+      - type: operator
+      - type: integer
+  - id: rank
+    parameters:
+      - type: player_neutral_star
+      - type: operator
+      - type: integer
+      - type: unit_class_star
+      - type: location_star
+      - type: operator
+      - type: integer
+  - id: on_load
+      
+...

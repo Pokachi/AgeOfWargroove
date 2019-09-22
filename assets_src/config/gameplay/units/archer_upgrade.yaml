@@ -1,0 +1,43 @@
+---
+
+unitClasses:
+  - id: archer_upgrade
+    name: unit_class_name_archer
+    cost: 200
+    movement: walking
+    moveRange: 3
+    damageMultiplier: 0
+    canBeReinforced: false
+    isStructure: false
+    classIconSpritesheet: ui_AgeOfWarGrooveMod
+    aiPriority: 0
+    weapons: []
+    verbs:
+      - load
+    tags: []
+    hostileNeutral: true
+    isRecruitable: true
+    palettePriority: 1
+    isSpawnable: false
+    isHidden: true
+    grooveId: upgraded_indicator
+      
+units:
+  - class: archer_upgrade
+    faction: neutral
+    name: unit_class_name_archer_cherrystone
+    mapAnimation: units/archer/cherrystone/map_archer_cherrystone
+    smallPortrait: units/archer/cherrystone/portrait_archer_cherrystone_small.png
+    mediumPortrait: units/archer/cherrystone/portrait_archer_cherrystone_medium.png
+    mapSpeed: 4.0
+    grabPos: [13, 14]
+    hasBattleScreen: false
+    sounds:
+      death: soldierDieRed
+      deathMap: unitDie
+      run: infantryLightEntry
+      runMap: infantryLightMapEntry
+      hit: hitOrganic
+      hitMap: hitOrganic
+
+...

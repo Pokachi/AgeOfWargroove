@@ -1,0 +1,42 @@
+---
+
+unitClasses:
+  - id: trebuchet_upgrade
+    name: unit_class_name_trebuchet
+    cost: 200
+    movement: walking
+    moveRange: 3
+    damageMultiplier: 0
+    canBeReinforced: false
+    isStructure: false
+    classIconSpritesheet: ui_AgeOfWarGrooveMod
+    aiPriority: 0
+    weapons: []
+    verbs:
+      - load
+    tags: []
+    hostileNeutral: true
+    isRecruitable: true
+    palettePriority: 1
+    isSpawnable: false
+    isHidden: true
+    grooveId: upgraded_indicator
+      
+units:
+  - class: trebuchet_upgrade
+    faction: neutral
+    name: unit_class_name_trebuchet_cherrystone
+    mapAnimation: units/trebuchet/cherrystone/map_trebuchet_cherrystone
+    smallPortrait: units/trebuchet/cherrystone/portrait_trebuchet_cherrystone_small.png
+    mediumPortrait: units/trebuchet/cherrystone/portrait_trebuchet_cherrystone_medium.png
+    mapSpeed: 4.0
+    grabPos: [13, 14]
+    sounds:
+      death: soldierDieRed
+      deathMap: unitDie
+      run: infantryLightEntry
+      runMap: infantryLightMapEntry
+      hit: hitOrganic
+      hitMap: hitOrganic
+
+...
