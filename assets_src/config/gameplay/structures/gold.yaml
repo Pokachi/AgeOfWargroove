@@ -3,7 +3,7 @@
 unitClasses:
   - id: gold
     name: structure_name_gold
-    aiPriority: 4.0
+    aiPriority: 0.0
     moveRange: 0
     isStructure: true
     canReinforce: false

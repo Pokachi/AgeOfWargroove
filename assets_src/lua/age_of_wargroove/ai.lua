@@ -114,7 +114,7 @@ function AI.buildVillagerOrders(unitId, canMove)
         return orders
     end
     
-    if AIGlobals[unit.playerId].villagers >= 18 then
+    if AIGlobals[unit.playerId].villagers >= 21 or (not canMove) then
         return orders
     end
     
@@ -122,7 +122,7 @@ function AI.buildVillagerOrders(unitId, canMove)
     
     for i,targetPos in ipairs(targets) do
         local target = {x=unit.pos.x + targetPos.x, y=unit.pos.y + targetPos.y}
-        if Wargroove.getUnitAt(target) == nil then
+        if Wargroove.getUnitAt(target) == nil and Wargroove.canStandAt("villager", target) then
             table.insert(orders, { targetPosition = target, strParam = "villager", movePosition = unit.pos, endPosition = unit.pos })
         end
     end
@@ -143,7 +143,7 @@ function AI.buildUnitOrders(unitId, canMove, classToRecruit)
     local money = Wargroove.getMoney(unit.playerId)
     local recruitClass = Wargroove.getUnitClass(classToRecruit)
     local recruitCost = recruitClass.cost
-    if money < recruitCost then
+    if money < recruitCost or #unit.loadedUnits > 0 or (not canMove) then
         return orders
     end
     if AOW.getPopulationCap(unit.playerId) <= AOW.getCurrentPopulation(unit.playerId) then
@@ -151,10 +151,9 @@ function AI.buildUnitOrders(unitId, canMove, classToRecruit)
     end
     
     local targets = {{x=1,y=0},{x=-1,y=0},{x=0,y=1},{x=0,y=-1}}
-    
     for i,targetPos in ipairs(targets) do
         local target = {x=unit.pos.x + targetPos.x, y=unit.pos.y + targetPos.y}
-        if Wargroove.getUnitAt(target) == nil then
+        if Wargroove.canStandAt(classToRecruit, target) then
             table.insert(orders, { targetPosition = target, strParam = classToRecruit, movePosition = unit.pos, endPosition = unit.pos })
         end
     end
@@ -162,6 +161,7 @@ function AI.buildUnitOrders(unitId, canMove, classToRecruit)
 end
 
 function AI.buildUnitScore(unitId, order)
+    print(inspect(order))
     return { score = 25, healthDelta = 0, introspection = {}}
 end
 
@@ -245,7 +245,8 @@ function AI.techUpOrders(unitId, canMove, cost)
     local unit = Wargroove.getUnitById(unitId)
     local unitClass = Wargroove.getUnitClass(unit.unitClassId)
     local money = Wargroove.getMoney(unit.playerId)
-    if money < cost then
+    local techLevel = AOW.getTechLevel(unit.playerId)
+    if money < cost or techLevel >= 3 then
         return {}
     end
     return {{targetPosition = unit.pos, strParam = "", movePosition = unit.pos, endPosition = unit.pos}}
@@ -254,9 +255,10 @@ end
 function AI.techUpScore(unitId, order)
     local unit = Wargroove.getUnitById(unitId)
     local unitClass = Wargroove.getUnitClass(unit.unitClassId)
+    local techLevel = AOW.getTechLevel(unit.playerId)
     local score = -1
     
-    if AIGlobals[unit.playerId].goldCamps > 0 and AIGlobals[unit.playerId].villagers > 3 then
+    if AIGlobals[unit.playerId].goldCamps > 0 and AIGlobals[unit.playerId].villagers >= 6 and AIGlobals[unit.playerId].barracks + 1 > techLevel then
         score = 75
     end
     return { score = score, healthDelta = 0, introspection = {}}
@@ -491,10 +493,16 @@ function AI.buyArtifactsOrders(unitId, canMove, recruitableUnits)
 end
 
 function AI.buyArtifactsScore(unitId, order)
+    local unit = Wargroove.getUnitById(unitId)
+    local unitClass = Wargroove.getUnitClass(unit.unitClassId)
+    local score = -1
     if order == nil or order.strParam == "" then
-        return { score = -1, healthDelta = 0, introspection = {}}
+        return { score = score, healthDelta = 0, introspection = {}}
     end
-    return { score = 5.9, healthDelta = 0, introspection = {}}
+    local turnNumber = Wargroove.getTurnNumber()
+    local numLoaded = #unit.loadedUnits
+    score = numLoaded * -20 + turnNumber * 7 + 5 
+    return { score = score, healthDelta = 0, introspection = {}}
 end
 
 function AI.drinkGPotOrders(unitId, canMove)
@@ -508,7 +516,7 @@ function AI.drinkGPotOrders(unitId, canMove)
     local hasPot = false
     for i, equipmentId in ipairs(unit.loadedUnits) do
         local equipment = Wargroove.getUnitById(equipmentId)
-        if equipment.unitClassId == "health_pot" then
+        if equipment.unitClassId == "groove_pot" then
             hasPot = true
             break
         end
@@ -531,7 +539,7 @@ end
 
 function AI.drinkGPotScore(unitId, order)
     local unit = Wargroove.getUnitById(unitId)
-    local score = (20 - math.sqrt(unit.grooveCharge + Constants.GPotValue + 10))
+    local score = (35 - math.sqrt(unit.grooveCharge + Constants.GPotValue + 10))
     
     return { score = score, healthDelta = 0, introspection = {}}
 end
@@ -570,7 +578,7 @@ end
 
 function AI.drinkHPotScore(unitId, order)
     local unit = Wargroove.getUnitById(unitId)
-    local score = (25 - math.sqrt(unit.health + Constants.HPotValue))
+    local score = (35 - math.sqrt(unit.health + Constants.HPotValue))
     
     return { score = score, healthDelta = Constants.HPotValue, introspection = {{ key = "healScore", value = score }}}
 end
@@ -611,15 +619,22 @@ function AI.trainOrders(unitId, canMove)
     local unit = Wargroove.getUnitById(unitId)
     local unitClass = Wargroove.getUnitClass(unit.unitClassId)
     local placePositions = Wargroove.getTargetsInRange(unit.pos, 1, "empty")
+    
+    if #unit.loadedUnits == 0 then
+        return orders
+    end
+    local loadedClassId = Wargroove.getUnitById(unit.loadedUnits[1]).unitClassId
 
     for i, targetPos in pairs(placePositions) do
-        orders[#orders+1] = {targetPosition = targetPos, strParam = "", movePosition = unit.pos, endPosition = unit.pos}
+        if Wargroove.canStandAt(loadedClassId, targetPos) then
+            orders[#orders+1] = {targetPosition = targetPos, strParam = "", movePosition = unit.pos, endPosition = unit.pos}
+        end
     end
     return orders
 end
 
 function AI.trainScore(unitId, order)
-    return { score = 30, healthDelta = 0, introspection = {}}
+    return { score = 40, healthDelta = 0, introspection = {}}
 end
 
 return AI

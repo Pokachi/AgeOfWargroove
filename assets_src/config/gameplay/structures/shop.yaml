@@ -3,7 +3,7 @@
 unitClasses:
   - id: shop
     name: structure_name_shop
-    aiPriority: 2.0
+    aiPriority: 0.0
     moveRange: 0
     isStructure: true
     canReinforce: false

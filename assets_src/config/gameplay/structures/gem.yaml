@@ -3,7 +3,7 @@
 unitClasses:
   - id: gem
     name: structure_name_gem
-    aiPriority: 4.0
+    aiPriority: 0.0
     moveRange: 0
     isStructure: true
     canReinforce: false

@@ -128,15 +128,16 @@ function Equipment.addBowForCommander(unit)
                 if weapon.unitClassId == "bow" then
                     for i, loadedWeapons in ipairs(unit.unitClass.weapons) do
                         if loadedWeapons.id == "commanderBow" then
-                            return
+                            return true
                         end
                     end
                     table.insert(unit.unitClass.weapons, bowArtifactWeapon)
-                    return
+                    return true
                 end
             end
         end
     end
+    return false
 end
 
 return Equipment
