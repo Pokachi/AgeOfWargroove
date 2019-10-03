@@ -283,24 +283,6 @@ function Actions.modifyDimensionalDoorGroove(context)
     end
 end
 
-function Actions.setInitialPopulationCap(context)
-    local playerId = context:getPlayerId(0)
-    
-    local allUnits = Wargroove.getAllUnitsForPlayer(playerId, true)
-    
-    local popCap = 0;
-    
-    for i, u in ipairs(allUnits) do
-        if u.unitClassId == "hq" then
-            popCap = popCap + Constants.populationPerHQ
-        elseif u.unitClassId == "city" or u.unitClassId == "water_city" then
-            popCap = popCap + Constants.populationPerVillage
-        end
-    end
-    
-    AOW.setPopulationCap(playerId, popCap)
-    
-end
 
 function Actions.generateGoldPerTurnFromPosAction(context)
     local playerId = context:getPlayerId(0)

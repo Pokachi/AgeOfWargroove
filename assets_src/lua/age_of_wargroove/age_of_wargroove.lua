@@ -19,19 +19,6 @@ local AgeOfWargroove = {}
 --    ...
 --}
 
--- populationCap
---{
---    {
---        playerId,
---        cap
---    },
---    {
---        playerId,
---        cap
---    },
---    ...
---}
-
 -- techLevel
 --{
 --    {
@@ -188,26 +175,9 @@ function AgeOfWargroove.modifyUnitCapTrigger(referenceTrigger)
     return trigger
 end
 
-function AgeOfWargroove.reportDeadVillageTrigger(referenceTrigger)
-    local trigger = {}
-    trigger.id =  "reportDeadVillages"
-    trigger.recurring = "repeat"
-    trigger.players = referenceTrigger.players
-    trigger.conditions = {}
-    
-    table.insert(trigger.conditions, { id = "unit_lost", parameters = { "*structure", "any", "-1" } })
-    table.insert(trigger.conditions, { id = "player_turn", parameters = { "current" } })
-    
-    trigger.actions = {}
-    
-    table.insert(trigger.actions, { id = "report_dead_village", parameters = {} })
-    
-    return trigger
-end
-
 local LevelOneRecruits = {"soldier", "dog", "spearman", "travelboat", "villager", "merman", "barracks_foundation", "city_foundation", "port_foundation", "water_city_foundation", "gold_camp"}
-local LevelTwoRecruits = {"soldier", "dog", "spearman", "wagon", "archer", "mage", "knight", "turtle", "harpoonship", "balloon", "harpy", "travelboat", "villager", "merman", "barracks_foundation", "city_foundation", "port_foundation", "water_city_foundation", "hq_foundation", "tower_foundation", "gold_camp"}
-local LevelThreeRecruits = {"soldier", "dog", "spearman", "wagon", "archer", "mage", "knight", "trebuchet", "ballista", "giant", "turtle", "harpoonship", "warship", "balloon", "harpy", "witch", "dragon", "travelboat", "villager", "merman", "barracks_foundation", "city_foundation", "port_foundation", "water_city_foundation", "hq_foundation", "tower_foundation", "gold_camp"}
+local LevelTwoRecruits = {"priest", "soldier", "dog", "spearman", "wagon", "archer", "mage", "knight", "turtle", "harpoonship", "balloon", "harpy", "travelboat", "villager", "merman", "barracks_foundation", "city_foundation", "port_foundation", "water_city_foundation", "hq_foundation", "tower_foundation", "gold_camp"}
+local LevelThreeRecruits = {"priest", "soldier", "dog", "spearman", "wagon", "archer", "mage", "knight", "trebuchet", "ballista", "giant", "turtle", "harpoonship", "warship", "balloon", "harpy", "witch", "dragon", "travelboat", "villager", "merman", "barracks_foundation", "city_foundation", "port_foundation", "water_city_foundation", "hq_foundation", "tower_foundation", "gold_camp"}
 local TechLevelCost = { 500, 1000, -1 }
 local TechEffect = { "techLevel2", "techLevel3" }
 
@@ -250,54 +220,17 @@ function AgeOfWargroove.getCurrentPopulation(playerId)
 end
 
 function AgeOfWargroove.getPopulationCap(playerId)
-    state.populationCap={}
-    local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
-    local popCapString = Wargroove.getUnitState(globalStateUnit, "populationCap")
-    if popCapString ~= nil then
-        state.populationCap = (loadstring or load)("return "..popCapString)()
-    end
-    
-    for i, playerCap in ipairs(state.populationCap) do
-        if playerCap.playerId == playerId then
-            return playerCap.cap
+    local popCap = 0
+    local allUnits = Wargroove.getAllUnitsForPlayer(playerId, true)
+    for i, u in ipairs(allUnits) do
+        if u.unitClassId == "city" or u.unitClassId == "water_city" then
+            popCap = popCap + Constants.populationPerVillage
+        elseif u.unitClassId == "hq" then
+            popCap = popCap + Constants.populationPerHQ
         end
     end
-    return 0
-end
-
-function AgeOfWargroove.setPopulationCap(playerId, newCap)    
-    if newCap > state.maxPopulation then
-        newCap = state.maxPopulation
-    end
     
-    local globalStateUnit = Wargroove.getUnitAt( Constants.globalStateUnitPos )
-    
-    for i, playerCap in ipairs(state.populationCap) do
-        if playerCap.playerId == playerId then
-            playerCap.cap = newCap
-            Wargroove.setUnitState(globalStateUnit, "populationCap", inspect(state.populationCap))
-            Wargroove.updateUnit(globalStateUnit)
-            return
-        end
-    end
-    local playerCap = { playerId = playerId, cap = newCap }
-    table.insert(state.populationCap, playerCap)
-    
-    Wargroove.setUnitState(globalStateUnit, "populationCap", inspect(state.populationCap))
-    Wargroove.updateUnit(globalStateUnit)
-end
-
-function AgeOfWargroove.setInitialPopulationCap(referenceTrigger)
-    local trigger = {}
-    trigger.id =  "setInitialPopulationCap"
-    trigger.recurring = "oncePerPlayer"
-    trigger.players = referenceTrigger.players
-    trigger.conditions = {}
-    trigger.actions = {}
-    
-    table.insert(trigger.actions, { id = "set_init_pop_cap", parameters = { "current" } })
-    
-    return trigger
+    return popCap
 end
 
 function AgeOfWargroove.modifyDefeatHQTrigger(trigger)

@@ -40,6 +40,8 @@ en-GB:
     equipment_name_groove_pot: Groove Potion
     equipment_name_bow: Hunting Bow
     equipment_name_dimensional_door: Dimensional Door
+    unit_name_priest: Priest
+    unit_class_name_priest: Healer
     unit_description_barracks: Used to recruit new ground units.
     unit_description_barracks_foundation: Foundation for a barracks. Use a villager to complete building it.
     unit_description_port: Used to recruit new water units.
@@ -69,7 +71,7 @@ en-GB:
     unit_description_groove_pot: Filled with weird blue goo, increases groove by 25. Cannot be used after moving, does not consume turn.
     unit_description_bow: A bow used by skilled hunter. Allows the wielder to use ranged attack at half the damage
     unit_description_dimensional_door: A relic from the anicent. Allows the wielder to teleport to a tile beside HQ. 5 turn cooldown
-
+    
     trigger_action_name_modify_experience: "Unit: Modify Experience"
     trigger_action_description_modify_experience: "Modifies selected units' experience by adding to it, subtracting from it or setting it to a specific value."
     trigger_action_readable_modify_experience: "Modify experience of {0} at {1} for {2}: {3} {4} (silent = {5})."
@@ -88,8 +90,10 @@ en-GB:
   
     trigger_condition_name_on_load: "When: During Loading"
     trigger_condition_description_on_load: "Triggers at the start of a reload back into the game."
-    trigger_condition_readable_on_load: "Do you load back into the game?"
-    
+    trigger_condition_readable_on_load: "Do you load back into the game?"    
+    #Music
+    music_name_cyberwave_cinematic: Cyberwave Orchestra ~ Cinematic
+    #Codex
     codex_rules_gold_mines: Gold Mines
     codex_rules_gold_mines_title: Gold Mines
     codex_rules_gold_mines_text: "> Mines take x1.3 damage\n> Mines have a finite amount of gold that can be mined from them.\n> When a gold mine is almost empty, a yellow warning will appear over the mine.\n> When a gold mine is completely empty, a red exclamation mark will appear, signaling that gold can no longer be gained from that gold mine.\n> Gold mines have a max of 4000 gold.\n> Gem mines have a max of 3000 gold.\n> You can see what percentage of gold is left based on the gold pile's health percentage"
