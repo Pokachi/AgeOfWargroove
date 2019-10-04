@@ -21,9 +21,9 @@ https://wargroove.com/pc-modding-beta-now-live/
 
 ## Installation and Usage
 Opt into the Wargroove Modding Beta (instructions in link above)
-Extract Ageof Wargroove.zip anywhere
+Extract Age of Wargroove.zip anywhere
 Place Age of Wargroove in C:\Users\Username\AppData\Roaming\Chucklefish\Wargroove\mods
-While selecting a map for multiplayer, select a map with the [AoW] prefix
+When selecting a map for multiplayer, select a map with the [AoW] prefix
 While in match settings, click Mods and verify that Age of Wargroove is enabled.
 
 ## Uninstallation
