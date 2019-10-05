@@ -16,11 +16,11 @@ en-GB:
     ui_unit_verbs_train: Train
     ui_unit_verbs_cancel_recruit: Cancel Recruitment
     groove_name_dimensional_door: Dimensional Door
-    groove_description_dimensional_door: A relic from the anicent. Allows the wielder to teleport to a tile beside HQ. 5 turn cooldown
+    groove_description_dimensional_door: A relic from the anicents. Allows the wielder to teleport to a tile beside HQ. Can be used multiple times, but requires 5 turns cooldown.
     groove_name_indicate_population: Population
     groove_description_indicate_population: The Current Population
     groove_name_indicate_progress: Progress
-    groove_description_indicate_progress: percentage completed on the current action
+    groove_description_indicate_progress: Percentage towards completing the current action
     structure_name_gold: Gold
     structure_name_gem: Gem
     structure_name_gold_camp: Mining Camp
@@ -40,36 +40,37 @@ en-GB:
     unit_name_priest: Priest
     unit_class_name_priest: Healer
     unit_description_barracks: Used to recruit new ground units.
-    unit_description_barracks_foundation: Foundation for a barracks. Use a villager to complete building it.
+    unit_description_barracks_foundation: Foundation for a barracks. Use a villager to complete it.
     unit_description_port: Used to recruit new water units.
-    unit_description_port_foundation: Foundation for a port. Use a villager to complete building it.
+    unit_description_port_foundation: Foundation for a port. Use a villager to complete it.
     unit_description_hq: Used to recruit villagers and provides 8 population space. If all HQs are destroyed, the player will be eliminated.
-    unit_description_hq_foundation: Foundation for a stronghold. Use a villager to complete building it.
+    unit_description_hq_foundation: Foundation for a stronghold. Use a villager to continue building it.
     unit_description_city: Villages provides population space for your troops. Each village adds 4 population space.
-    unit_description_city_foundation: Foundation for a village. Use a villager to complete building it.
+    unit_description_city_foundation: Foundation for a village. Use a villager to complete it.
     unit_description_water_city: Water Villages provides population space for your troops. Each water village adds 4 population space.
-    unit_description_water_city_foundation: Foundation for a water village. Use a villager to complete building it.
-    unit_description_tower: Used to recruit new air units
-    unit_description_tower_foundation: Foundation for a tower. Use a villager to complete building it.
-    unit_description_gold: Vaulable resources. Can be mined by constructing a mining camp on top of it and staff it with villagers
-    unit_description_gem: Rare Vaulable resources. Can be mined by constructing a mining camp on top of it and staff it with villagers
-    unit_description_gold_camp: Mining camp for gold. Garrison with villagers to start mining 50 gold per villager per turn
+    unit_description_water_city_foundation: Foundation for a water village. Use a villager to complete it.
+    unit_description_tower: Used to recruit new air units.
+    unit_description_tower_foundation: Foundation for a tower. Use a villager to building it.
+    unit_description_gold: Sources of gold. Can be mined by constructing a mining camp on top of it and staffing it with villagers.
+    unit_description_gem: Pockets of valuable gems. Can be mined by constructing a mining camp on top of it and staffing it with villagers.
+    unit_description_gold_camp: Mining camp for gold. Garrison with villagers to start mining 50 gold per villager per turn.
     unit_description_shop: Shop selling 5 random artifacts. restocks every 5 turns.
-    unit_description_short_sword: Well forged short sword. Increases the wielder's overall damage by 4%
-    unit_description_rare_sword: A sword of unknown origin. Increases the wielder's overall damage by 4%, min and max damage by 5%
-    unit_description_axe: A double bladed battle axe. Increases the wielder's maximal damage by 5%
-    unit_description_dagger: Small and nimble dagger. Increases the wielder's minimal damage by 5%
-    unit_description_shield: Small shield made of pure metal. Lower incoming damage by 4%
-    unit_description_rare_shield: Shield inbused with essense of Life. Lower incoming damage by 4%, min and max damage by 5%
-    unit_description_armor: Full body plated armor. Lower incoming minimal damage by 5%
-    unit_description_helmet: Great helm covering the entire head. Lower incoming maximal damage by 5%
-    unit_description_health_pot: Filled with weird red goo, increases hp by 25. Cannot be used after moving, does not consume turn.
-    unit_description_groove_pot: Filled with weird blue goo, increases groove by 25. Cannot be used after moving, does not consume turn.
-    unit_description_bow: A bow used by skilled hunter. Allows the wielder to use ranged attack at half the damage
-    unit_description_dimensional_door: A relic from the anicent. Allows the wielder to teleport to a tile beside HQ. 5 turn cooldown
+    unit_description_short_sword: Well forged short sword. Increases the wielder's overall damage by 4%.
+    unit_description_rare_sword: A sword of unknown origin. Increases the wielder's overall damage by 4%, min and max damage by 5%.
+    unit_description_axe: A double bladed battle axe. Increases the wielder's maximal damage by 5%.
+    unit_description_dagger: Small and nimble dagger. Increases the wielder's minimal damage by 5%.
+    unit_description_shield: Small shield made of pure metal. Lower incoming damage by 4%.
+    unit_description_rare_shield: Shield inbused with essense of Life. Lower incoming damage by 4%, min and max damage by 5%.
+    unit_description_armor: Full body plated armor. Lower incoming minimal damage by 5%.
+    unit_description_helmet: Great helm covering the entire head. Lower incoming maximal damage by 5%.
+    unit_description_health_pot: Filled with a weird red goo, increases hp by 25. Cannot be used after moving, does not consume turn.
+    unit_description_groove_pot: Filled with a weird blue goo, increases groove by 25. Cannot be used after moving, does not consume turn.
+    unit_description_bow: A bow used by skilled hunter. Allows the wielder to use ranged attack at half the damage.
+    unit_description_dimensional_door: A relic from the anicents. Allows the wielder to teleport to a tile beside HQ. Can be used multiple times, but requires 5 turns cooldown.
     
     #Music
     music_name_cyberwave_cinematic: Cyberwave Orchestra ~ Cinematic
+
     #Codex
     codex_rules_gold_mines: Gold Mines
     codex_rules_gold_mines_title: Gold Mines
