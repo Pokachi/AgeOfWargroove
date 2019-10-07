@@ -275,7 +275,6 @@ function Actions.debuffCommander(context)
     -- Search all units
     local allUnits = Wargroove.getAllUnitsForPlayer(playerId, true)
     for i,unit in ipairs(allUnits) do
-        print("Checking " .. unit.unitClassId, playerId)
         if string.sub(unit.unitClassId, 1, 9) == "commander" then
             -- Debuff
             if unit.health > 100 then
