@@ -16,6 +16,7 @@ function Actions.init()
 end
 
 function Actions.populate(dst)
+    dst["debuff_commander"] = Actions.debuffCommander
     dst["modify_gold_at_pos"] = Actions.modifyGoldAtPos
     dst["remove_generate_gold_per_turn_from_pos"] = Actions.removeGenerateGoldPerTurnFromPos
     dst["generate_gold_per_turn_from_pos"] = Actions.generateGoldPerTurnFromPosAction
@@ -267,6 +268,22 @@ function Actions.modifyGoldAtPos(context)
         AOW.removeGoldGenerationFromPos(pos)
     end
     
+end
+
+function Actions.debuffCommander(context)
+    local playerId = context:getPlayerId(0)
+    -- Search all units
+    local allUnits = Wargroove.getAllUnitsForPlayer(playerId, true)
+    for i,unit in ipairs(allUnits) do
+        print("Checking " .. unit.unitClassId, playerId)
+        if string.sub(unit.unitClassId, 1, 9) == "commander" then
+            -- Debuff
+            if unit.health > 100 then
+                unit.health = 100
+                Wargroove.updateUnit(unit)
+            end
+        end
+    end
 end
 
 return Actions

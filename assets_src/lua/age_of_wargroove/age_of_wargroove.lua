@@ -359,4 +359,22 @@ function AgeOfWargroove.removeGoldGenerationFromPos(targetPos)
     Events.removeTriggerFromList(triggerId)
 end
 
+
+function AgeOfWargroove.debuffCommander(referenceTrigger)
+    local trigger = {}
+    trigger.id = "debuffCommander"
+    trigger.recurring = "repeat"
+    trigger.players = referenceTrigger.players
+    trigger.conditions = {}
+    
+    table.insert(trigger.conditions, { id = "end_of_turn", parameters = {} })
+    
+    trigger.actions = {}
+    
+    table.insert(trigger.actions, { id = "debuff_commander", parameters = { "current" } })
+    
+    return trigger
+    
+end
+
 return AgeOfWargroove
