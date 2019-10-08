@@ -50,10 +50,30 @@ function DimensionalDoor:canExecuteWithTarget(unit, endPos, targetPos, strParam)
     return false
 end
 
+
+function DimensionalDoor:execute(unit, targetPos, strParam, path)
+
+    Wargroove.spawnPaletteSwappedMapAnimation(unit.pos, 0, "fx/groove/nuru_groove_fx", unit.playerId)
+    Wargroove.playMapSound("cutscene/teleportOut", targetPos)
+
+    Wargroove.waitTime(0.1)
+    
+    Wargroove.setVisibleOverride(unit.id, false)
+
+    Wargroove.waitTime(0.9)
+    
+    Wargroove.spawnPaletteSwappedMapAnimation(targetPos, 0, "fx/groove/nuru_groove_fx", unit.playerId)
+    Wargroove.playMapSound("cutscene/teleportIn", targetPos)
+
+    Wargroove.waitTime(0.2)
+
+end
+
 function DimensionalDoor:onPostUpdateUnit(unit, targetPos, strParam, path)
     local currentTurn = Wargroove.getTurnNumber()
     
     unit.pos = targetPos
+    Wargroove.setVisibleOverride(unit.id, true)
     
     -- clear dimensional door grooveCharge
     for i, equipmentId in ipairs(unit.loadedUnits) do
